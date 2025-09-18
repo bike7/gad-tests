@@ -1,11 +1,15 @@
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import { defineConfig } from "eslint/config";
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs,ts,mts,cts}"], languageOptions: { globals: globals.node } },
+  {
+    ignores: ['package-lock.json', 'playwright-report/**', 'test-results/**'],
+    files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
+    languageOptions: { globals: globals.node },
+  },
   tseslint.configs.recommended,
-   {
+  {
     rules: {
       'no-console': 'error',
     },
