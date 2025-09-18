@@ -1,8 +1,8 @@
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
-import { defineConfig } from 'eslint/config';
 import eslintPluginPlaywright from 'eslint-plugin-playwright';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import { defineConfig } from 'eslint/config';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 export default defineConfig([
   {
