@@ -7,6 +7,7 @@ export class HomePage {
     await this.page.goto(this.url);
   }
   async title(): Promise<string> {
+    await this.page.waitForLoadState();
     return this.page.title();
   }
 }
