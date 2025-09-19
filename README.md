@@ -5,6 +5,10 @@
 Repository: https://github.com/jaktestowac/gad-gui-api-demo
 Follow instructions in app README
 
+## Requirements
+
+Link to requirements: https://jaktestowac.pl/lesson/pw2sb01l02/
+
 ## Prepare
 
 ### Local recommended tools:
