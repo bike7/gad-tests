@@ -11,6 +11,7 @@ export default defineConfig([
     '**/playwright-report/**',
     '**/test-results/**',
     '**/eslint.config.*',
+    '**/package-lock.json',
   ]),
   {
     files: ['**/*.ts'],
