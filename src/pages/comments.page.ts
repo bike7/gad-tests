@@ -5,9 +5,9 @@ export class CommentsPage {
   constructor(private page: Page) {}
   async goto(): Promise<void> {
     await this.page.goto(this.url);
+    await this.page.waitForLoadState('domcontentloaded');
   }
   async title(): Promise<string> {
-    await this.page.waitForLoadState();
     return this.page.title();
   }
 }
