@@ -5,14 +5,19 @@
   "main": "index.js",
   "scripts": {
     "format": "npx prettier --write .",
-    "lint": "npx eslint . --ext .ts --max-warnings=0",
-    "prepare": "husky"
+    "lint": "npx eslint . --max-warnings=0",
+    "prepare": "husky",
+    "test:headed": "npm run test -- --headed",
+    "test:ui": "npx playwright test -- --ui",
+    "show-report": "npx playwright show-report",
+    "format:check": "npx prettier . --check \"!**.ts\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@eslint/js": "^9.35.0",
     "@playwright/test": "^1.55.0",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/node": "^24.5.2",
