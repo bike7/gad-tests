@@ -30,5 +30,8 @@
     "jiti": "^2.5.1",
     "prettier": "3.6.2",
     "typescript-eslint": "^8.44.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.2"
   }
 }

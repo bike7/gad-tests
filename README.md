@@ -23,6 +23,7 @@ Link to requirements: https://jaktestowac.pl/lesson/pw2sb01l02/
 - install dependencies: `npm install`
 - setup Playwright with: `npx playwright install --with-deps chromium`
 - setup husky with: `npx husky`
+- copy application main URL as value of `BASE_URL` variable in `.env` file
 
 ## Use
 
