@@ -3,18 +3,38 @@ import { WelcomePage } from '../src/pages/welcome.page';
 import { testUser } from '../src/user.credentials.data';
 import { expect, test } from '@playwright/test';
 
-test('User login', async ({ page }) => {
-  // Arrange
-  const userEmail = testUser.userEmail;
-  const userPassword = testUser.userPassword;
-  const expectedPageTitle = 'Welcome';
-  //Act
-  const loginPage = new LoginPage(page);
-  await loginPage.goto();
-  await loginPage.login(userEmail, userPassword);
-  //Assert
-  const welcomePage = new WelcomePage(page);
-  const actualPageTitle = await welcomePage.title();
-  expect(actualPageTitle).toContain(expectedPageTitle);
-  await expect(welcomePage.welcomeMessage).toContainText(userEmail);
+test.describe('Verify login', () => {
+  test('User login with correct credentials', async ({ page }) => {
+    // Arrange
+    const userEmail = testUser.userEmail;
+    const userPassword = testUser.userPassword;
+    const expectedPageTitle = 'Welcome';
+    //Act
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login(userEmail, userPassword);
+    //Assert
+    const welcomePage = new WelcomePage(page);
+    const actualPageTitle = await welcomePage.title();
+    expect.soft(actualPageTitle).toContain(expectedPageTitle);
+    await expect.soft(welcomePage.logoutButton).toBeVisible();
+    await expect.soft(welcomePage.welcomeMessage).toContainText(userEmail);
+  });
+  test('User login with incorrect credentials', async ({ page }) => {
+    // Arrange
+    const userEmail = testUser.userEmail;
+    const userPassword = 'incorrectPassword';
+    const expectedPageTitle = 'Login';
+    const expectedErrorMessage = 'Invalid username or password';
+    //Act
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login(userEmail, userPassword);
+    //Assert
+    await expect
+      .soft(loginPage.loginErrorMessage)
+      .toHaveText(expectedErrorMessage);
+    const actualPageTitle = await loginPage.title();
+    expect.soft(actualPageTitle).toContain(expectedPageTitle);
+  });
 });
