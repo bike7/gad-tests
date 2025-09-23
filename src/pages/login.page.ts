@@ -17,7 +17,6 @@ export class LoginPage extends BasePage {
       name: 'Enter Password',
     });
     this.loginButton = this.page.getByRole('button', { name: 'LogIn' });
-
     this.loginErrorMessage = this.page.getByTestId('login-error');
   }
 
