@@ -1,10 +1,10 @@
 import { LoginPage } from '../src/pages/login.page';
 import { WelcomePage } from '../src/pages/welcome.page';
-import { testUser } from '../src/user.credentials.data';
+import { testUser } from '../src/test.data/user.credentials.data';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify login', () => {
-  test('User login with correct credentials', async ({ page }) => {
+  test('User login with correct credentials @GAD-R02-01', async ({ page }) => {
     // Arrange
     const userEmail = testUser.userEmail;
     const userPassword = testUser.userPassword;
@@ -20,7 +20,9 @@ test.describe('Verify login', () => {
     await expect.soft(welcomePage.logoutButton).toBeVisible();
     await expect.soft(welcomePage.welcomeMessage).toContainText(userEmail);
   });
-  test('User login with incorrect credentials', async ({ page }) => {
+  test('User login with incorrect credentials @GAD-R02-01', async ({
+    page,
+  }) => {
     // Arrange
     const userEmail = testUser.userEmail;
     const userPassword = 'incorrectPassword';
