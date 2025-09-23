@@ -1,7 +1,8 @@
+import { randomUserData } from '../src/factories/user.factory';
+import { RegisterUser } from '../src/models/user.model';
 import { LoginPage } from '../src/pages/login.page';
 import { RegisterPage } from '../src/pages/register.page';
 import { WelcomePage } from '../src/pages/welcome.page';
-import { faker } from '@faker-js/faker';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify registration', () => {
@@ -9,19 +10,16 @@ test.describe('Verify registration', () => {
     page,
   }) => {
     // Arrange
-    const firstName = faker.person.firstName().replace(/[^A-Za-z]/g, '');
-    const lastName = faker.person.lastName().replace(/[^A-Za-z]/g, '');
-    const email = faker.internet.email({
-      firstName: firstName,
-      lastName: lastName,
-    });
-    const password = faker.internet.password({ memorable: true });
-    const expectedPageTitle = 'Login';
+    const registerUserData: RegisterUser = randomUserData();
+    const loginUserData = {
+      userEmail: registerUserData.userEmail,
+      userPassword: registerUserData.userPassword,
+    };
     const expectedAlertText = 'User created';
     //Act
     const registerPage = new RegisterPage(page);
     await registerPage.goto();
-    await registerPage.register(firstName, lastName, email, password);
+    await registerPage.register(registerUserData);
     //Assert registration confirmation popup
     const actualAlert = registerPage.alertPopup;
     await expect(actualAlert).toHaveText(expectedAlertText);
@@ -29,10 +27,42 @@ test.describe('Verify registration', () => {
     const loginPage = new LoginPage(page);
     await loginPage.waitForPageToLoadUrl();
     const actualLoginPageTitle = await loginPage.title();
-    expect(actualLoginPageTitle).toContain(expectedPageTitle);
+    expect(actualLoginPageTitle).toContain(loginPage.expectedPageTitle);
     //Assert login with registered user
-    await loginPage.login(email, password);
+    await loginPage.login(loginUserData);
     const welcomePage = new WelcomePage(page);
-    await expect(welcomePage.welcomeMessage).toContainText(email);
+    await expect(welcomePage.welcomeMessage).toContainText(
+      loginUserData.userEmail,
+    );
+  });
+  test('Try to register new user using incorrect data - non valid email @GAD-R03-04', async ({
+    page,
+  }) => {
+    // Arrange
+    const registerUserData: RegisterUser = randomUserData();
+    registerUserData.userEmail = '#$%';
+    const expectedErrorText = 'Please provide a valid email address';
+    //Act
+    const registerPage = new RegisterPage(page);
+    await registerPage.goto();
+    await registerPage.register(registerUserData);
+    //Assert
+    await expect(registerPage.emailErrorText).toContainText(expectedErrorText);
+  });
+  test('Try to register new user using incorrect data - email not provided @GAD-R03-04', async ({
+    page,
+  }) => {
+    // Arrange
+    const registerUserData: RegisterUser = randomUserData();
+    const expectedErrorText = 'This field is required';
+    //Act
+    const registerPage = new RegisterPage(page);
+    await registerPage.goto();
+    await registerPage.firstNameInput.fill(registerUserData.userFirstName);
+    await registerPage.lastNameInput.fill(registerUserData.userLastName);
+    await registerPage.passwordInput.fill(registerUserData.userPassword);
+    await registerPage.registerButton.click();
+    //Assert
+    await expect(registerPage.emailErrorText).toContainText(expectedErrorText);
   });
 });

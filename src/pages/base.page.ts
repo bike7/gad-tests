@@ -3,6 +3,7 @@ import { Page } from '@playwright/test';
 export class BasePage {
   constructor(protected page: Page) {}
   url = '';
+  expectedPageTitle = 'GAD';
   async goto(): Promise<void> {
     await this.page.goto(this.url);
     await this.page.waitForLoadState('domcontentloaded');

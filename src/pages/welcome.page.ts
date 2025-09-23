@@ -3,6 +3,7 @@ import { Locator, Page } from '@playwright/test';
 
 export class WelcomePage extends BasePage {
   url = '/welcome/';
+  expectedPageTitle = 'Welcome';
   welcomeMessage: Locator;
   logoutButton: Locator;
   constructor(page: Page) {

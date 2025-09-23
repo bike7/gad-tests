@@ -1,8 +1,10 @@
+import { LoginUser } from '../models/user.model';
 import { BasePage } from './base.page';
 import { Locator, Page } from '@playwright/test';
 
 export class LoginPage extends BasePage {
   url = '/login/';
+  expectedPageTitle = 'Login';
   usernameInput: Locator;
   passwordInput: Locator;
   loginButton: Locator;
@@ -20,9 +22,9 @@ export class LoginPage extends BasePage {
     this.loginErrorMessage = this.page.getByTestId('login-error');
   }
 
-  async login(username: string, password: string): Promise<void> {
-    await this.usernameInput.fill(username);
-    await this.passwordInput.fill(password);
+  async login(loginUserData: LoginUser): Promise<void> {
+    await this.usernameInput.fill(loginUserData.userEmail);
+    await this.passwordInput.fill(loginUserData.userPassword);
     await this.loginButton.click();
   }
 }
