@@ -9,10 +9,13 @@ test.describe('Verify registration', () => {
     page,
   }) => {
     // Arrange
-    const firstName = faker.person.firstName();
-    const lastName = faker.person.lastName();
-    const email = faker.internet.email();
-    const password = faker.internet.password();
+    const firstName = faker.person.firstName().replace(/[^A-Za-z]/g, '');
+    const lastName = faker.person.lastName().replace(/[^A-Za-z]/g, '');
+    const email = faker.internet.email({
+      firstName: firstName,
+      lastName: lastName,
+    });
+    const password = faker.internet.password({ memorable: true });
     const expectedPageTitle = 'Login';
     const expectedAlertText = 'User created';
     //Act
