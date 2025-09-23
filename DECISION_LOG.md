@@ -1,13 +1,13 @@
 # This file contain concept decisions for GAD automation framework
 
-## Integration of code style tools in framework
-
 1. [Integration of code style tools in framework](#integration-of-code-style-tools-in-framework)
 2. [Use of dotenv in automated tests](#use-of-dotenv-in-automated-tests)
 3. [Use of design patterns like POM, AAA, and composition in automated tests](#use-of-design-patterns-like-pom-aaa-and-composition-in-automated-tests)
+4. [Use of faker library for realistic test data generation](#use-of-faker-library-for-realistic-test-data-generation)
 
-**ID**: 001  
-**Status**: Decided  
+## Integration of code style tools in framework
+
+**ID**: 001
 **Date**: 2025/09/18  
 **Context**:
 We need static code analysis tools for:
@@ -33,12 +33,9 @@ We need static code analysis tools for:
 ## Use of dotenv in automated tests <a id="use-of-dotenv-in-automated-tests"></a>
 
 **ID**: 002  
-**Status**: Decided  
 **Date**: 2025/09/22  
 **Context**: We need a reliable way to manage environment-specific configurations, such as passwords, API keys, database connections, and other sensitive information.
-
 **Proposed solution**: Utilize the 'dotenv' library in our automated tests.
-
 **Pros**:
 
 - Secure configuration management - dotenv allows us to store sensitive information like API keys and passwords in a separate file (e.g., .env) and keeps them out of version control, enhancing security.
@@ -58,41 +55,55 @@ We need static code analysis tools for:
 ## Use of design patterns like POM, AAA, and composition in automated tests <a id="use-of-design-patterns-like-pom-aaa-and-composition-in-automated-tests"></a>
 
 **ID**: 003  
-**Status**: Decided  
 **Date**: 2025/09/22  
 **Context**: As our automated test suite grows, we face challenges in maintaining test code readability, reusability, and scalability. We are considering adopting design patterns to improve the overall test structure and maintainability.
-
 **Proposed solution**: Implement the Page Object Model (POM) for UI tests, Arrange-Act-Assert (AAA) pattern for tests, and Composition for creating modular and flexible test components.
-
 **Pros**:
 
 - **Page Object Model (POM)**:
   - Enhanced test organization - POM allows us to structure UI test code by creating separate classes for each web page, resulting in a more organized and readable test suite.
   - Improved test maintenance - Changes to the UI can be localized within the page class, reducing the impact on test code and speeding up maintenance efforts.
   - Reusability - POM promotes reusing page methods across different tests, leading to a more efficient test development process.
-
 - **Arrange-Act-Assert (AAA)**:
   - Clear test structure - AAA separates test code into three distinct sections, making it easier to understand the test's setup, action, and verification steps.
   - Better error localization - With AAA, it is simpler to pinpoint the cause of test failures, aiding in quicker issue resolution.
-  - Facilitates testing best practices - AAA aligns with the principles of testing, encouraging developers to write more reliable and robust tests.
-
+  - Facilitates testing best practices - AAA aligns with the principles of testing, encouraging developers to write more reliable and robust tests
 - **Composition**:
   - Modular test components - Using composition allows us to build test scenarios by assembling smaller, reusable building blocks, enhancing test maintainability.
   - Flexible test design - By composing test components, we can easily create different test combinations and scenarios, promoting test coverage and adaptability.
-
-**Cons**:
-
+    **Cons**:
 - **Page Object Model (POM)**:
   - Initial setup overhead - Implementing POM may require additional effort in creating page classes and refactoring existing test code.
   - Potential overhead for small projects - In smaller projects with limited UI testing, POM may introduce unnecessary complexity.
-
 - **Arrange-Act-Assert (AAA)**:
   - Learning curve - Developers unfamiliar with AAA might require some time to adapt to the new testing pattern.
-
 - **Composition**:
   - Complexity management - While composition promotes modularity, if not properly managed, it can lead to an overly complex test structure.
   - Abstraction balance - Overuse of composition might obscure the underlying test logic, making it harder to understand the test flow.
 
 **Decision**: Decided. We will adopt the Page Object Model (POM) for UI tests, Arrange-Act-Assert (AAA) pattern for tests.
+
+**Creator**: Kasiek
+
+## Use of faker library for realistic test data generation <a id="use-of-faker-library-for-realistic-test-data-generation"></a>
+
+**ID**: 004
+**Date**: 2025/09/23
+**Context**: In our automated tests, we often encounter the need to populate test data with realistic but randomized values, such as names, addresses, dates, and other user-specific information.
+**Proposed solution**: Integrate the 'faker' library into our automated tests to generate realistic and randomized test data.
+
+**Pros**:
+
+- Realistic test data - The 'faker' library provides a wide range of data generation options, allowing us to create diverse and realistic test scenarios.
+- Time-saving - Automating the data generation process with 'faker' significantly reduces the time spent on writing and maintaining test data setup.
+- Increased test coverage - By using 'faker,' we can easily create various data combinations, enhancing our test suite's coverage.
+
+**Cons**:
+
+- Dependency management - We need to ensure that the 'faker' library is correctly installed and managed across our test environments.
+- Slower tests - Adding faker slows down test by additional logic and abstraction.
+- Random Data Challenges - Random data produced by faker, in some cases can be inappropriate for our needs, that force additional effort to customize faker outputs.
+
+**Decision**: Decided.
 
 **Creator**: Kasiek
