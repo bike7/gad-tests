@@ -1,0 +1,50 @@
+import { randomNewArticleData } from '../../src/factories/article.factory';
+import { AddArticleModel } from '../../src/models/article.model';
+import { ArticlePage } from '../../src/pages/article.page';
+import { ArticlesPage } from '../../src/pages/articles.page';
+import { LoginPage } from '../../src/pages/login.page';
+import { testUser } from '../../src/test.data/user.credentials.data';
+import { AddArticleView } from '../../src/views/add-article.view';
+import { expect, test } from '@playwright/test';
+
+test.describe.configure({ mode: 'serial' });
+test.describe('Create and verify articles', () => {
+  let articleData: AddArticleModel;
+  let loginPage: LoginPage;
+  let articlesPage: ArticlesPage;
+  let articlePage: ArticlePage;
+  test.beforeEach(async ({ page }) => {
+    loginPage = new LoginPage(page);
+    articlesPage = new ArticlesPage(page);
+    articlePage = new ArticlePage(page);
+    await loginPage.goto();
+    await loginPage.login(testUser);
+    await articlesPage.goto();
+  });
+
+  test('Create a new article @GAD-R04-01', async ({ page }) => {
+    // Arrange
+    const expectedAlertText = 'Article was created';
+    articleData = randomNewArticleData();
+    //Act
+    await articlesPage.addArticleButton.click();
+    const addArticleView = new AddArticleView(page);
+    await expect(addArticleView.pageHeader).toContainText(
+      addArticleView.expectedPageHeaderText,
+    );
+    await addArticleView.createArticle(articleData);
+    //Assert
+    await expect(addArticleView.alertPopup).toContainText(expectedAlertText);
+    await expect.soft(articlePage.articleTitle).toHaveText(articleData.title);
+    await expect.soft(articlePage.articleBody).toHaveText(articleData.body);
+  });
+
+  test('User can access single article @GAD-R04-03', async ({}) => {
+    // Arrange
+    //Act
+    await articlesPage.goToArticle(articleData.title);
+    //Assert
+    await expect.soft(articlePage.articleTitle).toHaveText(articleData.title);
+    await expect.soft(articlePage.articleBody).toHaveText(articleData.body);
+  });
+});

@@ -14,4 +14,7 @@ export class ArticlesPage extends BasePage {
       name: 'Add Article',
     });
   }
+  async goToArticle(title: string): Promise<void> {
+    await this.page.getByText(title).click();
+  }
 }

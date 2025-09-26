@@ -1,5 +1,4 @@
 import { randomNewArticleData } from '../../src/factories/article.factory';
-import { ArticlePage } from '../../src/pages/article.page';
 import { ArticlesPage } from '../../src/pages/articles.page';
 import { LoginPage } from '../../src/pages/login.page';
 import { testUser } from '../../src/test.data/user.credentials.data';
@@ -16,24 +15,6 @@ test.describe('Verify articles', () => {
     addArticleView = new AddArticleView(page);
     await loginPage.goto();
     await loginPage.login(testUser);
-  });
-
-  test('Create a new article @GAD-R04-01', async ({ page }) => {
-    // Arrange
-    const expectedAlertText = 'Article was created';
-    const articleData = randomNewArticleData();
-    //Act
-    await articlesPage.goto();
-    await articlesPage.addArticleButton.click();
-    await expect(addArticleView.pageHeader).toContainText(
-      addArticleView.expectedPageHeaderText,
-    );
-    await addArticleView.createArticle(articleData);
-    //Assert
-    await expect(addArticleView.alertPopup).toContainText(expectedAlertText);
-    const articlePage = new ArticlePage(page);
-    await expect.soft(articlePage.articleTitle).toHaveText(articleData.title);
-    await expect.soft(articlePage.articleBody).toHaveText(articleData.body);
   });
 
   const testData1 = [{ field: 'title' }, { field: 'body' }];
@@ -81,25 +62,5 @@ test.describe('Verify articles', () => {
       //Assert
       await expect(addArticleView.alertPopup).toContainText(expectedAlertText);
     });
-  });
-
-  test('User can access single article @GAD-R04-03', async ({ page }) => {
-    // Arrange
-    const expectedAlertText = 'Article was created';
-    const articleData = randomNewArticleData();
-    await articlesPage.goto();
-    await articlesPage.addArticleButton.click();
-    await expect(addArticleView.pageHeader).toContainText(
-      addArticleView.expectedPageHeaderText,
-    );
-    await addArticleView.createArticle(articleData);
-    await expect(addArticleView.alertPopup).toContainText(expectedAlertText);
-    //Act
-    await articlesPage.goto();
-    await page.getByText(articleData.title).click();
-    //Assert
-    const articlePage = new ArticlePage(page);
-    await expect.soft(articlePage.articleTitle).toHaveText(articleData.title);
-    await expect.soft(articlePage.articleBody).toHaveText(articleData.body);
   });
 });
