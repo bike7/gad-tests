@@ -4,7 +4,7 @@ import { HomePage } from '../../src/pages/home.page';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify main menu buttons', () => {
-  test('comments button navigates to comments page @smoke @GAD-R01-03', async ({
+  test('Comments button navigates to Comments page @smoke @GAD-R01-03', async ({
     page,
   }) => {
     // Arrange
@@ -18,7 +18,7 @@ test.describe('Verify main menu buttons', () => {
     const actualPageTitle = await commentsPage.title();
     expect(actualPageTitle).toContain(expectedPageTitle);
   });
-  test('articles button navigates to articles page @smoke @GAD-R01-03', async ({
+  test('Articles button navigates to Articles page @smoke @GAD-R01-03', async ({
     page,
   }) => {
     // Arrange
@@ -32,7 +32,7 @@ test.describe('Verify main menu buttons', () => {
     const actualPageTitle = await articlesPage.title();
     expect(actualPageTitle).toContain(expectedPageTitle);
   });
-  test('home page link navigates to home page from articles page @smoke @GAD-R01-03', async ({
+  test('Home page link navigates to Home page (from articles) @smoke @GAD-R01-03', async ({
     page,
   }) => {
     // Arrange
@@ -46,7 +46,7 @@ test.describe('Verify main menu buttons', () => {
     const actualPageTitle = await homePage.title();
     expect(actualPageTitle).toContain(expectedPageTitle);
   });
-  test('home page link navigates to home page from comments page @smoke @GAD-R01-03', async ({
+  test('Home page link navigates to Home page (from comments) @smoke @GAD-R01-03', async ({
     page,
   }) => {
     // Arrange

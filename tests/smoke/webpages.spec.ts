@@ -3,8 +3,8 @@ import { CommentsPage } from '../../src/pages/comments.page';
 import { HomePage } from '../../src/pages/home.page';
 import { expect, test } from '@playwright/test';
 
-test.describe('Verify service main pages', () => {
-  test('home page title @smoke @GAD-R01-01', async ({ page }) => {
+test.describe('Verify main pages', () => {
+  test('Home page title @smoke @GAD-R01-01', async ({ page }) => {
     // Arrange
     const homePage = new HomePage(page);
     // Act
@@ -14,7 +14,7 @@ test.describe('Verify service main pages', () => {
     expect(title).toContain(homePage.expectedPageTitle);
   });
 
-  test('articles page title @smoke @GAD-R01-02', async ({ page }) => {
+  test('Articles page title @smoke @GAD-R01-02', async ({ page }) => {
     // Arrange
     const articlesPage = new ArticlesPage(page);
     // Act
@@ -24,7 +24,7 @@ test.describe('Verify service main pages', () => {
     expect(title).toContain(articlesPage.expectedPageTitle);
   });
 
-  test('comments page title @smoke @GAD-R01-02', async ({ page }) => {
+  test('Comments page title @smoke @GAD-R01-02', async ({ page }) => {
     // Arrange
     const commentsPage = new CommentsPage(page);
     // Act

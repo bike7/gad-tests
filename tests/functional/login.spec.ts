@@ -24,7 +24,7 @@ test.describe('Verify login', () => {
       .soft(welcomePage.welcomeMessage)
       .toContainText(testUser.userEmail);
   });
-  test('User login with incorrect credentials @GAD-R02-01', async ({
+  test('User login with incorrect credentials @GAD-R02-01 @negative', async ({
     page,
   }) => {
     // Arrange
