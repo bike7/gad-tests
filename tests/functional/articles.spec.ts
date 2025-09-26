@@ -24,11 +24,37 @@ test.describe('Verify articles', () => {
     );
     await addArticleView.createArticle(articleData);
     //Assert
-    await expect(addArticleView.confirmationAlert).toContainText(
-      expectedAlertText,
-    );
+    await expect(addArticleView.alertPopup).toContainText(expectedAlertText);
     const articlePage = new ArticlePage(page);
     await expect.soft(articlePage.articleTitle).toHaveText(articleData.title);
     await expect.soft(articlePage.articleBody).toHaveText(articleData.body);
+  });
+});
+test.describe.parallel('Verify articles with missing fields', () => {
+  const testData = [{ field: 'title' }, { field: 'body' }];
+
+  testData.forEach(({ field }) => {
+    test(`Try to create article with missing ${field} @GAD-R04-01`, async ({
+      page,
+    }) => {
+      const articleData = randomNewArticleData();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (articleData as any)[field] = '';
+      const expectedAlertText = 'Article was not created';
+      const loginPage = new LoginPage(page);
+      await loginPage.goto();
+      await loginPage.login(testUser);
+      //Act
+      const articlesPage = new ArticlesPage(page);
+      await articlesPage.goto();
+      await articlesPage.addArticleButton.click();
+      const addArticleView = new AddArticleView(page);
+      await expect(addArticleView.pageHeader).toContainText(
+        addArticleView.expectedPageHeaderText,
+      );
+      await addArticleView.createArticle(articleData);
+      //Assert
+      await expect(addArticleView.alertPopup).toContainText(expectedAlertText);
+    });
   });
 });
