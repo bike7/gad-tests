@@ -1,13 +1,17 @@
 import { MainMenuComponent } from '../components/main-menu.component';
 import { BasePage } from './base.page';
-import { Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 
 export class ArticlesPage extends BasePage {
   url = '/articles.html';
   expectedPageTitle = 'Articles';
   mainMenu: MainMenuComponent;
+  addArticleButton: Locator;
   constructor(page: Page) {
     super(page);
     this.mainMenu = new MainMenuComponent(page);
+    this.addArticleButton = this.page.getByRole('button', {
+      name: 'Add Article',
+    });
   }
 }
