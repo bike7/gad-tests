@@ -82,4 +82,24 @@ test.describe('Verify articles', () => {
       await expect(addArticleView.alertPopup).toContainText(expectedAlertText);
     });
   });
+
+  test('User can access single article @GAD-R04-03', async ({ page }) => {
+    // Arrange
+    const expectedAlertText = 'Article was created';
+    const articleData = randomNewArticleData();
+    await articlesPage.goto();
+    await articlesPage.addArticleButton.click();
+    await expect(addArticleView.pageHeader).toContainText(
+      addArticleView.expectedPageHeaderText,
+    );
+    await addArticleView.createArticle(articleData);
+    await expect(addArticleView.alertPopup).toContainText(expectedAlertText);
+    //Act
+    await articlesPage.goto();
+    await page.getByText(articleData.title).click();
+    //Assert
+    const articlePage = new ArticlePage(page);
+    await expect.soft(articlePage.articleTitle).toHaveText(articleData.title);
+    await expect.soft(articlePage.articleBody).toHaveText(articleData.body);
+  });
 });
