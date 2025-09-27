@@ -13,11 +13,11 @@ test.describe('Verify login', () => {
     };
     //Act
     const loginPage = new LoginPage(page);
-    await loginPage.goto();
-    await loginPage.login(loginUserData);
+    await loginPage.goTo();
+    await loginPage.loginAs(loginUserData);
     //Assert
     const welcomePage = new WelcomePage(page);
-    const actualPageTitle = await welcomePage.title();
+    const actualPageTitle = await welcomePage.getTitle();
     expect.soft(actualPageTitle).toContain(welcomePage.expectedPageTitle);
     await expect.soft(welcomePage.logoutButton).toBeVisible();
     await expect
@@ -35,13 +35,13 @@ test.describe('Verify login', () => {
     const expectedErrorMessage = 'Invalid username or password';
     //Act
     const loginPage = new LoginPage(page);
-    await loginPage.goto();
-    await loginPage.login(loginUserData);
+    await loginPage.goTo();
+    await loginPage.loginAs(loginUserData);
     //Assert
     await expect
       .soft(loginPage.loginErrorMessage)
       .toHaveText(expectedErrorMessage);
-    const actualPageTitle = await loginPage.title();
+    const actualPageTitle = await loginPage.getTitle();
     expect.soft(actualPageTitle).toContain(loginPage.expectedPageTitle);
   });
 });

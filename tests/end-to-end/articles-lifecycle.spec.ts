@@ -17,9 +17,9 @@ test.describe('Create, verify and delete article', () => {
     loginPage = new LoginPage(page);
     articlesPage = new ArticlesPage(page);
     articlePage = new ArticlePage(page);
-    await loginPage.goto();
-    await loginPage.login(testUser);
-    await articlesPage.goto();
+    await loginPage.goTo();
+    await loginPage.loginAs(testUser);
+    await articlesPage.goTo();
   });
 
   test('Create a new article @GAD-R04-01', async ({ page }) => {
@@ -56,7 +56,7 @@ test.describe('Create, verify and delete article', () => {
     await articlePage.deleteArticle();
     //Assert
     await articlesPage.waitForPageToLoadUrl();
-    const title = await articlesPage.title();
+    const title = await articlesPage.getTitle();
     expect(title).toContain(articlesPage.expectedPageTitle);
     await articlesPage.searchForArticle(articleData.title);
     await expect(articlesPage.noResultsText).toHaveText(

@@ -8,9 +8,9 @@ test.describe('Verify main pages', () => {
     // Arrange
     const homePage = new HomePage(page);
     // Act
-    await homePage.goto();
+    await homePage.goTo();
     // Assert
-    const title = await homePage.title();
+    const title = await homePage.getTitle();
     expect(title).toContain(homePage.expectedPageTitle);
   });
 
@@ -18,9 +18,9 @@ test.describe('Verify main pages', () => {
     // Arrange
     const articlesPage = new ArticlesPage(page);
     // Act
-    await articlesPage.goto();
+    await articlesPage.goTo();
     // Assert
-    const title = await articlesPage.title();
+    const title = await articlesPage.getTitle();
     expect(title).toContain(articlesPage.expectedPageTitle);
   });
 
@@ -28,9 +28,9 @@ test.describe('Verify main pages', () => {
     // Arrange
     const commentsPage = new CommentsPage(page);
     // Act
-    await commentsPage.goto();
+    await commentsPage.goTo();
     // Assert
-    const title = await commentsPage.title();
+    const title = await commentsPage.getTitle();
     expect(title).toContain(commentsPage.expectedPageTitle);
   });
 });

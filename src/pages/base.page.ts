@@ -4,11 +4,11 @@ export class BasePage {
   constructor(protected page: Page) {}
   url = '';
   expectedPageTitle = 'GAD';
-  async goto(): Promise<void> {
+  async goTo(): Promise<void> {
     await this.page.goto(this.url);
     await this.page.waitForLoadState('domcontentloaded');
   }
-  async title(): Promise<string> {
+  async getTitle(): Promise<string> {
     await this.page.waitForLoadState('domcontentloaded');
     return this.page.title();
   }

@@ -20,18 +20,18 @@ test.describe('Verify registration', () => {
     // Arrange
     const expectedAlertText = 'User created';
     //Act
-    await registerPage.goto();
-    await registerPage.register(registerUserData);
+    await registerPage.goTo();
+    await registerPage.registerAs(registerUserData);
     //Assert registration confirmation popup
     const actualAlert = registerPage.alertPopup;
     await expect(actualAlert).toHaveText(expectedAlertText);
     //Assert login page load after registration
     const loginPage = new LoginPage(page);
     await loginPage.waitForPageToLoadUrl();
-    const actualLoginPageTitle = await loginPage.title();
+    const actualLoginPageTitle = await loginPage.getTitle();
     expect(actualLoginPageTitle).toContain(loginPage.expectedPageTitle);
     //Assert login with registered user
-    await loginPage.login(testUser);
+    await loginPage.loginAs(testUser);
     const welcomePage = new WelcomePage(page);
     await expect(welcomePage.welcomeMessage).toContainText(testUser.userEmail);
   });
@@ -40,8 +40,8 @@ test.describe('Verify registration', () => {
     const expectedErrorText = 'Please provide a valid email address';
     registerUserData.userEmail = '#$%';
     //Act
-    await registerPage.goto();
-    await registerPage.register(registerUserData);
+    await registerPage.goTo();
+    await registerPage.registerAs(registerUserData);
     //Assert
     await expect(registerPage.emailErrorText).toContainText(expectedErrorText);
   });
@@ -49,7 +49,7 @@ test.describe('Verify registration', () => {
     // Arrange
     const expectedErrorText = 'This field is required';
     //Act
-    await registerPage.goto();
+    await registerPage.goTo();
     await registerPage.firstNameInput.fill(registerUserData.userFirstName);
     await registerPage.lastNameInput.fill(registerUserData.userLastName);
     await registerPage.passwordInput.fill(registerUserData.userPassword);

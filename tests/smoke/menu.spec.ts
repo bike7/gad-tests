@@ -11,11 +11,11 @@ test.describe('Verify main menu buttons', () => {
     const expectedPageTitle = 'Comments';
     // Act
     const articlesPage = new ArticlesPage(page);
-    await articlesPage.goto();
+    await articlesPage.goTo();
     await articlesPage.mainMenu.clickCommentsButton();
     // Assert
     const commentsPage = new CommentsPage(page);
-    const actualPageTitle = await commentsPage.title();
+    const actualPageTitle = await commentsPage.getTitle();
     expect(actualPageTitle).toContain(expectedPageTitle);
   });
   test('Articles button navigates to Articles page @smoke @GAD-R01-03', async ({
@@ -25,11 +25,11 @@ test.describe('Verify main menu buttons', () => {
     const expectedPageTitle = 'Articles';
     // Act
     const commentsPage = new CommentsPage(page);
-    await commentsPage.goto();
+    await commentsPage.goTo();
     await commentsPage.mainMenu.clickArticlesButton();
     // Assert
     const articlesPage = new ArticlesPage(page);
-    const actualPageTitle = await articlesPage.title();
+    const actualPageTitle = await articlesPage.getTitle();
     expect(actualPageTitle).toContain(expectedPageTitle);
   });
   test('Home page link navigates to Home page (from articles) @smoke @GAD-R01-03', async ({
@@ -39,11 +39,11 @@ test.describe('Verify main menu buttons', () => {
     const expectedPageTitle = 'GAD';
     // Act
     const articlesPage = new ArticlesPage(page);
-    await articlesPage.goto();
+    await articlesPage.goTo();
     await articlesPage.mainMenu.clickHomePageLink();
     // Assert
     const homePage = new HomePage(page);
-    const actualPageTitle = await homePage.title();
+    const actualPageTitle = await homePage.getTitle();
     expect(actualPageTitle).toContain(expectedPageTitle);
   });
   test('Home page link navigates to Home page (from comments) @smoke @GAD-R01-03', async ({
@@ -53,11 +53,11 @@ test.describe('Verify main menu buttons', () => {
     const expectedPageTitle = 'GAD';
     // Act
     const commentsPage = new CommentsPage(page);
-    await commentsPage.goto();
+    await commentsPage.goTo();
     await commentsPage.mainMenu.clickHomePageLink();
     // Assert
     const homePage = new HomePage(page);
-    const actualPageTitle = await homePage.title();
+    const actualPageTitle = await homePage.getTitle();
     expect(actualPageTitle).toContain(expectedPageTitle);
   });
 });

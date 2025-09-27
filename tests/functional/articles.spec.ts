@@ -13,8 +13,8 @@ test.describe('Verify articles', () => {
     loginPage = new LoginPage(page);
     articlesPage = new ArticlesPage(page);
     addArticleView = new AddArticleView(page);
-    await loginPage.goto();
-    await loginPage.login(testUser);
+    await loginPage.goTo();
+    await loginPage.loginAs(testUser);
   });
 
   const testData1 = [{ field: 'title' }, { field: 'body' }];
@@ -26,7 +26,7 @@ test.describe('Verify articles', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (articleData as any)[field] = '';
       //Act
-      await articlesPage.goto();
+      await articlesPage.goTo();
       await articlesPage.addArticleButton.click();
       await expect(addArticleView.pageHeader).toContainText(
         addArticleView.expectedPageHeaderText,
@@ -53,7 +53,7 @@ test.describe('Verify articles', () => {
     test(`Try to create an article with title ${description} @GAD-R04-02`, async ({}) => {
       //Arrange
       //Act
-      await articlesPage.goto();
+      await articlesPage.goTo();
       await articlesPage.addArticleButton.click();
       await expect(addArticleView.pageHeader).toContainText(
         addArticleView.expectedPageHeaderText,
