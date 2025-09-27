@@ -7,15 +7,11 @@ import { expect, test } from '@playwright/test';
 test.describe('Verify login', () => {
   test('User login with correct credentials @GAD-R02-01', async ({ page }) => {
     // Arrange
-    const loginUserData: LoginUserModel = {
-      userEmail: testUser.userEmail,
-      userPassword: testUser.userPassword,
-    };
     const loginPage = new LoginPage(page);
     const welcomePage = new WelcomePage(page);
     //Act
     await loginPage.goTo();
-    await loginPage.loginAs(loginUserData);
+    await loginPage.loginAs(testUser);
     //Assert
     const actualPageTitle = await welcomePage.getTitle();
     expect.soft(actualPageTitle).toContain(welcomePage.expectedPageTitle);
