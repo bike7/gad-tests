@@ -1,4 +1,4 @@
-import { randomUserData } from '../../src/factories/user.factory';
+import { prepareRandomUser } from '../../src/factories/user.factory';
 import { RegisterUserModel } from '../../src/models/user.model';
 import { LoginPage } from '../../src/pages/login.page';
 import { RegisterPage } from '../../src/pages/register.page';
@@ -10,7 +10,7 @@ test.describe('Verify registration', () => {
   let registerPage: RegisterPage;
   let registerUserData: RegisterUserModel;
   test.beforeEach(async ({ page }) => {
-    registerUserData = randomUserData();
+    registerUserData = prepareRandomUser();
     registerPage = new RegisterPage(page);
   });
 

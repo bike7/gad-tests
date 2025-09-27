@@ -1,4 +1,4 @@
-import { randomNewArticleData } from '../../src/factories/article.factory';
+import { prepareRandomArticle } from '../../src/factories/article.factory';
 import { ArticlesPage } from '../../src/pages/articles.page';
 import { LoginPage } from '../../src/pages/login.page';
 import { testUser } from '../../src/test.data/user.credentials.data';
@@ -22,7 +22,7 @@ test.describe('Verify articles', () => {
     test(`Try to create an article with missing ${field} @GAD-R04-01 @negative`, async ({}) => {
       //Arrange
       const expectedAlertText = 'Article was not created';
-      const articleData = randomNewArticleData();
+      const articleData = prepareRandomArticle();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (articleData as any)[field] = '';
       //Act
@@ -40,12 +40,12 @@ test.describe('Verify articles', () => {
   const testData2 = [
     {
       description: 'exceeding 128 chars',
-      articleData: randomNewArticleData(129),
+      articleData: prepareRandomArticle(129),
       expectedAlertText: 'Article was not created',
     },
     {
       description: 'having exactly 128 chars',
-      articleData: randomNewArticleData(128),
+      articleData: prepareRandomArticle(128),
       expectedAlertText: 'Article was created',
     },
   ];

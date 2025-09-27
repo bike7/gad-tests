@@ -1,7 +1,7 @@
 import { AddArticleModel } from '../models/article.model';
 import { faker } from '@faker-js/faker/locale/en';
 
-export function randomNewArticleData(titleLength?: number): AddArticleModel {
+export function prepareRandomArticle(titleLength?: number): AddArticleModel {
   const article: AddArticleModel = {
     title: titleLength
       ? faker.string.alpha(titleLength)
