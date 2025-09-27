@@ -11,12 +11,12 @@ test.describe('Verify login', () => {
       userEmail: testUser.userEmail,
       userPassword: testUser.userPassword,
     };
-    //Act
     const loginPage = new LoginPage(page);
+    const welcomePage = new WelcomePage(page);
+    //Act
     await loginPage.goTo();
     await loginPage.loginAs(loginUserData);
     //Assert
-    const welcomePage = new WelcomePage(page);
     const actualPageTitle = await welcomePage.getTitle();
     expect.soft(actualPageTitle).toContain(welcomePage.expectedPageTitle);
     await expect.soft(welcomePage.logoutButton).toBeVisible();
@@ -28,13 +28,13 @@ test.describe('Verify login', () => {
     page,
   }) => {
     // Arrange
+    const expectedErrorMessage = 'Invalid username or password';
     const loginUserData: LoginUserModel = {
       userEmail: testUser.userEmail,
       userPassword: 'incorrectPassword',
     };
-    const expectedErrorMessage = 'Invalid username or password';
-    //Act
     const loginPage = new LoginPage(page);
+    //Act
     await loginPage.goTo();
     await loginPage.loginAs(loginUserData);
     //Assert

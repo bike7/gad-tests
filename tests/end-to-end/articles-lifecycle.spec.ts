@@ -26,9 +26,9 @@ test.describe('Create, verify and delete article', () => {
     // Arrange
     const expectedAlertText = 'Article was created';
     articleData = prepareRandomArticle();
+    const addArticleView = new AddArticleView(page);
     //Act
     await articlesPage.addArticleButton.click();
-    const addArticleView = new AddArticleView(page);
     await expect(addArticleView.pageHeader).toContainText(
       addArticleView.expectedPageHeaderText,
     );
@@ -51,8 +51,8 @@ test.describe('Create, verify and delete article', () => {
   test('User can delete his own article @GAD-R04-04', async ({}) => {
     // Arrange
     const expectedSearchResultText = 'No data';
-    await articlesPage.goToArticle(articleData.title);
     //Act
+    await articlesPage.goToArticle(articleData.title);
     await articlePage.deleteArticle();
     //Assert
     await articlesPage.waitForPageToLoadUrl();

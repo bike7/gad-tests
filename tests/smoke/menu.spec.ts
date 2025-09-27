@@ -9,11 +9,11 @@ test.describe('Verify main menu buttons', () => {
   }) => {
     // Arrange
     const articlesPage = new ArticlesPage(page);
-    await articlesPage.goTo();
+    const commentsPage = new CommentsPage(page);
     // Act
+    await articlesPage.goTo();
     await articlesPage.mainMenu.clickCommentsButton();
     // Assert
-    const commentsPage = new CommentsPage(page);
     const actualPageTitle = await commentsPage.getTitle();
     expect(actualPageTitle).toContain(commentsPage.expectedPageTitle);
   });
@@ -22,11 +22,11 @@ test.describe('Verify main menu buttons', () => {
   }) => {
     // Arrange
     const commentsPage = new CommentsPage(page);
-    await commentsPage.goTo();
+    const articlesPage = new ArticlesPage(page);
     // Act
+    await commentsPage.goTo();
     await commentsPage.mainMenu.clickArticlesButton();
     // Assert
-    const articlesPage = new ArticlesPage(page);
     const actualPageTitle = await articlesPage.getTitle();
     expect(actualPageTitle).toContain(articlesPage.expectedPageTitle);
   });
@@ -35,11 +35,11 @@ test.describe('Verify main menu buttons', () => {
   }) => {
     // Arrange
     const articlesPage = new ArticlesPage(page);
-    await articlesPage.goTo();
+    const homePage = new HomePage(page);
     // Act
+    await articlesPage.goTo();
     await articlesPage.mainMenu.clickHomePageLink();
     // Assert
-    const homePage = new HomePage(page);
     const actualPageTitle = await homePage.getTitle();
     expect(actualPageTitle).toContain(homePage.expectedPageTitle);
   });
@@ -48,11 +48,11 @@ test.describe('Verify main menu buttons', () => {
   }) => {
     // Arrange
     const commentsPage = new CommentsPage(page);
-    await commentsPage.goTo();
+    const homePage = new HomePage(page);
     // Act
+    await commentsPage.goTo();
     await commentsPage.mainMenu.clickHomePageLink();
     // Assert
-    const homePage = new HomePage(page);
     const actualPageTitle = await homePage.getTitle();
     expect(actualPageTitle).toContain(homePage.expectedPageTitle);
   });
