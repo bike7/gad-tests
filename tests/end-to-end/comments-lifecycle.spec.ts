@@ -1,4 +1,5 @@
 import { prepareRandomArticle } from '../../src/factories/article.factory';
+import { prepareRandomComment } from '../../src/factories/comment.factory';
 import { AddArticleModel } from '../../src/models/article.model';
 import { ArticlePage } from '../../src/pages/article.page';
 import { ArticlesPage } from '../../src/pages/articles.page';
@@ -7,7 +8,6 @@ import { LoginPage } from '../../src/pages/login.page';
 import { testUser } from '../../src/test.data/user.credentials.data';
 import { AddArticleView } from '../../src/views/add-article.view';
 import { AddCommentView } from '../../src/views/add-comment.view';
-import { faker } from '@faker-js/faker/locale/en';
 import { expect, test } from '@playwright/test';
 
 test.describe.configure({ mode: 'serial' });
@@ -36,7 +36,7 @@ test.describe('Create, verify and delete comment', () => {
 
   test('Create a new comment @GAD-R05-02', async ({}) => {
     // Arrange
-    const comment = faker.lorem.sentence();
+    const commentData = prepareRandomComment();
     const expectedAlertText = 'Comment was created';
 
     //Act
@@ -44,12 +44,12 @@ test.describe('Create, verify and delete comment', () => {
     await expect(addCommentView.pageHeader).toContainText(
       addCommentView.expectedPageHeaderText,
     );
-    await addCommentView.createComment(comment);
+    await addCommentView.createComment(commentData.body);
     //Assert
     await expect(addCommentView.alertPopup).toContainText(expectedAlertText);
-    const articleComment = articlePage.getArticleComment(comment);
-    await expect(articleComment.commentText).toHaveText(comment);
+    const articleComment = articlePage.getArticleComment(commentData.body);
+    await expect(articleComment.commentText).toHaveText(commentData.body);
     await articleComment.link.click();
-    await expect(commentPage.commentBody).toHaveText(comment);
+    await expect(commentPage.commentBody).toHaveText(commentData.body);
   });
 });
