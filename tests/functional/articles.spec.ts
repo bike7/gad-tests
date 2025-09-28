@@ -1,4 +1,5 @@
 import { prepareRandomArticle } from '../../src/factories/article.factory';
+import { AddArticleModel } from '../../src/models/article.model';
 import { ArticlesPage } from '../../src/pages/articles.page';
 import { LoginPage } from '../../src/pages/login.page';
 import { testUser } from '../../src/test.data/user.credentials.data';
@@ -23,8 +24,7 @@ test.describe('Verify articles', () => {
       //Arrange
       const expectedAlertText = 'Article was not created';
       const articleData = prepareRandomArticle();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (articleData as any)[field] = '';
+      (articleData as AddArticleModel)[field] = '';
       //Act
       await articlesPage.goTo();
       await articlesPage.addArticleButton.click();
