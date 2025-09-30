@@ -20,7 +20,7 @@ test.describe('Verify articles', () => {
 
   const testData1 = [{ field: 'title' }, { field: 'body' }];
   testData1.forEach(({ field }) => {
-    test(`Try to create an article with missing ${field} @GAD-R04-01 @negative`, async ({}) => {
+    test(`Try to create an article with missing ${field} @GAD-R04-01 @logged @negative`, async ({}) => {
       //Arrange
       const expectedAlertText = 'Article was not created';
       const articleData = prepareRandomArticle();
