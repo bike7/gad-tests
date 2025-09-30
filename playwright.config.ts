@@ -9,7 +9,7 @@ import path from 'path';
 export const STORAGE_STATE = path.join(__dirname, 'tmp/session.json');
 
 export default defineConfig({
-  globalSetup: require.resolve('config/global-setup'),
+  globalSetup: require.resolve('@_config/global.setup'),
   testDir: './tests',
   timeout: 60_000,
   expect: { timeout: 10_000 },
