@@ -1,4 +1,4 @@
-import { STORAGE_STATE } from '../../playwright.config';
+import { STORAGE_STATE } from '@_pw-config';
 import { LoginPage } from '@_src/pages/login.page';
 import { WelcomePage } from '@_src/pages/welcome.page';
 import { testUser } from '@_src/test.data/user.credentials.data';
