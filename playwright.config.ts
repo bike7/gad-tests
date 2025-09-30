@@ -1,5 +1,5 @@
-import { BASE_URL } from './src/global-setup';
 import { defineConfig, devices } from '@playwright/test';
+import { BASE_URL } from 'config/env.config';
 import path from 'path';
 
 /**
@@ -9,7 +9,7 @@ import path from 'path';
 export const STORAGE_STATE = path.join(__dirname, 'tmp/session.json');
 
 export default defineConfig({
-  globalSetup: require.resolve('./src/global-setup'),
+  globalSetup: require.resolve('config/global-setup'),
   testDir: './tests',
   timeout: 60_000,
   expect: { timeout: 10_000 },
