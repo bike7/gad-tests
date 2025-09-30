@@ -1,7 +1,7 @@
 import { STORAGE_STATE } from '../../playwright.config';
-import { LoginPage } from '../../src/pages/login.page';
-import { WelcomePage } from '../../src/pages/welcome.page';
-import { testUser } from '../../src/test.data/user.credentials.data';
+import { LoginPage } from '@_src/pages/login.page';
+import { WelcomePage } from '@_src/pages/welcome.page';
+import { testUser } from '@_src/test.data/user.credentials.data';
 import { expect, test as setup } from '@playwright/test';
 
 setup('Login with correct credentials', async ({ page }) => {
