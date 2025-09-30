@@ -1,21 +1,15 @@
 import { prepareRandomArticle } from '../../src/factories/article.factory';
 import { AddArticleModel } from '../../src/models/article.model';
 import { ArticlesPage } from '../../src/pages/articles.page';
-import { LoginPage } from '../../src/pages/login.page';
-import { testUser } from '../../src/test.data/user.credentials.data';
 import { AddArticleView } from '../../src/views/add-article.view';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify articles', () => {
   let articlesPage: ArticlesPage;
   let addArticleView: AddArticleView;
-  let loginPage: LoginPage;
   test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
     articlesPage = new ArticlesPage(page);
     addArticleView = new AddArticleView(page);
-    await loginPage.goTo();
-    await loginPage.loginAs(testUser);
   });
 
   const testData1 = [{ field: 'title' }, { field: 'body' }];
@@ -50,7 +44,7 @@ test.describe('Verify articles', () => {
     },
   ];
   testData2.forEach(({ description, articleData, expectedAlertText }) => {
-    test(`Try to create an article with title ${description} @GAD-R04-02`, async ({}) => {
+    test(`Try to create an article with title ${description} @GAD-R04-02 @logged`, async ({}) => {
       //Arrange
       //Act
       await articlesPage.goTo();

@@ -1,3 +1,4 @@
+import { STORAGE_STATE } from '../../playwright.config';
 import { LoginPage } from '../../src/pages/login.page';
 import { WelcomePage } from '../../src/pages/welcome.page';
 import { testUser } from '../../src/test.data/user.credentials.data';
@@ -12,4 +13,5 @@ setup('Login with correct credentials', async ({ page }) => {
   await loginPage.loginAs(testUser);
   //Assert
   await expect(welcomePage.welcomeMessage).toContainText(testUser.userEmail);
+  await page.context().storageState({ path: STORAGE_STATE });
 });
