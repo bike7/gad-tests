@@ -37,8 +37,8 @@ export class ArticlePage extends BasePage {
       link: commentContainer.locator("[id^='gotoComment']"),
     };
   }
-  async clickCommentLink(commentLink: Locator): Promise<CommentPage> {
-    await commentLink.click();
+  async clickCommentLink(articleComment: ArticleComment): Promise<CommentPage> {
+    await articleComment.link.click();
     return new CommentPage(this.page);
   }
   async clickAddNewCommentButton(): Promise<AddCommentView> {

@@ -40,9 +40,7 @@ test.describe('Create, verify and delete comment', () => {
       //Assert
       const articleComment = articlePage.getArticleComment(commentData.body);
       await expect(articleComment.commentText).toHaveText(commentData.body);
-      const commentPage = await articlePage.clickCommentLink(
-        articleComment.link,
-      );
+      const commentPage = await articlePage.clickCommentLink(articleComment);
       await expect(commentPage.commentBody).toHaveText(commentData.body);
       return commentPage;
     });
@@ -105,9 +103,7 @@ test.describe('Create, verify and delete comment', () => {
       await expect(articleComment.commentText).toHaveText(
         anotherCommentData.body,
       );
-      const commentPage = await articlePage.clickCommentLink(
-        articleComment.link,
-      );
+      const commentPage = await articlePage.clickCommentLink(articleComment);
       await expect(commentPage.commentBody).toHaveText(anotherCommentData.body);
     });
   });
