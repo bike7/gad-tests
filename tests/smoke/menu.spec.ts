@@ -1,6 +1,5 @@
 import { ArticlesPage } from '@_src/pages/articles.page';
 import { CommentsPage } from '@_src/pages/comments.page';
-import { HomePage } from '@_src/pages/home.page';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify main menu buttons', () => {
@@ -9,10 +8,9 @@ test.describe('Verify main menu buttons', () => {
   }) => {
     // Arrange
     const articlesPage = new ArticlesPage(page);
-    const commentsPage = new CommentsPage(page);
     // Act
     await articlesPage.goTo();
-    await articlesPage.mainMenu.clickCommentsButton();
+    const commentsPage = await articlesPage.mainMenu.clickCommentsButton();
     // Assert
     const actualPageTitle = await commentsPage.getTitle();
     expect(actualPageTitle).toContain(commentsPage.expectedPageTitle);
@@ -22,10 +20,9 @@ test.describe('Verify main menu buttons', () => {
   }) => {
     // Arrange
     const commentsPage = new CommentsPage(page);
-    const articlesPage = new ArticlesPage(page);
     // Act
     await commentsPage.goTo();
-    await commentsPage.mainMenu.clickArticlesButton();
+    const articlesPage = await commentsPage.mainMenu.clickArticlesButton();
     // Assert
     const actualPageTitle = await articlesPage.getTitle();
     expect(actualPageTitle).toContain(articlesPage.expectedPageTitle);
@@ -35,10 +32,9 @@ test.describe('Verify main menu buttons', () => {
   }) => {
     // Arrange
     const articlesPage = new ArticlesPage(page);
-    const homePage = new HomePage(page);
     // Act
     await articlesPage.goTo();
-    await articlesPage.mainMenu.clickHomePageLink();
+    const homePage = await articlesPage.mainMenu.clickHomePageLink();
     // Assert
     const actualPageTitle = await homePage.getTitle();
     expect(actualPageTitle).toContain(homePage.expectedPageTitle);
@@ -48,10 +44,9 @@ test.describe('Verify main menu buttons', () => {
   }) => {
     // Arrange
     const commentsPage = new CommentsPage(page);
-    const homePage = new HomePage(page);
     // Act
     await commentsPage.goTo();
-    await commentsPage.mainMenu.clickHomePageLink();
+    const homePage = await commentsPage.mainMenu.clickHomePageLink();
     // Assert
     const actualPageTitle = await homePage.getTitle();
     expect(actualPageTitle).toContain(homePage.expectedPageTitle);
