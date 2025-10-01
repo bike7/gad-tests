@@ -2,7 +2,6 @@ import { prepareRandomUser } from '@_src/factories/user.factory';
 import { RegisterUserModel } from '@_src/models/user.model';
 import { LoginPage } from '@_src/pages/login.page';
 import { RegisterPage } from '@_src/pages/register.page';
-import { WelcomePage } from '@_src/pages/welcome.page';
 import { testUser } from '@_src/test.data/user.credentials.data';
 import { expect, test } from '@playwright/test';
 
@@ -30,8 +29,7 @@ test.describe('Verify registration', () => {
     const actualLoginPageTitle = await loginPage.getTitle();
     expect(actualLoginPageTitle).toContain(loginPage.expectedPageTitle);
     //Assert login with registered user
-    await loginPage.loginAs(testUser);
-    const welcomePage = new WelcomePage(page);
+    const welcomePage = await loginPage.loginAs(testUser);
     await expect(welcomePage.welcomeMessage).toContainText(testUser.userEmail);
   });
   test('Try to register a new user using incorrect data - non valid email @GAD-R03-04 @negative', async ({}) => {
