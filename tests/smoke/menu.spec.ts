@@ -14,6 +14,7 @@ test.describe('Verify main menu buttons', () => {
     const actualPageTitle = await commentsPage.getTitle();
     expect(actualPageTitle).toContain(commentsPage.expectedPageTitle);
   });
+
   test('Articles button navigates to Articles page @smoke @GAD-R01-03', async ({
     page,
   }) => {
@@ -25,6 +26,7 @@ test.describe('Verify main menu buttons', () => {
     const actualPageTitle = await articlesPage.getTitle();
     expect(actualPageTitle).toContain(articlesPage.expectedPageTitle);
   });
+
   test('Home page link navigates to Home page (from articles) @smoke @GAD-R01-03', async ({
     page,
   }) => {
@@ -36,6 +38,7 @@ test.describe('Verify main menu buttons', () => {
     const actualPageTitle = await homePage.getTitle();
     expect(actualPageTitle).toContain(homePage.expectedPageTitle);
   });
+
   test('Home page link navigates to Home page (from comments) @smoke @GAD-R01-03', async ({
     page,
   }) => {

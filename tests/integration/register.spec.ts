@@ -28,6 +28,7 @@ test.describe('Verify registration', () => {
     const welcomePage = await loginPage.loginAs(testUser);
     await expect(welcomePage.welcomeMessage).toContainText(testUser.userEmail);
   });
+
   test('Try to register a new user using incorrect data - non valid email @GAD-R03-04 @negative', async ({}) => {
     // Arrange
     const expectedErrorText = 'Please provide a valid email address';
@@ -37,6 +38,7 @@ test.describe('Verify registration', () => {
     //Assert
     await expect(registerPage.emailErrorText).toContainText(expectedErrorText);
   });
+
   test('Try to register a new user using incorrect data - email not provided @GAD-R03-04 @negative', async ({}) => {
     // Arrange
     const expectedErrorText = 'This field is required';
