@@ -29,29 +29,30 @@ test.describe('Create, verify and delete comment', () => {
       await expect(addCommentView.pageHeader).toContainText(
         addCommentView.expectedPageHeaderText,
       );
-      await addCommentView.createComment(commentData.body);
+      articlePage = await addCommentView.createComment(commentData.body);
       //Assert
       await expect(addCommentView.alertPopup).toContainText(
         expectedAlertTextForCommentCreate,
       );
     });
 
-    const commentPage =
-      await test.step('Verify created comment', async ({}) => {
-        //Assert
-        const articleComment = articlePage.getArticleComment(commentData.body);
-        await expect(articleComment.commentText).toHaveText(commentData.body);
-        const commentPage = await articlePage.clickCommentLink(
-          articleComment.link,
-        );
-        await expect(commentPage.commentBody).toHaveText(commentData.body);
-        return commentPage;
-      });
+    let commentPage = await test.step('Verify created comment', async ({}) => {
+      //Assert
+      const articleComment = articlePage.getArticleComment(commentData.body);
+      await expect(articleComment.commentText).toHaveText(commentData.body);
+      const commentPage = await articlePage.clickCommentLink(
+        articleComment.link,
+      );
+      await expect(commentPage.commentBody).toHaveText(commentData.body);
+      return commentPage;
+    });
 
     await test.step('Update comment', async ({}) => {
       //Act
       const editCommentView = await commentPage.clickEditButton();
-      await editCommentView.updateComment(updatedCommentData.body);
+      commentPage = await editCommentView.updateComment(
+        updatedCommentData.body,
+      );
       //Assert
       await expect(editCommentView.alertPopup).toContainText(
         expectedAlertTextForCommentUpdate,
@@ -82,7 +83,7 @@ test.describe('Create, verify and delete comment', () => {
       const commentData = prepareRandomComment();
       //Act
       const addCommentView = await articlePage.clickAddNewCommentButton();
-      await addCommentView.createComment(commentData.body);
+      articlePage = await addCommentView.createComment(commentData.body);
       //Assert
       await expect(addCommentView.alertPopup).toContainText(expectedAlertText);
     });
@@ -95,7 +96,7 @@ test.describe('Create, verify and delete comment', () => {
       await expect(addCommentView.pageHeader).toContainText(
         addCommentView.expectedPageHeaderText,
       );
-      await addCommentView.createComment(anotherCommentData.body);
+      articlePage = await addCommentView.createComment(anotherCommentData.body);
       //Assert
       await expect(addCommentView.alertPopup).toContainText(expectedAlertText);
       const articleComment = articlePage.getArticleComment(

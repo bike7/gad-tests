@@ -1,10 +1,11 @@
+import { ArticlePage } from '@_src/pages/article.page';
 import { Locator, Page } from '@playwright/test';
 
 export class AddCommentView {
   expectedPageHeaderText = 'Add New Comment';
   pageHeader: Locator;
-  bodyInput: Locator;
-  saveButton: Locator;
+  private bodyInput: Locator;
+  private saveButton: Locator;
   alertPopup: Locator;
   constructor(private page: Page) {
     this.pageHeader = this.page.locator('h2');
@@ -13,8 +14,9 @@ export class AddCommentView {
     this.alertPopup = this.page.getByTestId('alert-popup');
   }
 
-  async createComment(comment: string): Promise<void> {
+  async createComment(comment: string): Promise<ArticlePage> {
     await this.bodyInput.fill(comment);
     await this.saveButton.click();
+    return new ArticlePage(this.page);
   }
 }

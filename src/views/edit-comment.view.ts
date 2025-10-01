@@ -1,3 +1,4 @@
+import { CommentPage } from '@_src/pages/comment.page';
 import { Locator, Page } from '@playwright/test';
 
 export class EditCommentView {
@@ -10,9 +11,10 @@ export class EditCommentView {
     this.alertPopup = this.page.getByTestId('alert-popup');
   }
 
-  async updateComment(updatedComment: string): Promise<void> {
+  async updateComment(updatedComment: string): Promise<CommentPage> {
     await this.bodyInput.clear();
     await this.bodyInput.fill(updatedComment);
     await this.updateButton.click();
+    return new CommentPage(this.page);
   }
 }
