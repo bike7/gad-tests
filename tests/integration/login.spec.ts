@@ -4,10 +4,14 @@ import { testUser } from '@_src/test.data/user.credentials.data';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify login', () => {
-  test('User login with correct credentials @GAD-R02-01', async ({ page }) => {
+  let loginPage: LoginPage;
+  test.beforeEach(async ({ page }) => {
+    loginPage = await new LoginPage(page).goTo();
+  });
+
+  test('User login with correct credentials @GAD-R02-01', async ({}) => {
     // Arrange
     //Act
-    const loginPage = await new LoginPage(page).goTo();
     const welcomePage = await loginPage.loginAs(testUser);
     //Assert
     const actualPageTitle = await welcomePage.getTitle();
@@ -17,9 +21,8 @@ test.describe('Verify login', () => {
       .soft(welcomePage.welcomeMessage)
       .toContainText(testUser.userEmail);
   });
-  test('User login with incorrect credentials @GAD-R02-01 @negative', async ({
-    page,
-  }) => {
+
+  test('User login with incorrect credentials @GAD-R02-01 @negative', async ({}) => {
     // Arrange
     const expectedErrorMessage = 'Invalid username or password';
     const loginUserData: LoginUserModel = {
@@ -27,7 +30,6 @@ test.describe('Verify login', () => {
       userPassword: 'incorrectPassword',
     };
     //Act
-    const loginPage = await new LoginPage(page).goTo();
     await loginPage.loginAs(loginUserData);
     //Assert
     await expect
