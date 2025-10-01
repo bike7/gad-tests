@@ -8,7 +8,7 @@ test.describe('Verify articles', () => {
   let articlesPage: ArticlesPage;
   let addArticleView: AddArticleView;
   test.beforeEach(async ({ page }) => {
-    articlesPage = new ArticlesPage(page);
+    articlesPage = await new ArticlesPage(page).goTo();
     addArticleView = new AddArticleView(page);
   });
 
@@ -20,7 +20,6 @@ test.describe('Verify articles', () => {
       const articleData = prepareRandomArticle();
       (articleData as AddArticleModel)[field] = '';
       //Act
-      await articlesPage.goTo();
       await articlesPage.addArticleButton.click();
       await expect(addArticleView.pageHeader).toContainText(
         addArticleView.expectedPageHeaderText,
@@ -47,7 +46,6 @@ test.describe('Verify articles', () => {
     test(`Try to create an article with title ${description} @GAD-R04-02 @logged`, async ({}) => {
       //Arrange
       //Act
-      await articlesPage.goTo();
       await articlesPage.addArticleButton.click();
       await expect(addArticleView.pageHeader).toContainText(
         addArticleView.expectedPageHeaderText,

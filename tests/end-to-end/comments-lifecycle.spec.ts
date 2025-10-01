@@ -20,13 +20,12 @@ test.describe('Create, verify and delete comment', () => {
   let editCommentView: EditCommentView;
   test.beforeEach(async ({ page }) => {
     articleData = prepareRandomArticle();
-    articlesPage = new ArticlesPage(page);
     articlePage = new ArticlePage(page);
     addArticleView = new AddArticleView(page);
     addCommentView = new AddCommentView(page);
     commentPage = new CommentPage(page);
     editCommentView = new EditCommentView(page);
-    await articlesPage.goTo();
+    articlesPage = await new ArticlesPage(page).goTo();
     await articlesPage.addArticleButton.click();
     await addArticleView.createArticle(articleData);
   });

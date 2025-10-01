@@ -6,10 +6,9 @@ import { expect, test as setup } from '@playwright/test';
 
 setup('Login and save session', async ({ page }) => {
   // Arrange
-  const loginPage = new LoginPage(page);
+  const loginPage = await new LoginPage(page).goTo();
   const welcomePage = new WelcomePage(page);
   //Act
-  await loginPage.goTo();
   await loginPage.loginAs(testUser);
   //Assert
   await expect(welcomePage.welcomeMessage).toContainText(testUser.userEmail);

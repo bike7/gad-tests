@@ -11,7 +11,7 @@ test.describe('Verify registration', () => {
   let registerUserData: RegisterUserModel;
   test.beforeEach(async ({ page }) => {
     registerUserData = prepareRandomUser();
-    registerPage = new RegisterPage(page);
+    registerPage = await new RegisterPage(page).goTo();
   });
 
   test('Register new user using required fields and login @GAD-R03-01 @GAD-R03-02 @GAD-R03-03', async ({
@@ -20,7 +20,6 @@ test.describe('Verify registration', () => {
     // Arrange
     const expectedAlertText = 'User created';
     //Act
-    await registerPage.goTo();
     await registerPage.registerAs(registerUserData);
     //Assert registration confirmation popup
     const actualAlert = registerPage.alertPopup;
@@ -40,7 +39,6 @@ test.describe('Verify registration', () => {
     const expectedErrorText = 'Please provide a valid email address';
     registerUserData.userEmail = '#$%';
     //Act
-    await registerPage.goTo();
     await registerPage.registerAs(registerUserData);
     //Assert
     await expect(registerPage.emailErrorText).toContainText(expectedErrorText);
@@ -49,7 +47,6 @@ test.describe('Verify registration', () => {
     // Arrange
     const expectedErrorText = 'This field is required';
     //Act
-    await registerPage.goTo();
     await registerPage.firstNameInput.fill(registerUserData.userFirstName);
     await registerPage.lastNameInput.fill(registerUserData.userLastName);
     await registerPage.passwordInput.fill(registerUserData.userPassword);

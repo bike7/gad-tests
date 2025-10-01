@@ -11,9 +11,8 @@ test.describe('Create, verify and delete article', () => {
   let articlesPage: ArticlesPage;
   let articlePage: ArticlePage;
   test.beforeEach(async ({ page }) => {
-    articlesPage = new ArticlesPage(page);
+    articlesPage = await new ArticlesPage(page).goTo();
     articlePage = new ArticlePage(page);
-    await articlesPage.goTo();
   });
 
   test('Create a new article @GAD-R04-01 @logged', async ({ page }) => {

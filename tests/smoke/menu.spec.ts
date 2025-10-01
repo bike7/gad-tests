@@ -7,9 +7,8 @@ test.describe('Verify main menu buttons', () => {
     page,
   }) => {
     // Arrange
-    const articlesPage = new ArticlesPage(page);
+    const articlesPage = await new ArticlesPage(page).goTo();
     // Act
-    await articlesPage.goTo();
     const commentsPage = await articlesPage.mainMenu.clickCommentsButton();
     // Assert
     const actualPageTitle = await commentsPage.getTitle();
@@ -19,9 +18,8 @@ test.describe('Verify main menu buttons', () => {
     page,
   }) => {
     // Arrange
-    const commentsPage = new CommentsPage(page);
+    const commentsPage = await new CommentsPage(page).goTo();
     // Act
-    await commentsPage.goTo();
     const articlesPage = await commentsPage.mainMenu.clickArticlesButton();
     // Assert
     const actualPageTitle = await articlesPage.getTitle();
@@ -31,9 +29,8 @@ test.describe('Verify main menu buttons', () => {
     page,
   }) => {
     // Arrange
-    const articlesPage = new ArticlesPage(page);
+    const articlesPage = await new ArticlesPage(page).goTo();
     // Act
-    await articlesPage.goTo();
     const homePage = await articlesPage.mainMenu.clickHomePageLink();
     // Assert
     const actualPageTitle = await homePage.getTitle();
@@ -43,9 +40,8 @@ test.describe('Verify main menu buttons', () => {
     page,
   }) => {
     // Arrange
-    const commentsPage = new CommentsPage(page);
+    const commentsPage = await new CommentsPage(page).goTo();
     // Act
-    await commentsPage.goTo();
     const homePage = await commentsPage.mainMenu.clickHomePageLink();
     // Assert
     const actualPageTitle = await homePage.getTitle();

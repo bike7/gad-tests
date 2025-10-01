@@ -6,31 +6,28 @@ import { expect, test } from '@playwright/test';
 test.describe('Verify main pages', () => {
   test('Home page title @smoke @GAD-R01-01', async ({ page }) => {
     // Arrange
-    const homePage = new HomePage(page);
+    const homePage = await new HomePage(page).goTo();
     // Act
-    await homePage.goTo();
-    // Assert
     const title = await homePage.getTitle();
+    // Assert
     expect(title).toContain(homePage.expectedPageTitle);
   });
 
   test('Articles page title @smoke @GAD-R01-02', async ({ page }) => {
     // Arrange
-    const articlesPage = new ArticlesPage(page);
+    const articlesPage = await new ArticlesPage(page).goTo();
     // Act
-    await articlesPage.goTo();
-    // Assert
     const title = await articlesPage.getTitle();
+    // Assert
     expect(title).toContain(articlesPage.expectedPageTitle);
   });
 
   test('Comments page title @smoke @GAD-R01-02', async ({ page }) => {
     // Arrange
-    const commentsPage = new CommentsPage(page);
+    const commentsPage = await new CommentsPage(page).goTo();
     // Act
-    await commentsPage.goTo();
-    // Assert
     const title = await commentsPage.getTitle();
+    // Assert
     expect(title).toContain(commentsPage.expectedPageTitle);
   });
 });
