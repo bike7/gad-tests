@@ -1,15 +1,12 @@
 import { prepareRandomArticle } from '@_src/factories/article.factory';
 import { AddArticleModel } from '@_src/models/article.model';
 import { ArticlesPage } from '@_src/pages/articles.page';
-import { AddArticleView } from '@_src/views/add-article.view';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify articles', () => {
   let articlesPage: ArticlesPage;
-  let addArticleView: AddArticleView;
   test.beforeEach(async ({ page }) => {
     articlesPage = await new ArticlesPage(page).goTo();
-    addArticleView = new AddArticleView(page);
   });
 
   const testData1 = [{ field: 'title' }, { field: 'body' }];
@@ -20,7 +17,7 @@ test.describe('Verify articles', () => {
       const articleData = prepareRandomArticle();
       (articleData as AddArticleModel)[field] = '';
       //Act
-      await articlesPage.addArticleButton.click();
+      const addArticleView = await articlesPage.clickAddArticleButton();
       await expect(addArticleView.pageHeader).toContainText(
         addArticleView.expectedPageHeaderText,
       );
@@ -46,7 +43,7 @@ test.describe('Verify articles', () => {
     test(`Try to create an article with title ${description} @GAD-R04-02 @logged`, async ({}) => {
       //Arrange
       //Act
-      await articlesPage.addArticleButton.click();
+      const addArticleView = await articlesPage.clickAddArticleButton();
       await expect(addArticleView.pageHeader).toContainText(
         addArticleView.expectedPageHeaderText,
       );
