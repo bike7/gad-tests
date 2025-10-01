@@ -5,8 +5,8 @@ import { testUser } from '@_src/test.data/user.credentials.data';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify registration', () => {
-  let registerPage: RegisterPage;
   let registerUserData: RegisterUserModel;
+  let registerPage: RegisterPage;
   test.beforeEach(async ({ page }) => {
     registerUserData = prepareRandomUser();
     registerPage = await new RegisterPage(page).goTo();
@@ -16,12 +16,12 @@ test.describe('Verify registration', () => {
     // Arrange
     const expectedAlertText = 'User created';
     //Act
-    const loginPage = await registerPage.registerAs(registerUserData);
+    let loginPage = await registerPage.registerAs(registerUserData);
     //Assert registration confirmation popup
     const actualAlert = registerPage.alertPopup;
     await expect(actualAlert).toHaveText(expectedAlertText);
     //Assert login page load after registration
-    await loginPage.waitForPageToLoadUrl();
+    loginPage = await loginPage.waitForPageToLoadUrl();
     const actualLoginPageTitle = await loginPage.getTitle();
     expect(actualLoginPageTitle).toContain(loginPage.expectedPageTitle);
     //Assert login with registered user

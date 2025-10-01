@@ -13,7 +13,8 @@ export class BasePage {
     await this.page.waitForLoadState('domcontentloaded');
     return this.page.title();
   }
-  async waitForPageToLoadUrl(): Promise<void> {
+  async waitForPageToLoadUrl(): Promise<this> {
     await this.page.waitForURL(this.url);
+    return this;
   }
 }
