@@ -1,6 +1,5 @@
 import { prepareRandomArticle } from '@_src/factories/article.factory';
 import { AddArticleModel } from '@_src/models/article.model';
-import { ArticlePage } from '@_src/pages/article.page';
 import { ArticlesPage } from '@_src/pages/articles.page';
 import { expect, test } from '@playwright/test';
 
@@ -12,17 +11,16 @@ test.describe('Create, verify and delete article', () => {
     articlesPage = await new ArticlesPage(page).goTo();
   });
 
-  test('Create a new article @GAD-R04-01 @logged', async ({ page }) => {
+  test('Create a new article @GAD-R04-01 @logged', async ({}) => {
     // Arrange
     const expectedAlertText = 'Article was created';
     articleData = prepareRandomArticle();
-    const articlePage = new ArticlePage(page);
     //Act
     const addArticleView = await articlesPage.clickAddArticleButton();
     await expect(addArticleView.pageHeader).toContainText(
       addArticleView.expectedPageHeaderText,
     );
-    await addArticleView.createArticle(articleData);
+    const articlePage = await addArticleView.createArticle(articleData);
     //Assert
     await expect(addArticleView.alertPopup).toContainText(expectedAlertText);
     await expect.soft(articlePage.articleTitle).toHaveText(articleData.title);

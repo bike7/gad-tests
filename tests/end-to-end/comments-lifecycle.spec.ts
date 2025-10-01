@@ -8,14 +8,12 @@ import { expect, test } from '@playwright/test';
 test.describe.configure({ mode: 'serial' });
 test.describe('Create, verify and delete comment', () => {
   let articleData: AddArticleModel;
-  let articlesPage: ArticlesPage;
   let articlePage: ArticlePage;
   test.beforeEach(async ({ page }) => {
     articleData = prepareRandomArticle();
-    articlePage = new ArticlePage(page);
-    articlesPage = await new ArticlesPage(page).goTo();
+    const articlesPage = await new ArticlesPage(page).goTo();
     const addArticleView = await articlesPage.clickAddArticleButton();
-    await addArticleView.createArticle(articleData);
+    articlePage = await addArticleView.createArticle(articleData);
   });
 
   test('Verify comments @GAD-R05-01 @GAD-R05-02 @logged', async ({}) => {
