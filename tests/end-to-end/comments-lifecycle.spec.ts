@@ -3,7 +3,6 @@ import { prepareRandomComment } from '@_src/factories/comment.factory';
 import { AddArticleModel } from '@_src/models/article.model';
 import { ArticlePage } from '@_src/pages/article.page';
 import { ArticlesPage } from '@_src/pages/articles.page';
-import { EditCommentView } from '@_src/views/edit-comment.view';
 import { expect, test } from '@playwright/test';
 
 test.describe.configure({ mode: 'serial' });
@@ -11,11 +10,9 @@ test.describe('Create, verify and delete comment', () => {
   let articleData: AddArticleModel;
   let articlesPage: ArticlesPage;
   let articlePage: ArticlePage;
-  let editCommentView: EditCommentView;
   test.beforeEach(async ({ page }) => {
     articleData = prepareRandomArticle();
     articlePage = new ArticlePage(page);
-    editCommentView = new EditCommentView(page);
     articlesPage = await new ArticlesPage(page).goTo();
     const addArticleView = await articlesPage.clickAddArticleButton();
     await addArticleView.createArticle(articleData);
@@ -55,7 +52,7 @@ test.describe('Create, verify and delete comment', () => {
 
     await test.step('Update comment', async ({}) => {
       //Act
-      await commentPage.editButton.click();
+      const editCommentView = await commentPage.clickEditButton();
       await editCommentView.updateComment(updatedCommentData.body);
       //Assert
       await expect(editCommentView.alertPopup).toContainText(
@@ -68,7 +65,7 @@ test.describe('Create, verify and delete comment', () => {
 
     await test.step('Verify updated comment on article page', async ({}) => {
       //Act
-      await commentPage.returnLink.click();
+      articlePage = await commentPage.clickReturnLink();
       //Assert
       const updatedArticleComment = articlePage.getArticleComment(
         updatedCommentData.body,
