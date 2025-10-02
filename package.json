@@ -4,12 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "npx eslint . --max-warnings=0",
-    "format": "npx prettier --write .",
-    "format:check": "npx prettier . --check \"!**.ts\"",
     "prepare": "husky",
-    "test:headed": "npm run test -- --headed",
-    "test:ui": "npx playwright test --ui",
+    "lint": "npx eslint . --max-warnings=0",
+    "format-check": "npx prettier . --check \"!**.ts\"",
+    "format-write": "npx prettier --write .",
+    "test-ui-mode": "npx playwright test --ui",
     "show-report": "npx playwright show-report"
   },
   "keywords": [],
