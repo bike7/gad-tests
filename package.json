@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "npx playwright test",
+    "test-ui-mode": "npm run test -- --ui",
+    "test-headed": "npm run test -- --headed",
+    "show-report": "npx playwright show-report",
     "prepare": "husky",
     "lint": "npx eslint . --max-warnings=0",
     "format-check": "npx prettier . --check \"!**.ts\"",
     "format-write": "npx prettier --write .",
-    "test-ui-mode": "npx playwright test --ui",
-    "show-report": "npx playwright show-report"
+    "tsc-check": "npx tsc --noEmit --pretty --strict"
   },
   "keywords": [],
   "author": "",
