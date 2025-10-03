@@ -1,15 +1,11 @@
+import { expect, test } from '@_src/fixtures/merge.fixture';
 import { LoginUserModel } from '@_src/models/user.model';
-import { LoginPage } from '@_src/pages/login.page';
 import { testUser } from '@_src/test.data/user.credentials.data';
-import { expect, test } from '@playwright/test';
 
 test.describe('Verify login', () => {
-  let loginPage: LoginPage;
-  test.beforeEach(async ({ page }) => {
-    loginPage = await new LoginPage(page).goTo();
-  });
-
-  test('User login with correct credentials @GAD-R02-01', async ({}) => {
+  test('User login with correct credentials @GAD-R02-01', async ({
+    loginPage,
+  }) => {
     // Arrange
     //Act
     const welcomePage = await loginPage.loginAs(testUser);
@@ -22,7 +18,9 @@ test.describe('Verify login', () => {
       .toContainText(testUser.userEmail);
   });
 
-  test('User login with incorrect credentials @GAD-R02-01 @negative', async ({}) => {
+  test('User login with incorrect credentials @GAD-R02-01 @negative', async ({
+    loginPage,
+  }) => {
     // Arrange
     const expectedErrorMessage = 'Invalid username or password';
     const loginUserData: LoginUserModel = {
