@@ -1,5 +1,6 @@
 import { ArticlesPage } from '@_src/pages/articles.page';
 import { CommentsPage } from '@_src/pages/comments.page';
+import { HomePage } from '@_src/pages/home.page';
 import { test as baseTest } from '@playwright/test';
 
 export const pageObjectTest = baseTest.extend<Pages>({
@@ -9,9 +10,13 @@ export const pageObjectTest = baseTest.extend<Pages>({
   commentsPage: async ({ page }, use) => {
     await use(await new CommentsPage(page).goTo());
   },
+  homePage: async ({ page }, use) => {
+    await use(await new HomePage(page).goTo());
+  },
 });
 
 interface Pages {
   articlesPage: ArticlesPage;
   commentsPage: CommentsPage;
+  homePage: HomePage;
 }
