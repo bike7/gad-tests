@@ -10,7 +10,7 @@ export class ArticlesPage extends BasePage {
   mainMenu: MainMenuComponent;
   private addArticleButton: Locator;
   private searchInput: Locator;
-  private goSearchButton: Locator;
+  goSearchButton: Locator;
   noResultsText: Locator;
   constructor(page: Page) {
     super(page);
