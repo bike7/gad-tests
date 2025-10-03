@@ -1,24 +1,17 @@
-import { prepareRandomArticle } from '@_src/factories/article.factory';
 import { prepareRandomComment } from '@_src/factories/comment.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
-import { AddArticleModel } from '@_src/models/article.model';
-import { ArticlePage } from '@_src/pages/article.page';
 
 test.describe.configure({ mode: 'serial' });
 test.describe('Create, verify and delete comment', () => {
-  let articleData: AddArticleModel;
-  let articlePage: ArticlePage;
-  test.beforeEach(async ({ addArticleView }) => {
-    articleData = prepareRandomArticle();
-    articlePage = await addArticleView.createArticle(articleData);
-  });
-
-  test('Verify comments @GAD-R05-01 @GAD-R05-02 @logged', async ({}) => {
+  test('Verify comments @GAD-R05-01 @GAD-R05-02 @logged', async ({
+    createRandomArticle,
+  }) => {
     // Arrange
     const commentData = prepareRandomComment();
     const updatedCommentData = prepareRandomComment();
     const expectedAlertTextForCommentCreate = 'Comment was created';
     const expectedAlertTextForCommentUpdate = 'Comment was updated';
+    let articlePage = createRandomArticle;
 
     await test.step('Create a new comment', async ({}) => {
       //Act
@@ -69,9 +62,12 @@ test.describe('Create, verify and delete comment', () => {
       );
     });
   });
-  test('User can add more than one comment to article @GAD-R05-03 @logged', async ({}) => {
+  test('User can add more than one comment to article @GAD-R05-03 @logged', async ({
+    createRandomArticle,
+  }) => {
     // Arrange
     const expectedAlertText = 'Comment was created';
+    let articlePage = createRandomArticle;
 
     await test.step('Create the first comment', async ({}) => {
       //Arrange
