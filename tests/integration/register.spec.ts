@@ -1,18 +1,17 @@
 import { prepareRandomUser } from '@_src/factories/user.factory';
+import { expect, test } from '@_src/fixtures/merge.fixture';
 import { RegisterUserModel } from '@_src/models/user.model';
-import { RegisterPage } from '@_src/pages/register.page';
 import { testUser } from '@_src/test.data/user.credentials.data';
-import { expect, test } from '@playwright/test';
 
 test.describe('Verify registration', () => {
   let registerUserData: RegisterUserModel;
-  let registerPage: RegisterPage;
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({}) => {
     registerUserData = prepareRandomUser();
-    registerPage = await new RegisterPage(page).goTo();
   });
 
-  test('Register new user using required fields and login @GAD-R03-01 @GAD-R03-02 @GAD-R03-03', async ({}) => {
+  test('Register new user using required fields and login @GAD-R03-01 @GAD-R03-02 @GAD-R03-03', async ({
+    registerPage,
+  }) => {
     // Arrange
     const expectedAlertText = 'User created';
     //Act
@@ -29,7 +28,9 @@ test.describe('Verify registration', () => {
     await expect(welcomePage.welcomeMessage).toContainText(testUser.userEmail);
   });
 
-  test('Try to register a new user using incorrect data - non valid email @GAD-R03-04 @negative', async ({}) => {
+  test('Try to register a new user using incorrect data - non valid email @GAD-R03-04 @negative', async ({
+    registerPage,
+  }) => {
     // Arrange
     const expectedErrorText = 'Please provide a valid email address';
     registerUserData.userEmail = '#$%';
@@ -39,7 +40,9 @@ test.describe('Verify registration', () => {
     await expect(registerPage.emailErrorText).toContainText(expectedErrorText);
   });
 
-  test('Try to register a new user using incorrect data - email not provided @GAD-R03-04 @negative', async ({}) => {
+  test('Try to register a new user using incorrect data - email not provided @GAD-R03-04 @negative', async ({
+    registerPage,
+  }) => {
     // Arrange
     const expectedErrorText = 'This field is required';
     //Act
