@@ -1,21 +1,4 @@
-import { ArticlesPage } from '@_src/pages/articles.page';
-import { CommentsPage } from '@_src/pages/comments.page';
-import { test as baseTest, expect } from '@playwright/test';
-
-const test = baseTest.extend<Pages>({
-  articlesPage: async ({ page }, use) => {
-    const aPage = await new ArticlesPage(page).goTo();
-    await use(aPage);
-  },
-  commentsPage: async ({ page }, use) => {
-    const cPage = await new CommentsPage(page).goTo();
-    await use(cPage);
-  },
-});
-interface Pages {
-  articlesPage: ArticlesPage;
-  commentsPage: CommentsPage;
-}
+import { expect, test } from '@_src/fixtures/merge.fixture';
 
 test.describe('Verify main menu buttons', () => {
   test('Comments button navigates to Comments page @smoke @GAD-R01-03', async ({
