@@ -4,9 +4,13 @@ import { CommentsPage } from '@_src/pages/comments.page';
 import { HomePage } from '@_src/pages/home.page';
 import { LoginPage } from '@_src/pages/login.page';
 import { RegisterPage } from '@_src/pages/register.page';
+import { AddArticleView } from '@_src/views/add-article.view';
 import { test as baseTest } from '@playwright/test';
 
 export const pageObjectTest = baseTest.extend<Pages>({
+  addArticleView: async ({ articlesPage }, use) => {
+    await use(await articlesPage.clickAddArticleButton());
+  },
   articlesPage: async ({ page }, use) => {
     await use(await new ArticlesPage(page).goTo());
   },
@@ -28,6 +32,7 @@ export const pageObjectTest = baseTest.extend<Pages>({
 });
 
 interface Pages {
+  addArticleView: AddArticleView;
   articlesPage: ArticlesPage;
   articlePage: ArticlePage;
   commentsPage: CommentsPage;

@@ -1,22 +1,18 @@
 import { prepareRandomArticle } from '@_src/factories/article.factory';
+import { expect, test } from '@_src/fixtures/merge.fixture';
 import { AddArticleModel } from '@_src/models/article.model';
-import { ArticlesPage } from '@_src/pages/articles.page';
-import { expect, test } from '@playwright/test';
 
 test.describe.configure({ mode: 'serial' });
 test.describe('Create, verify and delete article', () => {
   let articleData: AddArticleModel;
-  let articlesPage: ArticlesPage;
-  test.beforeEach(async ({ page }) => {
-    articlesPage = await new ArticlesPage(page).goTo();
-  });
 
-  test('Create a new article @GAD-R04-01 @logged', async ({}) => {
+  test('Create a new article @GAD-R04-01 @logged', async ({
+    addArticleView,
+  }) => {
     // Arrange
     const expectedAlertText = 'Article was created';
     articleData = prepareRandomArticle();
     //Act
-    const addArticleView = await articlesPage.clickAddArticleButton();
     await expect(addArticleView.pageHeader).toContainText(
       addArticleView.expectedPageHeaderText,
     );
@@ -27,7 +23,9 @@ test.describe('Create, verify and delete article', () => {
     await expect.soft(articlePage.articleBody).toHaveText(articleData.body);
   });
 
-  test('User can access single article @GAD-R04-03 @logged', async ({}) => {
+  test('User can access single article @GAD-R04-03 @logged', async ({
+    articlesPage,
+  }) => {
     // Arrange
     //Act
     const articlePage = await articlesPage.goToArticle(articleData.title);
@@ -36,7 +34,9 @@ test.describe('Create, verify and delete article', () => {
     await expect.soft(articlePage.articleBody).toHaveText(articleData.body);
   });
 
-  test('User can delete his own article @GAD-R04-04 @logged', async ({}) => {
+  test('User can delete his own article @GAD-R04-04 @logged', async ({
+    articlesPage,
+  }) => {
     // Arrange
     const expectedSearchResultText = 'No data';
     //Act
