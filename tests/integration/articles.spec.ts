@@ -49,7 +49,7 @@ test.describe('Verify articles', () => {
     await expect(addArticleView.pageHeader).toContainText(
       addArticleView.expectedPageHeaderText,
     );
-    const responsePromise = page.waitForResponse('/api/articles', {
+    const responsePromise = page.waitForResponse('/api/articles*', {
       timeout: RESPONSE_TIMEOUT,
     });
     await addArticleView.createArticle(articleData);
