@@ -14,13 +14,20 @@ test.describe('Verify articles', () => {
       const articleData = prepareRandomArticle();
       (articleData as AddArticleModel)[field] = '';
       const expectedAlertText = 'Article was not created';
+      const expectedResponseUrl = '/api/articles';
+      const expectedResponseMethod = 'POST';
       const expectedResponseStatusCode = 422;
       const expectedResponseErrorMessage = 'One of mandatory field is missing';
       //Act
       await expect(addArticleView.pageHeader).toContainText(
         addArticleView.expectedPageHeaderText,
       );
-      const responsePromise = waitForResponse(page, '/api/articles*');
+      const responsePromise = waitForResponse(
+        page,
+        expectedResponseUrl,
+        expectedResponseMethod,
+        expectedResponseStatusCode,
+      );
       await addArticleView.createArticle(articleData);
       const response = await responsePromise;
       const body = await response.json();
@@ -28,7 +35,6 @@ test.describe('Verify articles', () => {
       await expect
         .soft(addArticleView.alertPopup)
         .toContainText(expectedAlertText);
-      expect.soft(response.status()).toBe(expectedResponseStatusCode);
       expect.soft(body.error.message).toContain(expectedResponseErrorMessage);
     });
   });
@@ -40,6 +46,8 @@ test.describe('Verify articles', () => {
     //Arrange
     const articleData = prepareRandomArticle(129);
     const expectedAlertText = 'Article was not created';
+    const expectedResponseUrl = '/api/articles';
+    const expectedResponseMethod = 'POST';
     const expectedResponseStatusCode = 422;
     const expectedResponseErrorMessage =
       'One of field is invalid (empty, invalid or too long) or there are some additional fields: Field validation: "title" longer than "128"';
@@ -47,7 +55,12 @@ test.describe('Verify articles', () => {
     await expect(addArticleView.pageHeader).toContainText(
       addArticleView.expectedPageHeaderText,
     );
-    const responsePromise = waitForResponse(page, '/api/articles*');
+    const responsePromise = waitForResponse(
+      page,
+      expectedResponseUrl,
+      expectedResponseMethod,
+      expectedResponseStatusCode,
+    );
     await addArticleView.createArticle(articleData);
     //Assert
     const response = await responsePromise;
@@ -55,7 +68,6 @@ test.describe('Verify articles', () => {
     await expect
       .soft(addArticleView.alertPopup)
       .toContainText(expectedAlertText);
-    expect.soft(response.status()).toBe(expectedResponseStatusCode);
     expect.soft(body.error.message).toContain(expectedResponseErrorMessage);
   });
 
@@ -66,11 +78,19 @@ test.describe('Verify articles', () => {
     //Arrange
     const articleTestData = prepareRandomArticle(128);
     const expectedAlertText = 'Article was created';
+    const expectedResponseUrl = '/api/articles';
+    const expectedResponseMethod = 'GET';
+    const expectedResponseStatusCode = 200;
     //Act
     await expect(addArticleView.pageHeader).toContainText(
       addArticleView.expectedPageHeaderText,
     );
-    const responsePromise = waitForResponse(page, '/api/articles/*');
+    const responsePromise = waitForResponse(
+      page,
+      expectedResponseUrl,
+      expectedResponseMethod,
+      expectedResponseStatusCode,
+    );
     await addArticleView.createArticle(articleTestData);
     //Assert
     const response = await responsePromise;
@@ -78,7 +98,37 @@ test.describe('Verify articles', () => {
     await expect
       .soft(addArticleView.alertPopup)
       .toContainText(expectedAlertText);
-    expect.soft(response.ok()).toBeTruthy();
+    expect.soft(responseBody.body).toBe(articleTestData.body);
+    expect.soft(responseBody.title).toBe(articleTestData.title);
+  });
+
+  test(`Should return created article from API @GAD-R07-04 @logged`, async ({
+    addArticleView,
+    page,
+  }) => {
+    //Arrange
+    const articleTestData = prepareRandomArticle();
+    const expectedAlertText = 'Article was created';
+    const expectedResponseUrl = '/api/articles';
+    const expectedResponseMethod = 'GET';
+    const expectedResponseStatusCode = 200;
+    //Act
+    await expect(addArticleView.pageHeader).toContainText(
+      addArticleView.expectedPageHeaderText,
+    );
+    const responsePromise = waitForResponse(
+      page,
+      expectedResponseUrl,
+      expectedResponseMethod,
+      expectedResponseStatusCode,
+    );
+    await addArticleView.createArticle(articleTestData);
+    //Assert
+    const response = await responsePromise;
+    const responseBody = await response.json();
+    await expect
+      .soft(addArticleView.alertPopup)
+      .toContainText(expectedAlertText);
     expect.soft(responseBody.body).toBe(articleTestData.body);
     expect.soft(responseBody.title).toBe(articleTestData.title);
   });
