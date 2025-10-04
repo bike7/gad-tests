@@ -71,7 +71,7 @@ test.describe('Verify articles', () => {
     expect.soft(body.error.message).toContain(expectedResponseErrorMessage);
   });
 
-  test(`Create an article with title having exactly 128 chars @GAD-R04-02 @logged`, async ({
+  test(`Create an article with title having exactly 128 chars @GAD-R04-02 @GAD-R07-03 @logged`, async ({
     addArticleView,
     page,
   }) => {
@@ -102,7 +102,7 @@ test.describe('Verify articles', () => {
     expect.soft(responseBody.title).toBe(articleTestData.title);
   });
 
-  test(`Should return created article from API @GAD-R07-04 @logged`, async ({
+  test(`Should return created article from API @GAD-R07-03 @GAD-R07-04 @logged`, async ({
     addArticleView,
     page,
   }) => {
