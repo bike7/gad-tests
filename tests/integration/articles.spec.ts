@@ -1,7 +1,7 @@
-import { RESPONSE_TIMEOUT } from '@_pw-config';
 import { prepareRandomArticle } from '@_src/factories/article.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
 import { AddArticleModel } from '@_src/models/article.model';
+import { waitForResponse } from '@_src/utils/wait.util';
 
 test.describe('Verify articles', () => {
   const testData1 = [{ field: 'title' }, { field: 'body' }];
@@ -20,9 +20,7 @@ test.describe('Verify articles', () => {
       await expect(addArticleView.pageHeader).toContainText(
         addArticleView.expectedPageHeaderText,
       );
-      const responsePromise = page.waitForResponse('/api/articles*', {
-        timeout: RESPONSE_TIMEOUT,
-      });
+      const responsePromise = waitForResponse(page, '/api/articles*');
       await addArticleView.createArticle(articleData);
       const response = await responsePromise;
       const body = await response.json();
@@ -49,9 +47,7 @@ test.describe('Verify articles', () => {
     await expect(addArticleView.pageHeader).toContainText(
       addArticleView.expectedPageHeaderText,
     );
-    const responsePromise = page.waitForResponse('/api/articles*', {
-      timeout: RESPONSE_TIMEOUT,
-    });
+    const responsePromise = waitForResponse(page, '/api/articles*');
     await addArticleView.createArticle(articleData);
     //Assert
     const response = await responsePromise;
@@ -74,9 +70,7 @@ test.describe('Verify articles', () => {
     await expect(addArticleView.pageHeader).toContainText(
       addArticleView.expectedPageHeaderText,
     );
-    const responsePromise = page.waitForResponse('/api/articles/*', {
-      timeout: RESPONSE_TIMEOUT,
-    });
+    const responsePromise = waitForResponse(page, '/api/articles/*');
     await addArticleView.createArticle(articleTestData);
     //Assert
     const response = await responsePromise;
