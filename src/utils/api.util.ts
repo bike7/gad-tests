@@ -9,9 +9,22 @@ export const apiEndpoints = {
   comments: '/api/comments',
 };
 
-interface Headers {
+export interface Headers {
   [key: string]: string;
 }
+export interface ArticlePayload {
+  title: string;
+  body: string;
+  date: string;
+  image: string;
+}
+
+export interface CommentPayload {
+  article_id: number;
+  body: string;
+  date: string;
+}
+
 export async function getAuthorizationHeader(
   request: APIRequestContext,
 ): Promise<Headers> {
@@ -27,13 +40,6 @@ export async function getAuthorizationHeader(
   return { Authorization: `Bearer ${accessToken}` };
 }
 
-interface ArticlePayload {
-  title: string;
-  body: string;
-  date: string;
-  image: string;
-}
-
 export function prepareArticlePayload(): ArticlePayload {
   const randomArticleData = prepareRandomArticle();
   return {
@@ -42,12 +48,6 @@ export function prepareArticlePayload(): ArticlePayload {
     date: '2025-10-06T12:34:28.190Z',
     image: '.\\data\\images\\256\\mahdikordi-4hCYZT_zPu8-unsplash.jpg',
   };
-}
-
-interface CommentPayload {
-  article_id: number;
-  body: string;
-  date: string;
 }
 
 export function prepareCommentPayload(articleId: number): CommentPayload {
