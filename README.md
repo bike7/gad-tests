@@ -7,7 +7,9 @@ Follow instructions in app README
 
 ## Requirements
 
-Link to requirements: https://jaktestowac.pl/lesson/pw2sb01l02/
+Link to requirements:
+Part 1: https://jaktestowac.pl/lesson/pw2sb01l02/
+Part 2: https://jaktestowac.pl/lesson/pw3sb01l01/
 
 ## Prepare
 
