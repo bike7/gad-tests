@@ -42,5 +42,9 @@ export default defineConfig({
       grepInvert: /@logged/,
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      name: 'api',
+      grep: /@api/,
+    },
   ],
 });
