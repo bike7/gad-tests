@@ -15,7 +15,7 @@ test.describe('Verify articles CRUD operations @GAD-R09-01 @api', () => {
       title: randomArticleData.title,
       body: randomArticleData.body,
       date: '2025-10-06T12:34:28.190Z',
-      image: '',
+      image: '.\\data\\images\\256\\mahdikordi-4hCYZT_zPu8-unsplash.jpg',
     };
     // Act
     const response = await request.post(articlesEndpoint, {
