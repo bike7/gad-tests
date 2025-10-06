@@ -1,13 +1,13 @@
 import { expect, test } from '@_src/fixtures/merge.fixture';
+import { apiEndpoints } from '@_src/utils/api.util';
 
 test.describe('Verify articles API endpoint @GAD-R08-01 @smoke', () => {
-  const articlesEndpoint = '/api/articles';
   test.describe('Verify each condition in separate test', () => {
     test('GET articles should return status code 200', async ({ request }) => {
       // Arrange
       const expectedResponseStatusCode = 200;
       // Act
-      const response = await request.get(articlesEndpoint);
+      const response = await request.get(apiEndpoints.articles);
       // Assert
       expect(response.status()).toBe(expectedResponseStatusCode);
     });
@@ -18,7 +18,7 @@ test.describe('Verify articles API endpoint @GAD-R08-01 @smoke', () => {
       // Arrange
       const expectedMinArticlesCount = 1;
       // Act
-      const response = await request.get(articlesEndpoint);
+      const response = await request.get(apiEndpoints.articles);
       const articles = await response.json();
       // Assert
       expect(articles.length).toBeGreaterThanOrEqual(expectedMinArticlesCount);
@@ -37,7 +37,7 @@ test.describe('Verify articles API endpoint @GAD-R08-01 @smoke', () => {
         'image',
       ];
       // Act
-      const response = await request.get(articlesEndpoint);
+      const response = await request.get(apiEndpoints.articles);
       const articles = await response.json();
       const firstArticle = articles[0];
       // Assert
@@ -55,7 +55,7 @@ test.describe('Verify articles API endpoint @GAD-R08-01 @smoke', () => {
     test('GET articles should return an object with required fields @predefined_data', async ({
       request,
     }) => {
-      const response = await request.get(articlesEndpoint);
+      const response = await request.get(apiEndpoints.articles);
       const articles = await response.json();
 
       await test.step('Should return status code 200', async ({}) => {

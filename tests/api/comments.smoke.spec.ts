@@ -1,12 +1,12 @@
 import { expect, test } from '@_src/fixtures/merge.fixture';
+import { apiEndpoints } from '@_src/utils/api.util';
 
 test.describe('Verify comments API endpoint @GAD-R08-02 @smoke', () => {
-  const commentsEndpoint = '/api/comments';
   test('GET comments should return status code 200', async ({ request }) => {
     // Arrange
     const expectedResponseStatusCode = 200;
     // Act
-    const response = await request.get(commentsEndpoint);
+    const response = await request.get(apiEndpoints.comments);
     // Assert
     expect(response.status()).toBe(expectedResponseStatusCode);
   });
@@ -17,7 +17,7 @@ test.describe('Verify comments API endpoint @GAD-R08-02 @smoke', () => {
     // Arrange
     const expectedMinCommentsCount = 1;
     // Act
-    const response = await request.get(commentsEndpoint);
+    const response = await request.get(apiEndpoints.comments);
     const comments = await response.json();
     // Assert
     expect(comments.length).toBeGreaterThanOrEqual(expectedMinCommentsCount);
@@ -35,7 +35,7 @@ test.describe('Verify comments API endpoint @GAD-R08-02 @smoke', () => {
       'date',
     ];
     // Act
-    const response = await request.get(commentsEndpoint);
+    const response = await request.get(apiEndpoints.comments);
     const comments = await response.json();
     const firstComment = comments[0];
     // Assert
