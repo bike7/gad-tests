@@ -1,13 +1,20 @@
 import { Page } from '@playwright/test';
 
 export class BasePage {
-  constructor(private page: Page) {}
+  constructor(protected page: Page) {}
   url = '';
-  async goto(): Promise<void> {
-    await this.page.goto(this.url);
+  expectedPageTitle = 'GAD';
+  async goTo(parameters: string = ''): Promise<this> {
+    await this.page.goto(`${this.url}${parameters}`);
     await this.page.waitForLoadState('domcontentloaded');
+    return this;
   }
-  async title(): Promise<string> {
+  async getTitle(): Promise<string> {
+    await this.page.waitForLoadState('domcontentloaded');
     return this.page.title();
+  }
+  async waitForPageToLoadUrl(): Promise<this> {
+    await this.page.waitForURL(this.url);
+    return this;
   }
 }
