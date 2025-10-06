@@ -3,7 +3,7 @@ import { prepareRandomComment } from '@_src/factories/comment.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
 import { testUser } from '@_src/test.data/user.credentials.data';
 
-test.describe('Verify comments CRUD operations @GAD-R09-02 @api', () => {
+test.describe('Verify comments CRUD operations @GAD-R09-02 @crud', () => {
   const commentsEndpoint = '/api/comments';
   let createdArticleId: string;
   let accessToken: string;

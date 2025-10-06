@@ -40,11 +40,12 @@ export default defineConfig({
     {
       name: 'chromium-non-logged',
       grepInvert: /@logged/,
+      testDir: 'tests/ui',
       use: { ...devices['Desktop Chrome'] },
     },
     {
       name: 'api',
-      grep: /@api/,
+      testDir: 'tests/api',
     },
   ],
 });
