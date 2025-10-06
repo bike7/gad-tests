@@ -1,12 +1,15 @@
 import { expect, test } from '@_src/fixtures/merge.fixture';
 import {
+  ArticlePayload,
+  Headers,
   apiEndpoints,
   getAuthorizationHeader,
   prepareArticlePayload,
 } from '@_src/utils/api.util';
+import { APIResponse } from '@playwright/test';
 
-test.describe('Verify articles CRUD operations @GAD-R09-01 @crud', () => {
-  test('Should not create an article without a logged-in user', async ({
+test.describe('Verify articles CRUD operations @crud', () => {
+  test('Should not create an article with a non-logged user @GAD-R09-01', async ({
     request,
   }) => {
     // Arrange
@@ -23,24 +26,99 @@ test.describe('Verify articles CRUD operations @GAD-R09-01 @crud', () => {
     expect.soft(responseBody.error.message).toContain(expectedErrorMessage);
   });
 
-  test('Should create an article with a logged user', async ({ request }) => {
-    // Arrange
-    const headers = await getAuthorizationHeader(request);
-    const expectedResponseStatusCode = 201;
-    const articleData = prepareArticlePayload();
-    // Act
-    const response = await request.post(apiEndpoints.articles, {
-      headers,
-      data: articleData,
+  test.describe('CRUD operations', () => {
+    let headers: Headers;
+    let articleData: ArticlePayload;
+    let articleResponse: APIResponse;
+
+    test.beforeAll('Should login', async ({ request }) => {
+      headers = await getAuthorizationHeader(request);
     });
-    const actualResponseStatus = response.status();
-    const actualResponseBody = await response.json();
-    // Assert
-    expect(
-      actualResponseStatus,
-      `Expected status code: ${expectedResponseStatusCode}, but received: ${actualResponseStatus}`,
-    ).toBe(expectedResponseStatusCode);
-    expect.soft(actualResponseBody.title).toBe(articleData.title);
-    expect.soft(actualResponseBody.body).toBe(articleData.body);
+
+    test.beforeEach('Should create an article', async ({ request }) => {
+      articleData = prepareArticlePayload();
+      articleResponse = await request.post(apiEndpoints.articles, {
+        headers,
+        data: articleData,
+      });
+    });
+
+    test('Should create an article with a logged user GAD-R09-01', async ({}) => {
+      // Arrange
+      const expectedResponseStatusCode = 201;
+      // Act
+      const actualResponseStatus = articleResponse.status();
+      const actualResponseBody = await articleResponse.json();
+      // Assert
+      expect(
+        actualResponseStatus,
+        `Expected status code: ${expectedResponseStatusCode}, but received: ${actualResponseStatus}`,
+      ).toBe(expectedResponseStatusCode);
+      expect.soft(actualResponseBody.title).toBe(articleData.title);
+      expect.soft(actualResponseBody.body).toBe(articleData.body);
+    });
+
+    test('Should not delete an article with a non-logged user @GAD-R09-03', async ({
+      request,
+    }) => {
+      // Arrange
+      await new Promise((resolve) => setTimeout(resolve, 2_000));
+      const expectedResponseStatusCodeDelete = 401;
+      const expectedResponseStatusCodeGet = 200;
+      // Act
+      const body = await articleResponse.json();
+      const response = await request.delete(
+        `${apiEndpoints.articles}/${body.id}`,
+      );
+      const responseStatusDelete = response.status();
+      // Assert DELETE
+      expect(
+        responseStatusDelete,
+        `Expected status code: ${expectedResponseStatusCodeDelete}, but received: ${responseStatusDelete}`,
+      ).toBe(expectedResponseStatusCodeDelete);
+      // Act (Get to check if the article is deleted)
+      const responseGet = await request.get(
+        `${apiEndpoints.articles}/${body.id}`,
+      );
+      const responseStatusGet = responseGet.status();
+      // Assert GET
+      expect(
+        responseStatusGet,
+        `Expected status code: ${expectedResponseStatusCodeGet}, but received: ${responseStatusGet}`,
+      ).toBe(expectedResponseStatusCodeGet);
+    });
+
+    test('Should delete an article with a logged user @GAD-R09-03', async ({
+      request,
+    }) => {
+      // Arrange
+      await new Promise((resolve) => setTimeout(resolve, 2_000));
+      const expectedResponseStatusCodeDelete = 200;
+      const expectedResponseStatusCodeGet = 404;
+      // Act
+      const body = await articleResponse.json();
+      const responseDelete = await request.delete(
+        `${apiEndpoints.articles}/${body.id}`,
+        {
+          headers,
+        },
+      );
+      const responseStatusDelete = responseDelete.status();
+      // Assert DELETE
+      expect(
+        responseStatusDelete,
+        `Expected status code: ${expectedResponseStatusCodeDelete}, but received: ${responseStatusDelete}`,
+      ).toBe(expectedResponseStatusCodeDelete);
+      // Act (Get to check if the article is deleted)
+      const responseGet = await request.get(
+        `${apiEndpoints.articles}/${body.id}`,
+      );
+      const responseStatusGet = responseGet.status();
+      // Assert GET
+      expect(
+        responseStatusGet,
+        `Expected status code: ${expectedResponseStatusCodeGet}, but received: ${responseStatusGet}`,
+      ).toBe(expectedResponseStatusCodeGet);
+    });
   });
 });
