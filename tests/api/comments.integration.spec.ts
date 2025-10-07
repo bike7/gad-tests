@@ -7,6 +7,7 @@ import {
   prepareArticlePayload,
   prepareCommentPayload,
 } from '@_src/utils/api.util';
+import { APIResponse } from '@playwright/test';
 
 test.describe('Verify comments CRUD operations @crud', () => {
   let articleId: number;
