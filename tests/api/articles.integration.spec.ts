@@ -41,6 +41,14 @@ test.describe('Verify articles CRUD operations @crud', () => {
         headers,
         data: articleData,
       });
+      // Assert article exist
+      const articleResponseBody = await articleResponse.json();
+      await expect(async () => {
+        const response = await request.get(
+          `${apiEndpoints.articles}/${articleResponseBody.id}`,
+        );
+        await expect(response).toBeOK();
+      }).toPass();
     });
 
     test('Should create an article with a logged user GAD-R09-01', async ({}) => {
@@ -62,7 +70,6 @@ test.describe('Verify articles CRUD operations @crud', () => {
       request,
     }) => {
       // Arrange
-      await new Promise((resolve) => setTimeout(resolve, 2_000));
       const expectedResponseStatusCodeDelete = 401;
       const expectedResponseStatusCodeGet = 200;
       // Act
@@ -92,7 +99,6 @@ test.describe('Verify articles CRUD operations @crud', () => {
       request,
     }) => {
       // Arrange
-      await new Promise((resolve) => setTimeout(resolve, 2_000));
       const expectedResponseStatusCodeDelete = 200;
       const expectedResponseStatusCodeGet = 404;
       // Act
