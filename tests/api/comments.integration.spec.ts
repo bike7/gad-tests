@@ -1,9 +1,12 @@
+import { createArticleViaApi } from '@_src/api/factories/article-create.api.factory';
 import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
 import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
+import { createCommentViaApi } from '@_src/api/factories/comment-create.api.factory';
 import { prepareCommentPayload } from '@_src/api/factories/comment-payload.api.factory';
 import { CommentPayload } from '@_src/api/models/comment-payload.api.model';
 import { Headers } from '@_src/api/models/headers.api.model';
 import { apiEndpoints } from '@_src/api/utils/api.util';
+import { expectGetResponseStatus } from '@_src/api/utils/assertions.api';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
@@ -12,20 +15,14 @@ test.describe('Verify comments CRUD operations @crud', () => {
   let authorizationHeader: Headers;
   test.beforeAll('Login and create an article', async ({ request }) => {
     authorizationHeader = await getAuthorizationHeader(request);
-    const articlePayload = prepareArticlePayload();
-    const responsePost = await request.post(apiEndpoints.articles, {
-      headers: authorizationHeader,
-      data: articlePayload,
-    });
-    const createdArticle = await responsePost.json();
+    const articleData = prepareArticlePayload();
+    const response = await createArticleViaApi(
+      request,
+      authorizationHeader,
+      articleData,
+    );
+    const createdArticle = await response.json();
     articleId = createdArticle.id;
-    //Assert article exists
-    await expect(async () => {
-      const responseGet = await request.get(
-        `${apiEndpoints.articles}/${articleId}`,
-      );
-      await expect(responseGet).toBeOK();
-    }).toPass();
   });
 
   test('Should not create a comment without a logged-in user @GAD-R09-02', async ({
@@ -48,36 +45,30 @@ test.describe('Verify comments CRUD operations @crud', () => {
   test.describe('CRUD operations', () => {
     let commentData: CommentPayload;
     let commentResponse: APIResponse;
-    let commentId: number;
+    let endpoint: string;
 
     test.beforeEach('Should create a comment', async ({ request }) => {
       commentData = prepareCommentPayload(articleId);
-      commentResponse = await request.post(apiEndpoints.comments, {
-        headers: authorizationHeader,
-        data: commentData,
-      });
-      //Assert comment exists
+      commentResponse = await createCommentViaApi(
+        request,
+        authorizationHeader,
+        commentData,
+      );
       const commentJson = await commentResponse.json();
-      commentId = commentJson.id;
-      await expect(async () => {
-        const responseGet = await request.get(
-          `${apiEndpoints.comments}/${commentId}`,
-        );
-        await expect(responseGet).toBeOK();
-      }).toPass();
+      endpoint = `${apiEndpoints.articles}/${commentJson.id}`;
     });
 
     test('Should create a comment with a logged user @GAD-R09-02', async ({}) => {
       // Arrange
-      const expectedResponseStatusCode = 201;
+      const expectedResponseStatus = 201;
       // Act
       const actualResponseStatus = commentResponse.status();
       const actualResponseBody = await commentResponse.json();
       // Assert
       expect(
         actualResponseStatus,
-        `Expected status code: ${expectedResponseStatusCode}, but received: ${actualResponseStatus}`,
-      ).toBe(expectedResponseStatusCode);
+        `Expected status code: ${expectedResponseStatus}, but received: ${actualResponseStatus}`,
+      ).toBe(expectedResponseStatus);
       expect.soft(actualResponseBody.body).toBe(commentData.body);
     });
 
@@ -85,57 +76,46 @@ test.describe('Verify comments CRUD operations @crud', () => {
       request,
     }) => {
       // Arrange
-      const expectedResponseStatusCodeDelete = 401;
-      const expectedResponseStatusCodeGet = 200;
+      const expectedResponseStatusDelete = 401;
+      const expectedResponseStatusGet = 200;
       // Act
-      const response = await request.delete(
-        `${apiEndpoints.comments}/${commentId}`,
-      );
-      const responseStatusDelete = response.status();
-      // Assert DELETE
+      const response = await request.delete(endpoint);
+      const actualResponseStatusDelete = response.status();
+      // Assert DELETE status
       expect(
-        responseStatusDelete,
-        `Expected status code: ${expectedResponseStatusCodeDelete}, but received: ${responseStatusDelete}`,
-      ).toBe(expectedResponseStatusCodeDelete);
-      // Act (Get to check if the comment is deleted)
-      const responseGet = await request.get(
-        `${apiEndpoints.comments}/${commentId}`,
+        actualResponseStatusDelete,
+        `Expected status code: ${expectedResponseStatusDelete}, but received: ${actualResponseStatusDelete}`,
+      ).toBe(expectedResponseStatusDelete);
+      // Assert Comment exists after unsuccessful deletion
+      await expectGetResponseStatus(
+        request,
+        endpoint,
+        expectedResponseStatusGet,
       );
-      const responseStatusGet = responseGet.status();
-      // Assert GET
-      expect(
-        responseStatusGet,
-        `Expected status code: ${expectedResponseStatusCodeGet}, but received: ${responseStatusGet}`,
-      ).toBe(expectedResponseStatusCodeGet);
     });
 
     test('Should delete a comment with a logged user @GAD-R09-04', async ({
       request,
     }) => {
       // Arrange
-      const expectedResponseStatusCodeDelete = 200;
-      const expectedResponseStatusCodeGet = 404;
+      const expectedResponseStatusDelete = 200;
+      const expectedResponseStatusGet = 404;
       // Act
-      const responseDelete = await request.delete(
-        `${apiEndpoints.comments}/${commentId}`,
-        { headers: authorizationHeader },
-      );
-      const responseStatusDelete = responseDelete.status();
+      const responseDelete = await request.delete(endpoint, {
+        headers: authorizationHeader,
+      });
+      const actualResponseStatusDelete = responseDelete.status();
       // Assert DELETE
       expect(
-        responseStatusDelete,
-        `Expected status code: ${expectedResponseStatusCodeDelete}, but received: ${responseStatusDelete}`,
-      ).toBe(expectedResponseStatusCodeDelete);
-      // Act (Get to check if the comment is deleted)
-      const responseGet = await request.get(
-        `${apiEndpoints.comments}/${commentId}`,
+        actualResponseStatusDelete,
+        `Expected status code: ${expectedResponseStatusDelete}, but received: ${actualResponseStatusDelete}`,
+      ).toBe(expectedResponseStatusDelete);
+      // Assert Comment does not exist anymore
+      await expectGetResponseStatus(
+        request,
+        endpoint,
+        expectedResponseStatusGet,
       );
-      const responseStatusGet = responseGet.status();
-      // Assert GET
-      expect(
-        responseStatusGet,
-        `Expected status code: ${expectedResponseStatusCodeGet}, but received: ${responseStatusGet}`,
-      ).toBe(expectedResponseStatusCodeGet);
     });
   });
 });
