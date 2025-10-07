@@ -1,9 +1,7 @@
 import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
 import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
-import {
-  CommentPayload,
-  prepareCommentPayload,
-} from '@_src/api/factories/comment-payload.api.factory';
+import { prepareCommentPayload } from '@_src/api/factories/comment-payload.api.factory';
+import { CommentPayload } from '@_src/api/models/comment-payload.api.model';
 import { Headers } from '@_src/api/models/headers.api.model';
 import { apiEndpoints } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';

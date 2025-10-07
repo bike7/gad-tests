@@ -1,8 +1,6 @@
-import {
-  ArticlePayload,
-  prepareArticlePayload,
-} from '@_src/api/factories/article-payload.api.factory';
+import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
 import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
+import { ArticlePayload } from '@_src/api/models/article-payload.api.model';
 import { Headers } from '@_src/api/models/headers.api.model';
 import { apiEndpoints } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';

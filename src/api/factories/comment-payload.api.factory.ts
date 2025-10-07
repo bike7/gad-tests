@@ -1,10 +1,6 @@
+import { CommentPayload } from '@_src/api/models/comment-payload.api.model';
 import { prepareRandomComment } from '@_src/ui/factories/comment.factory';
 
-export interface CommentPayload {
-  article_id: number;
-  body: string;
-  date: string;
-}
 export function prepareCommentPayload(articleId: number): CommentPayload {
   const randomCommentData = prepareRandomComment();
   return {
