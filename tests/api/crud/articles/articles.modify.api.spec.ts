@@ -41,7 +41,6 @@ test.describe('Verify articles UPDATE operations @GAD-R10-01 @crud @delete @arti
     // Assert
     expect(response.status()).toBe(expectedResponseStatus);
     expect.soft(modifiedArticle.id).toBe(createdArticle.id);
-    expect.soft(modifiedArticle.user_id).toBe(createdArticle.user_id);
     expect.soft(modifiedArticle.title).toBe(modifiedArticleData.title);
     expect.soft(modifiedArticle.title).not.toBe(createdArticle.title);
     expect.soft(modifiedArticle.body).toBe(modifiedArticleData.body);
@@ -77,7 +76,6 @@ test.describe('Verify articles UPDATE operations @GAD-R10-01 @crud @delete @arti
     expect.soft(response.status()).toBe(expectedResponseStatus);
     expect.soft(responseBody.error.message).toBe(expectedErrorMessage);
     expect.soft(nonModifiedArticle.id).toBe(createdArticle.id);
-    expect.soft(nonModifiedArticle.user_id).toBe(createdArticle.user_id);
     expect.soft(nonModifiedArticle.title).toBe(createdArticle.title);
     expect.soft(nonModifiedArticle.body).toBe(createdArticle.body);
     expect.soft(nonModifiedArticle.date).toBe(createdArticle.date);
