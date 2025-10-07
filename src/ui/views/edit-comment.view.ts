@@ -1,4 +1,4 @@
-import { CommentPage } from '@_src/pages/comment.page';
+import { CommentPage } from '@_src/ui/pages/comment.page';
 import { Locator, Page } from '@playwright/test';
 
 export class EditCommentView {

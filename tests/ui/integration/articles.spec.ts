@@ -1,7 +1,7 @@
-import { prepareRandomArticle } from '@_src/factories/article.factory';
-import { expect, test } from '@_src/fixtures/merge.fixture';
-import { AddArticleModel } from '@_src/models/article.model';
-import { waitForResponse } from '@_src/utils/wait.util';
+import { prepareRandomArticle } from '@_src/ui/factories/article.factory';
+import { expect, test } from '@_src/ui/fixtures/merge.fixture';
+import { AddArticleModel } from '@_src/ui/models/article.model';
+import { waitForResponse } from '@_src/ui/utils/wait.util';
 
 test.describe('Verify articles', () => {
   const testData1 = [{ field: 'title' }, { field: 'body' }];

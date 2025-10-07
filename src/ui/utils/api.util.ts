@@ -1,6 +1,6 @@
-import { prepareRandomArticle } from '@_src/factories/article.factory';
-import { prepareRandomComment } from '@_src/factories/comment.factory';
-import { testUser } from '@_src/test.data/user.credentials.data';
+import { prepareRandomArticle } from '@_src/ui/factories/article.factory';
+import { prepareRandomComment } from '@_src/ui/factories/comment.factory';
+import { testUser } from '@_src/ui/test.data/user.credentials.data';
 import { APIRequestContext } from '@playwright/test';
 
 export const apiEndpoints = {
