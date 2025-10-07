@@ -56,4 +56,23 @@ test.describe('Verify comments CREATE operations @GAD-R09-02 @crud @create @comm
     expect.soft(actualResponseStatus).toBe(expectedResponseStatus);
     expect.soft(actualResponseBody.body).toBe(commentData.body);
   });
+
+  test('Should create a new comment when modified comment id does not exist with a logged user', async ({
+    request,
+  }) => {
+    // Arrange
+    const expectedResponseStatus = 201;
+    const endpoint = `${apiEndpoints.comments}/${new Date().valueOf()}`;
+    const commentData = prepareCommentPayload(articleId);
+    // Act
+    const response = await request.put(endpoint, {
+      headers: authorizationHeader,
+      data: commentData,
+    });
+    const comment = await response.json();
+    // Assert
+    expect(response.status()).toBe(expectedResponseStatus);
+    expect.soft(comment.body).toBe(commentData.body);
+    expect.soft(comment.date).toBe(commentData.date);
+  });
 });
