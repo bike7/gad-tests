@@ -7,15 +7,8 @@ export async function expectGetResponseStatus(
 ): Promise<void> {
   const response = await request.get(endpoint);
   const actualResponseStatus = response.status();
-  expectStatusToBe(actualResponseStatus, expectedResponseStatus);
-}
-
-export function expectStatusToBe(
-  actualStatus: number,
-  expectedStatus: number,
-): void {
   expect(
-    actualStatus,
-    `Expected status code: ${expectedStatus}, but received: ${actualStatus}`,
-  ).toBe(expectedStatus);
+    actualResponseStatus,
+    `Expected status code: ${expectedResponseStatus}, but received: ${actualResponseStatus}`,
+  ).toBe(expectedResponseStatus);
 }

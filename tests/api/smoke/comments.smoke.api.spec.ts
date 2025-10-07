@@ -1,7 +1,7 @@
 import { apiEndpoints } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 
-test.describe('Verify comments API endpoint @GAD-R08-02 @smoke', () => {
+test.describe('Verify comments API endpoint @GAD-R08-02 @smoke @comments', () => {
   test('GET comments should return status code 200', async ({ request }) => {
     // Arrange
     const expectedResponseStatusCode = 200;
