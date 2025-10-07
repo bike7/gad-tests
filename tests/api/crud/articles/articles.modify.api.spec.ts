@@ -1,0 +1,86 @@
+import { createArticleViaApi } from '@_src/api/factories/article-create.api.factory';
+import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
+import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
+import { Headers } from '@_src/api/models/headers.api.model';
+import { apiEndpoints } from '@_src/api/utils/api.util';
+import { expect, test } from '@_src/ui/fixtures/merge.fixture';
+import { APIResponse } from '@playwright/test';
+
+test.describe('Verify articles UPDATE operations @GAD-R10-01 @crud @delete @articles', () => {
+  let authorizationHeader: Headers;
+  let createdArticleResponse: APIResponse;
+
+  test.beforeAll('Should login', async ({ request }) => {
+    authorizationHeader = await getAuthorizationHeader(request);
+  });
+
+  test.beforeEach('Should create an article', async ({ request }) => {
+    const articleData = prepareArticlePayload();
+    createdArticleResponse = await createArticleViaApi(
+      request,
+      authorizationHeader,
+      articleData,
+    );
+  });
+
+  test('Should modify an article with a logged user', async ({ request }) => {
+    // Arrange
+    const expectedResponseStatus = 200;
+    const createdArticle = await createdArticleResponse.json();
+    const createdArticleEndpoint = `${apiEndpoints.articles}/${createdArticle.id}`;
+    const modifiedArticleData = prepareArticlePayload();
+    const image =
+      '.\\data\\images\\256\\rory-mckeever-w0kMi0osklU-unsplash.jpg';
+    modifiedArticleData.image = image;
+    // Act
+    const response = await request.put(createdArticleEndpoint, {
+      headers: authorizationHeader,
+      data: modifiedArticleData,
+    });
+    const modifiedArticle = await response.json();
+    // Assert
+    expect(response.status()).toBe(expectedResponseStatus);
+    expect.soft(modifiedArticle.id).toBe(createdArticle.id);
+    expect.soft(modifiedArticle.user_id).toBe(createdArticle.user_id);
+    expect.soft(modifiedArticle.title).toBe(modifiedArticleData.title);
+    expect.soft(modifiedArticle.title).not.toBe(createdArticle.title);
+    expect.soft(modifiedArticle.body).toBe(modifiedArticleData.body);
+    expect.soft(modifiedArticle.body).not.toBe(createdArticle.body);
+    expect.soft(modifiedArticle.date).toBe(modifiedArticleData.date);
+    expect.soft(modifiedArticle.date).not.toBe(createdArticle.date);
+    expect.soft(modifiedArticle.image).toBe(modifiedArticleData.image);
+    expect.soft(modifiedArticle.image).not.toBe(createdArticle.image);
+  });
+
+  test('Should not modify an article with a non-logged user', async ({
+    request,
+  }) => {
+    // Arrange
+    const expectedResponseStatus = 401;
+    const expectedErrorMessage = 'Access token not provided!';
+    const createdArticle = await createdArticleResponse.json();
+    const createdArticleEndpoint = `${apiEndpoints.articles}/${createdArticle.id}`;
+    const modifiedArticleData = prepareArticlePayload();
+    const image =
+      '.\\data\\images\\256\\rory-mckeever-w0kMi0osklU-unsplash.jpg';
+    modifiedArticleData.image = image;
+    // Act
+    const response = await request.put(createdArticleEndpoint, {
+      data: modifiedArticleData,
+    });
+    const responseBody = await response.json();
+    const nonModifiedArticleResponse = await request.get(
+      createdArticleEndpoint,
+    );
+    const nonModifiedArticle = await nonModifiedArticleResponse.json();
+    // Assert
+    expect.soft(response.status()).toBe(expectedResponseStatus);
+    expect.soft(responseBody.error.message).toBe(expectedErrorMessage);
+    expect.soft(nonModifiedArticle.id).toBe(createdArticle.id);
+    expect.soft(nonModifiedArticle.user_id).toBe(createdArticle.user_id);
+    expect.soft(nonModifiedArticle.title).toBe(createdArticle.title);
+    expect.soft(nonModifiedArticle.body).toBe(createdArticle.body);
+    expect.soft(nonModifiedArticle.date).toBe(createdArticle.date);
+    expect.soft(nonModifiedArticle.image).toBe(createdArticle.image);
+  });
+});
