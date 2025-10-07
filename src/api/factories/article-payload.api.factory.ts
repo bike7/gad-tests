@@ -6,7 +6,7 @@ export function prepareArticlePayload(): ArticlePayload {
   return {
     title: randomArticleData.title,
     body: randomArticleData.body,
-    date: '2025-10-06T12:34:28.190Z',
+    date: new Date().toISOString(),
     image: '.\\data\\images\\256\\mahdikordi-4hCYZT_zPu8-unsplash.jpg',
   };
 }

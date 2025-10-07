@@ -6,6 +6,6 @@ export function prepareCommentPayload(articleId: number): CommentPayload {
   return {
     article_id: articleId,
     body: randomCommentData.body,
-    date: '2025-10-06T12:34:28.190Z',
+    date: new Date().toISOString(),
   };
 }
