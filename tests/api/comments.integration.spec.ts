@@ -55,7 +55,7 @@ test.describe('Verify comments CRUD operations @crud', () => {
         commentData,
       );
       const commentJson = await commentResponse.json();
-      endpoint = `${apiEndpoints.articles}/${commentJson.id}`;
+      endpoint = `${apiEndpoints.comments}/${commentJson.id}`;
     });
 
     test('Should create a comment with a logged user @GAD-R09-02', async ({}) => {
