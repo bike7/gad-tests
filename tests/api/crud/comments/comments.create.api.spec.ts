@@ -4,7 +4,7 @@ import { getAuthorizationHeader } from '@_src/api/factories/authorization-header
 import { createCommentViaApi } from '@_src/api/factories/comment-create.api.factory';
 import { prepareCommentPayload } from '@_src/api/factories/comment-payload.api.factory';
 import { Headers } from '@_src/api/models/headers.api.model';
-import { apiEndpoints } from '@_src/api/utils/api.util';
+import { timestamp } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/merge.fixture';
 
 test.describe('Verify comments CREATE operations @GAD-R09-02 @crud @create @comments', () => {
@@ -25,17 +25,15 @@ test.describe('Verify comments CREATE operations @GAD-R09-02 @crud @create @comm
     },
   );
 
-  test('Should not create a comment without a logged-in user', async ({
-    request,
+  test('Should not create a comment with a non-logged user', async ({
+    commentsRequest,
   }) => {
     // Arrange
     const expectedResponseStatusCode = 401;
     const expectedErrorMessage = 'Access token not provided!';
     const commentData = prepareCommentPayload(articleId);
     // Act
-    const response = await request.post(apiEndpoints.comments, {
-      data: commentData,
-    });
+    const response = await commentsRequest.post(commentData);
     const responseBody = await response.json();
     // Assert
     expect.soft(response.status()).toBe(expectedResponseStatusCode);
@@ -60,17 +58,17 @@ test.describe('Verify comments CREATE operations @GAD-R09-02 @crud @create @comm
   });
 
   test('Should create a new comment when modified comment id does not exist with a logged user', async ({
-    request,
+    commentsRequestLogged,
   }) => {
     // Arrange
     const expectedResponseStatus = 201;
-    const endpoint = `${apiEndpoints.comments}/${new Date().valueOf()}`;
+    const nonExistentCommentId = timestamp();
     const commentData = prepareCommentPayload(articleId);
     // Act
-    const response = await request.put(endpoint, {
-      headers: authorizationHeader,
-      data: commentData,
-    });
+    const response = await commentsRequestLogged.put(
+      nonExistentCommentId,
+      commentData,
+    );
     const comment = await response.json();
     // Assert
     expect(response.status()).toBe(expectedResponseStatus);
