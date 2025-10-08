@@ -1,11 +1,13 @@
-import { APIRequestContext, expect } from '@playwright/test';
+import { ArticlesRequest } from '@_src/api/requests/articles.request';
+import { CommentsRequest } from '@_src/api/requests/comments.request';
+import { expect } from '@playwright/test';
 
 export async function expectGetResponseStatus(
-  request: APIRequestContext,
-  endpoint: string,
+  requestObject: ArticlesRequest | CommentsRequest,
+  objectId: number,
   expectedResponseStatus: number,
 ): Promise<void> {
-  const response = await request.get(endpoint);
+  const response = await requestObject.get(objectId);
   const actualResponseStatus = response.status();
   expect(
     actualResponseStatus,

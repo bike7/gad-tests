@@ -2,13 +2,11 @@ import { createArticleViaApi } from '@_src/api/factories/article-create.api.fact
 import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
 import { createCommentViaApi } from '@_src/api/factories/comment-create.api.factory';
 import { prepareCommentPayload } from '@_src/api/factories/comment-payload.api.factory';
-import { apiEndpoints } from '@_src/api/utils/api.util';
 import { expectGetResponseStatus } from '@_src/api/utils/assertions.api';
 import { expect, test } from '@_src/merge.fixture';
 
 test.describe('Verify comments DELETE operations @GAD-R09-04 @crud @delete @comments', () => {
   let articleId: number;
-  let endpoint: string;
   let createdCommentId: number;
 
   test.beforeAll(
@@ -33,14 +31,12 @@ test.describe('Verify comments DELETE operations @GAD-R09-04 @crud @delete @comm
         commentData,
       );
       const commentJson = await commentResponse.json();
-      endpoint = `${apiEndpoints.comments}/${commentJson.id}`;
       createdCommentId = commentJson.id;
     },
   );
 
   test('Should not delete a comment with a non-logged user', async ({
     commentsRequest,
-    request,
   }) => {
     // Arrange
     const expectedResponseStatusDelete = 401;
@@ -51,11 +47,14 @@ test.describe('Verify comments DELETE operations @GAD-R09-04 @crud @delete @comm
     // Assert DELETE status
     expect(actualResponseStatusDelete).toBe(expectedResponseStatusDelete);
     // Assert Comment exists after unsuccessful deletion
-    await expectGetResponseStatus(request, endpoint, expectedResponseStatusGet);
+    await expectGetResponseStatus(
+      commentsRequest,
+      createdCommentId,
+      expectedResponseStatusGet,
+    );
   });
 
   test('Should delete a comment with a logged user', async ({
-    request,
     commentsRequestLogged,
   }) => {
     // Arrange
@@ -67,6 +66,10 @@ test.describe('Verify comments DELETE operations @GAD-R09-04 @crud @delete @comm
     // Assert DELETE status
     expect(actualResponseStatusDelete).toBe(expectedResponseStatusDelete);
     // Assert Comment does not exist anymore
-    await expectGetResponseStatus(request, endpoint, expectedResponseStatusGet);
+    await expectGetResponseStatus(
+      commentsRequestLogged,
+      createdCommentId,
+      expectedResponseStatusGet,
+    );
   });
 });
