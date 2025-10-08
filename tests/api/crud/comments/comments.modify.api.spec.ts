@@ -1,22 +1,18 @@
 import { createArticleViaApi } from '@_src/api/factories/article-create.api.factory';
 import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
-import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
 import { createCommentViaApi } from '@_src/api/factories/comment-create.api.factory';
 import { prepareCommentPayload } from '@_src/api/factories/comment-payload.api.factory';
-import { Headers } from '@_src/api/models/headers.api.model';
 import { timestamp } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
 test.describe('Verify comments UPDATE operations @GAD-R10-02 @crud @update @comments', () => {
   let articleId: number;
-  let authorizationHeader: Headers;
   let createdCommentResponse: APIResponse;
 
   test.beforeAll(
     'Should login and create an article',
-    async ({ request, articlesRequestLogged }) => {
-      authorizationHeader = await getAuthorizationHeader(request);
+    async ({ articlesRequestLogged }) => {
       const articleData = prepareArticlePayload();
       const response = await createArticleViaApi(
         articlesRequestLogged,
@@ -27,14 +23,16 @@ test.describe('Verify comments UPDATE operations @GAD-R10-02 @crud @update @comm
     },
   );
 
-  test.beforeEach('Should create a comment', async ({ request }) => {
-    const commentData = prepareCommentPayload(articleId);
-    createdCommentResponse = await createCommentViaApi(
-      request,
-      authorizationHeader,
-      commentData,
-    );
-  });
+  test.beforeEach(
+    'Should create a comment',
+    async ({ commentsRequestLogged }) => {
+      const commentData = prepareCommentPayload(articleId);
+      createdCommentResponse = await createCommentViaApi(
+        commentsRequestLogged,
+        commentData,
+      );
+    },
+  );
 
   test.describe('Fully modify comments @GAD-R10-02', () => {
     test('Should fully modify a comment with a logged user', async ({

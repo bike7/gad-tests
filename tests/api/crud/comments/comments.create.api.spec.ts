@@ -1,20 +1,16 @@
 import { createArticleViaApi } from '@_src/api/factories/article-create.api.factory';
 import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
-import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
 import { createCommentViaApi } from '@_src/api/factories/comment-create.api.factory';
 import { prepareCommentPayload } from '@_src/api/factories/comment-payload.api.factory';
-import { Headers } from '@_src/api/models/headers.api.model';
 import { timestamp } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/merge.fixture';
 
 test.describe('Verify comments CREATE operations @GAD-R09-02 @crud @create @comments', () => {
   let articleId: number;
-  let authorizationHeader: Headers;
 
   test.beforeAll(
     'Login and create an article',
-    async ({ request, articlesRequestLogged }) => {
-      authorizationHeader = await getAuthorizationHeader(request);
+    async ({ articlesRequestLogged }) => {
       const articleData = prepareArticlePayload();
       const response = await createArticleViaApi(
         articlesRequestLogged,
@@ -40,14 +36,15 @@ test.describe('Verify comments CREATE operations @GAD-R09-02 @crud @create @comm
     expect.soft(responseBody.error.message).toContain(expectedErrorMessage);
   });
 
-  test('Should create a comment with a logged user', async ({ request }) => {
+  test('Should create a comment with a logged user', async ({
+    commentsRequestLogged,
+  }) => {
     // Arrange
     const expectedResponseStatus = 201;
     const commentData = prepareCommentPayload(articleId);
     // Act
     const response = await createCommentViaApi(
-      request,
-      authorizationHeader,
+      commentsRequestLogged,
       commentData,
     );
     const actualResponseStatus = response.status();
