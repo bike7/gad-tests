@@ -48,4 +48,14 @@ export class ArticlesRequest {
     });
     return response;
   }
+
+  async delete(articleId: number): Promise<APIResponse> {
+    const response = await this.request.delete(
+      `${this.endpoint}/${articleId}`,
+      {
+        headers: this.authorizationHeader,
+      },
+    );
+    return response;
+  }
 }
