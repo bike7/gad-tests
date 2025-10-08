@@ -27,21 +27,20 @@ test.describe('Verify articles UPDATE operations @crud @update @articles', () =>
 
   test.describe('Fully modify articles @GAD-R10-01', () => {
     test('Should fully modify an article with a logged user', async ({
-      request,
+      articlesRequestLogged,
     }) => {
       // Arrange
       const expectedResponseStatus = 200;
       const createdArticle = await createdArticleResponse.json();
-      const createdArticleEndpoint = `${apiEndpoints.articles}/${createdArticle.id}`;
       const modifiedArticleData = prepareArticlePayload();
       const image =
         '.\\data\\images\\256\\rory-mckeever-w0kMi0osklU-unsplash.jpg';
       modifiedArticleData.image = image;
       // Act
-      const response = await request.put(createdArticleEndpoint, {
-        headers: authorizationHeader,
-        data: modifiedArticleData,
-      });
+      const response = await articlesRequestLogged.put(
+        createdArticle.id,
+        modifiedArticleData,
+      );
       const modifiedArticle = await response.json();
       // Assert
       expect(response.status()).toBe(expectedResponseStatus);
@@ -57,22 +56,21 @@ test.describe('Verify articles UPDATE operations @crud @update @articles', () =>
     });
 
     test('Should not fully modify an article with a non-logged user', async ({
-      request,
       articlesRequest,
     }) => {
       // Arrange
       const expectedResponseStatus = 401;
       const expectedErrorMessage = 'Access token not provided!';
       const createdArticle = await createdArticleResponse.json();
-      const createdArticleEndpoint = `${apiEndpoints.articles}/${createdArticle.id}`;
       const modifiedArticleData = prepareArticlePayload();
       const image =
         '.\\data\\images\\256\\rory-mckeever-w0kMi0osklU-unsplash.jpg';
       modifiedArticleData.image = image;
       // Act
-      const response = await request.put(createdArticleEndpoint, {
-        data: modifiedArticleData,
-      });
+      const response = await articlesRequest.put(
+        createdArticle.id,
+        modifiedArticleData,
+      );
       const responseBody = await response.json();
       const nonModifiedArticleResponse = await articlesRequest.get(
         createdArticle.id,

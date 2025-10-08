@@ -10,3 +10,7 @@ export function prepareArticlePayload(): ArticlePayload {
     image: '.\\data\\images\\256\\mahdikordi-4hCYZT_zPu8-unsplash.jpg',
   };
 }
+
+export function prepareNonExistentArticleId(): number {
+  return new Date().valueOf();
+}

@@ -26,4 +26,15 @@ export class ArticlesRequest {
     });
     return response;
   }
+
+  async put(
+    articleId: number,
+    articleData: ArticlePayload,
+  ): Promise<APIResponse> {
+    const response = await this.request.put(`${this.endpoint}/${articleId}`, {
+      headers: this.authorizationHeader,
+      data: articleData,
+    });
+    return response;
+  }
 }
