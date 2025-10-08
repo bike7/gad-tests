@@ -1,5 +1,5 @@
+import { expect, test } from '@_src/merge.fixture';
 import { prepareRandomComment } from '@_src/ui/factories/comment.factory';
-import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 import { waitForResponse } from '@_src/ui/utils/wait.util';
 
 test('Should return created comment from API @GAD-R07-05 @GAD-R07-06 @logged', async ({
@@ -14,6 +14,7 @@ test('Should return created comment from API @GAD-R07-05 @GAD-R07-06 @logged', a
   const expectedResponseStatusCode = 200;
   //Act
   let articlePage = createRandomArticle;
+  const articleUrl = page.url();
   const addCommentView = await articlePage.clickAddNewCommentButton();
   const responsePromise = waitForResponse(
     page,
@@ -26,5 +27,12 @@ test('Should return created comment from API @GAD-R07-05 @GAD-R07-06 @logged', a
   const response = await responsePromise;
   const responseBody = await response.json();
   await expect.soft(addCommentView.alertPopup).toContainText(expectedAlertText);
-  expect.soft(responseBody[0].body).toBe(commentData.body);
+  try {
+    expect.soft(responseBody[0].body).toBe(commentData.body);
+  } catch (error) {
+    //TODO: Sometimes responseBody is empty, find out why and handle it properly
+    throw new Error(
+      `${error} \nExpected comment body to be "${commentData.body}", but got "${responseBody[0].body} on article "${articleUrl}"`,
+    );
+  }
 });
