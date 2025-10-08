@@ -1,5 +1,5 @@
 import { Headers } from '@_src/api/models/headers.api.model';
-import { apiEndpoints } from '@_src/api/requests/api.endpoints';
+import { apiEndpoints } from '@_src/api/utils/api.util';
 import { testUser } from '@_src/ui/test.data/user.credentials.data';
 import { APIRequestContext } from '@playwright/test';
 

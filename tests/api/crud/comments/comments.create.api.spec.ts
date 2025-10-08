@@ -4,7 +4,7 @@ import { getAuthorizationHeader } from '@_src/api/factories/authorization-header
 import { createCommentViaApi } from '@_src/api/factories/comment-create.api.factory';
 import { prepareCommentPayload } from '@_src/api/factories/comment-payload.api.factory';
 import { Headers } from '@_src/api/models/headers.api.model';
-import { apiEndpoints } from '@_src/api/requests/api.endpoints';
+import { apiEndpoints } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/merge.fixture';
 
 test.describe('Verify comments CREATE operations @GAD-R09-02 @crud @create @comments', () => {

@@ -1,6 +1,6 @@
 import { ArticlePayload } from '@_src/api/models/article-payload.api.model';
 import { Headers } from '@_src/api/models/headers.api.model';
-import { apiEndpoints } from '@_src/api/requests/api.endpoints';
+import { apiEndpoints } from '@_src/api/utils/api.util';
 import { APIRequestContext, APIResponse } from '@playwright/test';
 
 export class ArticlesRequest {

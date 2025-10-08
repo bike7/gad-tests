@@ -1,8 +1,6 @@
 import { createArticleViaApi } from '@_src/api/factories/article-create.api.factory';
-import {
-  prepareArticlePayload,
-  prepareNonExistentArticleId,
-} from '@_src/api/factories/article-payload.api.factory';
+import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
+import { timestamp } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/merge.fixture';
 
 test.describe('Verify articles CREATE operations @GAD-R09-01 @crud @create @articles', () => {
@@ -45,11 +43,11 @@ test.describe('Verify articles CREATE operations @GAD-R09-01 @crud @create @arti
   }) => {
     // Arrange
     const expectedResponseStatus = 201;
-    const nonExistingArticleId = prepareNonExistentArticleId();
+    const nonExistentArticleId = timestamp();
     const articleData = prepareArticlePayload();
     // Act
     const response = await articlesRequestLogged.put(
-      nonExistingArticleId,
+      nonExistentArticleId,
       articleData,
     );
     const article = await response.json();

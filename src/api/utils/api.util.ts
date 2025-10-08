@@ -3,3 +3,7 @@ export const apiEndpoints = {
   articles: '/api/articles',
   comments: '/api/comments',
 };
+
+export function timestamp(): number {
+  return new Date().valueOf();
+}
