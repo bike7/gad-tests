@@ -39,7 +39,7 @@ export default defineConfig([
     settings: {
       playwright: {
         globalAliases: {
-          test: ['setup'],
+          test: ['setup', 'health'],
         },
       },
     },

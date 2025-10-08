@@ -1,4 +1,5 @@
 export const apiEndpoints = {
+  healthCheck: '/api/health',
   login: '/api/login',
   articles: '/api/articles',
   comments: '/api/comments',
