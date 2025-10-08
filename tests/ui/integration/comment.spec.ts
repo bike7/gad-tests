@@ -14,7 +14,6 @@ test('Should return created comment from API @GAD-R07-05 @GAD-R07-06 @logged', a
   const expectedResponseStatusCode = 200;
   //Act
   let articlePage = createRandomArticle;
-  const articleUrl = page.url(); //TODO: Remove after error is handled properly
   const addCommentView = await articlePage.clickAddNewCommentButton();
   const responsePromise = waitForResponse(
     page,
@@ -27,12 +26,5 @@ test('Should return created comment from API @GAD-R07-05 @GAD-R07-06 @logged', a
   const response = await responsePromise;
   const responseBody = await response.json();
   await expect.soft(addCommentView.alertPopup).toContainText(expectedAlertText);
-  try {
-    expect.soft(responseBody[0].body).toBe(commentData.body);
-  } catch (error) {
-    //TODO: Sometimes responseBody is empty, find out why and handle it properly
-    throw new Error(
-      `${error} \nExpected comment body to be "${commentData.body}", but got "${responseBody[0].body} on article "${articleUrl}"`,
-    );
-  }
+  expect.soft(responseBody[0].body).toBe(commentData.body); //TODO: sometimes response is not fully available when we validate it
 });
