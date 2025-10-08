@@ -12,6 +12,7 @@ test.describe('Verify comments DELETE operations @GAD-R09-04 @crud @delete @comm
   let articleId: number;
   let authorizationHeader: Headers;
   let endpoint: string;
+  let createdCommentId: number;
 
   test.beforeAll(
     'Should login and create an article',
@@ -36,16 +37,18 @@ test.describe('Verify comments DELETE operations @GAD-R09-04 @crud @delete @comm
     );
     const commentJson = await commentResponse.json();
     endpoint = `${apiEndpoints.comments}/${commentJson.id}`;
+    createdCommentId = commentJson.id;
   });
 
   test('Should not delete a comment with a non-logged user', async ({
+    commentsRequest,
     request,
   }) => {
     // Arrange
     const expectedResponseStatusDelete = 401;
     const expectedResponseStatusGet = 200;
     // Act
-    const response = await request.delete(endpoint);
+    const response = await commentsRequest.delete(createdCommentId);
     const actualResponseStatusDelete = response.status();
     // Assert DELETE status
     expect(actualResponseStatusDelete).toBe(expectedResponseStatusDelete);
@@ -53,14 +56,15 @@ test.describe('Verify comments DELETE operations @GAD-R09-04 @crud @delete @comm
     await expectGetResponseStatus(request, endpoint, expectedResponseStatusGet);
   });
 
-  test('Should delete a comment with a logged user', async ({ request }) => {
+  test('Should delete a comment with a logged user', async ({
+    request,
+    commentsRequestLogged,
+  }) => {
     // Arrange
     const expectedResponseStatusDelete = 200;
     const expectedResponseStatusGet = 404;
     // Act
-    const responseDelete = await request.delete(endpoint, {
-      headers: authorizationHeader,
-    });
+    const responseDelete = await commentsRequestLogged.delete(createdCommentId);
     const actualResponseStatusDelete = responseDelete.status();
     // Assert DELETE status
     expect(actualResponseStatusDelete).toBe(expectedResponseStatusDelete);
