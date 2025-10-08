@@ -20,6 +20,11 @@ export class ArticlePage extends BasePage {
     this.deleteIcon = page.getByTestId('delete');
     this.addNewCommentButton = page.locator('#add-new');
   }
+  async goToId(articleId: string): Promise<this> {
+    await this.page.goto(`${this.url}?id=${articleId}`);
+    await this.page.waitForLoadState('domcontentloaded');
+    return this;
+  }
 
   async deleteArticle(): Promise<ArticlesPage> {
     this.page.on('dialog', async (dialog) => await dialog.accept());

@@ -1,17 +1,28 @@
+import { createArticleViaApi } from '@_src/api/factories/article-create.api.factory';
+import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
 import { expect, test } from '@_src/merge.fixture';
 import { prepareRandomComment } from '@_src/ui/factories/comment.factory';
+import { ArticlePage } from '@_src/ui/pages/article.page';
 
 test.describe.configure({ mode: 'serial' });
 test.describe('Create, verify and delete comment', () => {
-  test('Verify comments @GAD-R05-01 @GAD-R05-02 @logged', async ({
-    createRandomArticle,
-  }) => {
+  let articlePage: ArticlePage;
+
+  test.beforeEach(async ({ articlesRequestLogged, articlePage: page }) => {
+    const response = await createArticleViaApi(
+      articlesRequestLogged,
+      prepareArticlePayload(),
+    );
+    const article = await response.json();
+    articlePage = await page.goToId(article.id);
+  });
+
+  test('Verify comments @GAD-R05-01 @GAD-R05-02 @logged', async ({}) => {
     // Arrange
     const commentData = prepareRandomComment();
     const updatedCommentData = prepareRandomComment();
     const expectedAlertTextForCommentCreate = 'Comment was created';
     const expectedAlertTextForCommentUpdate = 'Comment was updated';
-    let articlePage = createRandomArticle;
 
     await test.step('Create a new comment', async ({}) => {
       //Act
@@ -62,12 +73,10 @@ test.describe('Create, verify and delete comment', () => {
       );
     });
   });
-  test('User can add more than one comment to article @GAD-R05-03 @logged', async ({
-    createRandomArticle,
-  }) => {
+
+  test('User can add more than one comment to article @GAD-R05-03 @logged', async ({}) => {
     // Arrange
     const expectedAlertText = 'Comment was created';
-    let articlePage = createRandomArticle;
 
     await test.step('Create the first comment', async ({}) => {
       //Arrange
