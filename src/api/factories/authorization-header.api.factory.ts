@@ -1,19 +1,18 @@
 import { Headers } from '@_src/api/models/headers.api.model';
-import { apiEndpoints } from '@_src/api/utils/api.util';
+import { LoginData } from '@_src/api/models/login.api.model';
+import { LoginRequest } from '@_src/api/requests/login.request';
 import { testUser } from '@_src/ui/test.data/user.credentials.data';
 import { APIRequestContext } from '@playwright/test';
 
 export async function getAuthorizationHeader(
   request: APIRequestContext,
 ): Promise<Headers> {
-  const userData = {
+  const loginData: LoginData = {
     email: testUser.userEmail,
     password: testUser.userPassword,
   };
-  const response = await request.post(apiEndpoints.login, {
-    data: userData,
-  });
-  const body = await response.json();
-  const accessToken = body.access_token;
-  return { Authorization: `Bearer ${accessToken}` };
+  const loginRequest = new LoginRequest(request);
+  const response = await loginRequest.post(loginData);
+  const responseBody = await response.json();
+  return { Authorization: `Bearer ${responseBody.access_token}` };
 }

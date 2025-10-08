@@ -20,42 +20,35 @@ export class ArticlesRequest {
   }
 
   async post(articleData: ArticlePayload): Promise<APIResponse> {
-    const response = await this.request.post(this.endpoint, {
+    return await this.request.post(this.endpoint, {
       headers: this.authorizationHeader,
       data: articleData,
     });
-    return response;
   }
 
   async put(
     articleId: number,
     articleData: ArticlePayload,
   ): Promise<APIResponse> {
-    const response = await this.request.put(`${this.endpoint}/${articleId}`, {
+    return await this.request.put(`${this.endpoint}/${articleId}`, {
       headers: this.authorizationHeader,
       data: articleData,
     });
-    return response;
   }
 
   async patch(
     articleId: number,
     articleData: Partial<ArticlePayload>,
   ): Promise<APIResponse> {
-    const response = await this.request.patch(`${this.endpoint}/${articleId}`, {
+    return await this.request.patch(`${this.endpoint}/${articleId}`, {
       headers: this.authorizationHeader,
       data: articleData,
     });
-    return response;
   }
 
   async delete(articleId: number): Promise<APIResponse> {
-    const response = await this.request.delete(
-      `${this.endpoint}/${articleId}`,
-      {
-        headers: this.authorizationHeader,
-      },
-    );
-    return response;
+    return await this.request.delete(`${this.endpoint}/${articleId}`, {
+      headers: this.authorizationHeader,
+    });
   }
 }
