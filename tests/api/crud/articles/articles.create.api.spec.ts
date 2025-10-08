@@ -12,16 +12,14 @@ test.describe('Verify articles CREATE operations @GAD-R09-01 @crud @create @arti
   });
 
   test('Should not create an article with a non-logged user', async ({
-    request,
+    articlesRequest,
   }) => {
     // Arrange
     const expectedResponseStatus = 401;
     const expectedErrorMessage = 'Access token not provided!';
     const articleData = prepareArticlePayload();
     // Act
-    const response = await request.post(apiEndpoints.articles, {
-      data: articleData,
-    });
+    const response = await articlesRequest.post(articleData);
     const responseBody = await response.json();
     // Assert
     expect.soft(response.status()).toBe(expectedResponseStatus);
