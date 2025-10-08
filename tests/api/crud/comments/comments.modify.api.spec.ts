@@ -4,7 +4,7 @@ import { getAuthorizationHeader } from '@_src/api/factories/authorization-header
 import { createCommentViaApi } from '@_src/api/factories/comment-create.api.factory';
 import { prepareCommentPayload } from '@_src/api/factories/comment-payload.api.factory';
 import { Headers } from '@_src/api/models/headers.api.model';
-import { apiEndpoints } from '@_src/api/utils/api.util';
+import { timestamp } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
@@ -38,18 +38,17 @@ test.describe('Verify comments UPDATE operations @GAD-R10-02 @crud @update @comm
 
   test.describe('Fully modify comments @GAD-R10-02', () => {
     test('Should fully modify a comment with a logged user', async ({
-      request,
+      commentsRequestLogged,
     }) => {
       // Arrange
       const expectedResponseStatus = 200;
       const createdComment = await createdCommentResponse.json();
-      const createdCommentsEndpoint = `${apiEndpoints.comments}/${createdComment.id}`;
       const modifiedCommentData = prepareCommentPayload(articleId);
       // Act
-      const response = await request.put(createdCommentsEndpoint, {
-        headers: authorizationHeader,
-        data: modifiedCommentData,
-      });
+      const response = await commentsRequestLogged.put(
+        createdComment.id,
+        modifiedCommentData,
+      );
       const modifiedComment = await response.json();
       // Assert
       expect(response.status()).toBe(expectedResponseStatus);
@@ -61,21 +60,21 @@ test.describe('Verify comments UPDATE operations @GAD-R10-02 @crud @update @comm
     });
 
     test('Should not fully modify a comment with a non-logged user', async ({
-      request,
+      commentsRequest,
     }) => {
       // Arrange
       const expectedResponseStatus = 401;
       const expectedErrorMessage = 'Access token not provided!';
       const createdComment = await createdCommentResponse.json();
-      const createdCommentEndpoint = `${apiEndpoints.comments}/${createdComment.id}`;
-      const modifiedCommentData = prepareArticlePayload();
+      const modifiedCommentData = prepareCommentPayload(articleId);
       // Act
-      const response = await request.put(createdCommentEndpoint, {
-        data: modifiedCommentData,
-      });
+      const response = await commentsRequest.put(
+        createdComment.id,
+        modifiedCommentData,
+      );
       const responseBody = await response.json();
-      const nonModifiedCommentResponse = await request.get(
-        createdCommentEndpoint,
+      const nonModifiedCommentResponse = await commentsRequest.get(
+        createdComment.id,
       );
       const nonModifiedComment = await nonModifiedCommentResponse.json();
       // Assert
@@ -89,20 +88,19 @@ test.describe('Verify comments UPDATE operations @GAD-R10-02 @crud @update @comm
 
   test.describe('Partially modify comments @GAD-R10-02', () => {
     test('Should partially modify a comment with a logged user', async ({
-      request,
+      commentsRequestLogged,
     }) => {
       // Arrange
       const expectedResponseStatus = 200;
       const createdComment = await createdCommentResponse.json();
-      const createdCommentsEndpoint = `${apiEndpoints.comments}/${createdComment.id}`;
       const modifiedCommentData = {
-        body: `Patched Body no. ${new Date().getDate().valueOf()}`,
+        body: `Patched Body no. ${timestamp()}`,
       };
       // Act
-      const response = await request.patch(createdCommentsEndpoint, {
-        headers: authorizationHeader,
-        data: modifiedCommentData,
-      });
+      const response = await commentsRequestLogged.patch(
+        createdComment.id,
+        modifiedCommentData,
+      );
       const modifiedComment = await response.json();
       // Assert
       expect(response.status()).toBe(expectedResponseStatus);
@@ -113,23 +111,23 @@ test.describe('Verify comments UPDATE operations @GAD-R10-02 @crud @update @comm
     });
 
     test('Should not partially modify a comment with a non-logged user', async ({
-      request,
+      commentsRequest,
     }) => {
       // Arrange
       const expectedResponseStatus = 401;
       const expectedErrorMessage = 'Access token not provided!';
       const createdComment = await createdCommentResponse.json();
-      const createdCommentEndpoint = `${apiEndpoints.comments}/${createdComment.id}`;
       const modifiedCommentData = {
-        body: `Patched Body no. ${new Date().getDate().valueOf()}`,
+        body: `Patched Body no. ${timestamp()}`,
       };
       // Act
-      const response = await request.patch(createdCommentEndpoint, {
-        data: modifiedCommentData,
-      });
+      const response = await commentsRequest.patch(
+        createdComment.id,
+        modifiedCommentData,
+      );
       const responseBody = await response.json();
-      const nonModifiedCommentResponse = await request.get(
-        createdCommentEndpoint,
+      const nonModifiedCommentResponse = await commentsRequest.get(
+        createdComment.id,
       );
       const nonModifiedComment = await nonModifiedCommentResponse.json();
       // Assert
@@ -141,25 +139,23 @@ test.describe('Verify comments UPDATE operations @GAD-R10-02 @crud @update @comm
     });
 
     test('Should not partially modify a comment with improper field and logged user', async ({
-      request,
+      commentsRequestLogged,
     }) => {
       // Arrange
-      const expectedResponseStatus = 422;
       const createdComment = await createdCommentResponse.json();
-      const createdCommentEndpoint = `${apiEndpoints.comments}/${createdComment.id}`;
       const nonExistingField = 'nonExistingField';
+      const modifiedCommentData: { [key: string]: string } = {};
+      modifiedCommentData[nonExistingField] = 'non existing value';
       const expectedErrorMessage = `One of field is invalid (empty, invalid or too long) or there are some additional fields: Field validation: "${nonExistingField}" not in [id,user_id,article_id,body,date]`;
-      const modifiedCommentData = {
-        [nonExistingField]: 'non existing value',
-      };
+      const expectedResponseStatus = 422;
       // Act
-      const response = await request.patch(createdCommentEndpoint, {
-        headers: authorizationHeader,
-        data: modifiedCommentData,
-      });
+      const response = await commentsRequestLogged.patch(
+        createdComment.id,
+        modifiedCommentData,
+      );
       const responseBody = await response.json();
-      const nonModifiedCommentResponse = await request.get(
-        createdCommentEndpoint,
+      const nonModifiedCommentResponse = await commentsRequestLogged.get(
+        createdComment.id,
       );
       const nonModifiedComment = await nonModifiedCommentResponse.json();
       // Assert
