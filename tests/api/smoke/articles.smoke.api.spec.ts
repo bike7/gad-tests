@@ -1,31 +1,32 @@
-import { apiEndpoints } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/merge.fixture';
 
 test.describe('Verify articles API endpoint @GAD-R08-01 @smoke @articles', () => {
   test.describe('Verify each condition in separate test', () => {
-    test('GET articles should return status code 200', async ({ request }) => {
+    test('GET articles should return status code 200', async ({
+      articlesRequest,
+    }) => {
       // Arrange
       const expectedResponseStatusCode = 200;
       // Act
-      const response = await request.get(apiEndpoints.articles);
+      const response = await articlesRequest.get();
       // Assert
       expect(response.status()).toBe(expectedResponseStatusCode);
     });
 
     test('GET articles should return at least one article @predefined_data', async ({
-      request,
+      articlesRequest,
     }) => {
       // Arrange
       const expectedMinArticlesCount = 1;
       // Act
-      const response = await request.get(apiEndpoints.articles);
+      const response = await articlesRequest.get();
       const articles = await response.json();
       // Assert
       expect(articles.length).toBeGreaterThanOrEqual(expectedMinArticlesCount);
     });
 
     test('GET articles should return article object @predefined_data', async ({
-      request,
+      articlesRequest,
     }) => {
       // Arrange
       const expectedRequiredFields = [
@@ -37,7 +38,7 @@ test.describe('Verify articles API endpoint @GAD-R08-01 @smoke @articles', () =>
         'image',
       ];
       // Act
-      const response = await request.get(apiEndpoints.articles);
+      const response = await articlesRequest.get();
       const articles = await response.json();
       const firstArticle = articles[0];
       // Assert
@@ -53,9 +54,9 @@ test.describe('Verify articles API endpoint @GAD-R08-01 @smoke @articles', () =>
 
   test.describe('Verify each condition in separate test step', () => {
     test('GET articles should return an object with required fields @predefined_data', async ({
-      request,
+      articlesRequest,
     }) => {
-      const response = await request.get(apiEndpoints.articles);
+      const response = await articlesRequest.get();
       const articles = await response.json();
 
       await test.step('Should return status code 200', async ({}) => {
