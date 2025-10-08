@@ -14,7 +14,7 @@ test('Should return created comment from API @GAD-R07-05 @GAD-R07-06 @logged', a
   const expectedResponseStatusCode = 200;
   //Act
   let articlePage = createRandomArticle;
-  const articleUrl = page.url();
+  const articleUrl = page.url(); //TODO: Remove after error is handled properly
   const addCommentView = await articlePage.clickAddNewCommentButton();
   const responsePromise = waitForResponse(
     page,

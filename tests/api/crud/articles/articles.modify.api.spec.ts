@@ -3,7 +3,7 @@ import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.f
 import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
 import { Headers } from '@_src/api/models/headers.api.model';
 import { apiEndpoints } from '@_src/api/utils/api.util';
-import { expect, test } from '@_src/ui/fixtures/merge.fixture';
+import { expect, test } from '@_src/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
 test.describe('Verify articles UPDATE operations @crud @update @articles', () => {

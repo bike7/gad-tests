@@ -6,7 +6,7 @@ import { prepareCommentPayload } from '@_src/api/factories/comment-payload.api.f
 import { Headers } from '@_src/api/models/headers.api.model';
 import { apiEndpoints } from '@_src/api/utils/api.util';
 import { expectGetResponseStatus } from '@_src/api/utils/assertions.api';
-import { expect, test } from '@_src/ui/fixtures/merge.fixture';
+import { expect, test } from '@_src/merge.fixture';
 
 test.describe('Verify comments DELETE operations @GAD-R09-04 @crud @delete @comments', () => {
   let articleId: number;

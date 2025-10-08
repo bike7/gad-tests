@@ -4,7 +4,7 @@ import { getAuthorizationHeader } from '@_src/api/factories/authorization-header
 import { Headers } from '@_src/api/models/headers.api.model';
 import { apiEndpoints } from '@_src/api/utils/api.util';
 import { expectGetResponseStatus } from '@_src/api/utils/assertions.api';
-import { expect, test } from '@_src/ui/fixtures/merge.fixture';
+import { expect, test } from '@_src/merge.fixture';
 
 test.describe('Verify articles DELETE operations @GAD-R09-03 @crud @delete @articles', () => {
   let authorizationHeader: Headers;

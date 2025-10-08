@@ -1,5 +1,5 @@
 import { apiEndpoints } from '@_src/api/utils/api.util';
-import { expect, test } from '@_src/ui/fixtures/merge.fixture';
+import { expect, test } from '@_src/merge.fixture';
 
 test.describe('Verify comments API endpoint @GAD-R08-02 @smoke @comments', () => {
   test('GET comments should return status code 200', async ({ request }) => {
