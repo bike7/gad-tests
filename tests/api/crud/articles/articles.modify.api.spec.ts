@@ -1,18 +1,11 @@
 import { createArticleViaApi } from '@_src/api/factories/article-create.api.factory';
 import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
-import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
-import { Headers } from '@_src/api/models/headers.api.model';
-import { apiEndpoints } from '@_src/api/utils/api.util';
+import { timestamp } from '@_src/api/utils/api.util';
 import { expect, test } from '@_src/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
 test.describe('Verify articles UPDATE operations @crud @update @articles', () => {
-  let authorizationHeader: Headers;
   let createdArticleResponse: APIResponse;
-
-  test.beforeAll('Should login', async ({ request }) => {
-    authorizationHeader = await getAuthorizationHeader(request);
-  });
 
   test.beforeEach(
     'Should create an article',
@@ -89,20 +82,19 @@ test.describe('Verify articles UPDATE operations @crud @update @articles', () =>
 
   test.describe('Partially modify articles @GAD-R10-03', () => {
     test('Should partially modify an article with a logged user', async ({
-      request,
+      articlesRequestLogged,
     }) => {
       // Arrange
       const expectedResponseStatus = 200;
       const createdArticle = await createdArticleResponse.json();
-      const createdArticleEndpoint = `${apiEndpoints.articles}/${createdArticle.id}`;
       const modifiedArticleData = {
-        title: `Patched Title no. ${new Date().getDate().valueOf()}`,
+        title: `Patched Title no. ${timestamp()}`,
       };
       // Act
-      const response = await request.patch(createdArticleEndpoint, {
-        headers: authorizationHeader,
-        data: modifiedArticleData,
-      });
+      const response = await articlesRequestLogged.patch(
+        createdArticle.id,
+        modifiedArticleData,
+      );
       const modifiedArticle = await response.json();
       // Assert
       expect(response.status()).toBe(expectedResponseStatus);
@@ -115,21 +107,20 @@ test.describe('Verify articles UPDATE operations @crud @update @articles', () =>
     });
 
     test('Should not partially modify an article with a non-logged user', async ({
-      request,
       articlesRequest,
     }) => {
       // Arrange
       const expectedResponseStatus = 401;
       const expectedErrorMessage = 'Access token not provided!';
       const createdArticle = await createdArticleResponse.json();
-      const createdArticleEndpoint = `${apiEndpoints.articles}/${createdArticle.id}`;
       const modifiedArticleData = {
-        title: `Patched Title no. ${new Date().getDate().valueOf()}`,
+        title: `Patched Title no. ${timestamp()}`,
       };
       // Act
-      const response = await request.patch(createdArticleEndpoint, {
-        data: modifiedArticleData,
-      });
+      const response = await articlesRequest.patch(
+        createdArticle.id,
+        modifiedArticleData,
+      );
       const responseBody = await response.json();
       const nonModifiedArticleResponse = await articlesRequest.get(
         createdArticle.id,
@@ -146,25 +137,23 @@ test.describe('Verify articles UPDATE operations @crud @update @articles', () =>
     });
 
     test('Should not partially modify an article with improper field and logged user', async ({
-      request,
-      articlesRequest,
+      articlesRequestLogged,
     }) => {
       // Arrange
-      const expectedResponseStatus = 422;
       const nonExistingField = 'nonExistingField';
+      const modifiedArticleData: { [key: string]: string } = {};
+      modifiedArticleData[nonExistingField] = 'non existing value';
       const expectedErrorMessage = `One of field is invalid (empty, invalid or too long) or there are some additional fields: Field validation: "${nonExistingField}" not in [id,user_id,title,body,date,image]`;
-      const modifiedArticleData = {
-        [nonExistingField]: 'non existing value',
-      };
+      const expectedResponseStatus = 422;
+
       const createdArticle = await createdArticleResponse.json();
-      const createdArticleEndpoint = `${apiEndpoints.articles}/${createdArticle.id}`;
       // Act
-      const response = await request.patch(createdArticleEndpoint, {
-        headers: authorizationHeader,
-        data: modifiedArticleData,
-      });
+      const response = await articlesRequestLogged.patch(
+        createdArticle.id,
+        modifiedArticleData,
+      );
       const responseBody = await response.json();
-      const nonModifiedArticleResponse = await articlesRequest.get(
+      const nonModifiedArticleResponse = await articlesRequestLogged.get(
         createdArticle.id,
       );
       const nonModifiedArticle = await nonModifiedArticleResponse.json();

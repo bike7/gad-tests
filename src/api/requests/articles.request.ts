@@ -37,4 +37,15 @@ export class ArticlesRequest {
     });
     return response;
   }
+
+  async patch(
+    articleId: number,
+    articleData: Partial<ArticlePayload>,
+  ): Promise<APIResponse> {
+    const response = await this.request.patch(`${this.endpoint}/${articleId}`, {
+      headers: this.authorizationHeader,
+      data: articleData,
+    });
+    return response;
+  }
 }
