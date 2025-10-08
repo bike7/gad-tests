@@ -1,4 +1,4 @@
-import { apiEndpoints } from '@_src/api/utils/api.util';
+import { apiEndpoints } from '@_src/api/requests/api.endpoints';
 import { expect, test } from '@_src/merge.fixture';
 
 test.describe('Verify comments API endpoint @GAD-R08-02 @smoke @comments', () => {

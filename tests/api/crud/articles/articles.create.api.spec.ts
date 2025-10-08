@@ -2,7 +2,7 @@ import { createArticleViaApi } from '@_src/api/factories/article-create.api.fact
 import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
 import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
 import { Headers } from '@_src/api/models/headers.api.model';
-import { apiEndpoints } from '@_src/api/utils/api.util';
+import { apiEndpoints } from '@_src/api/requests/api.endpoints';
 import { expect, test } from '@_src/merge.fixture';
 
 test.describe('Verify articles CREATE operations @GAD-R09-01 @crud @create @articles', () => {
@@ -28,14 +28,15 @@ test.describe('Verify articles CREATE operations @GAD-R09-01 @crud @create @arti
     expect.soft(responseBody.error.message).toContain(expectedErrorMessage);
   });
 
-  test('Should create an article with a logged user', async ({ request }) => {
+  test('Should create an article with a logged user', async ({
+    articlesRequestLogged,
+  }) => {
     // Arrange
     const expectedResponseStatus = 201;
     const articleData = prepareArticlePayload();
     // Act
     const articleResponse = await createArticleViaApi(
-      request,
-      authorizationHeader,
+      articlesRequestLogged,
       articleData,
     );
     const actualResponseStatus = articleResponse.status();

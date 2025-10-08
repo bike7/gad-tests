@@ -4,24 +4,26 @@ import { getAuthorizationHeader } from '@_src/api/factories/authorization-header
 import { createCommentViaApi } from '@_src/api/factories/comment-create.api.factory';
 import { prepareCommentPayload } from '@_src/api/factories/comment-payload.api.factory';
 import { Headers } from '@_src/api/models/headers.api.model';
-import { apiEndpoints } from '@_src/api/utils/api.util';
+import { apiEndpoints } from '@_src/api/requests/api.endpoints';
 import { expect, test } from '@_src/merge.fixture';
 
 test.describe('Verify comments CREATE operations @GAD-R09-02 @crud @create @comments', () => {
   let articleId: number;
   let authorizationHeader: Headers;
 
-  test.beforeAll('Login and create an article', async ({ request }) => {
-    authorizationHeader = await getAuthorizationHeader(request);
-    const articleData = prepareArticlePayload();
-    const response = await createArticleViaApi(
-      request,
-      authorizationHeader,
-      articleData,
-    );
-    const createdArticle = await response.json();
-    articleId = createdArticle.id;
-  });
+  test.beforeAll(
+    'Login and create an article',
+    async ({ request, articlesRequestLogged }) => {
+      authorizationHeader = await getAuthorizationHeader(request);
+      const articleData = prepareArticlePayload();
+      const response = await createArticleViaApi(
+        articlesRequestLogged,
+        articleData,
+      );
+      const createdArticle = await response.json();
+      articleId = createdArticle.id;
+    },
+  );
 
   test('Should not create a comment without a logged-in user', async ({
     request,

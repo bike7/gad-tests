@@ -2,7 +2,7 @@ import { createArticleViaApi } from '@_src/api/factories/article-create.api.fact
 import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
 import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
 import { Headers } from '@_src/api/models/headers.api.model';
-import { apiEndpoints } from '@_src/api/utils/api.util';
+import { apiEndpoints } from '@_src/api/requests/api.endpoints';
 import { expect, test } from '@_src/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
@@ -14,14 +14,16 @@ test.describe('Verify articles UPDATE operations @crud @update @articles', () =>
     authorizationHeader = await getAuthorizationHeader(request);
   });
 
-  test.beforeEach('Should create an article', async ({ request }) => {
-    const articleData = prepareArticlePayload();
-    createdArticleResponse = await createArticleViaApi(
-      request,
-      authorizationHeader,
-      articleData,
-    );
-  });
+  test.beforeEach(
+    'Should create an article',
+    async ({ articlesRequestLogged }) => {
+      const articleData = prepareArticlePayload();
+      createdArticleResponse = await createArticleViaApi(
+        articlesRequestLogged,
+        articleData,
+      );
+    },
+  );
 
   test.describe('Fully modify articles @GAD-R10-01', () => {
     test('Should fully modify an article with a logged user', async ({
@@ -56,6 +58,7 @@ test.describe('Verify articles UPDATE operations @crud @update @articles', () =>
 
     test('Should not fully modify an article with a non-logged user', async ({
       request,
+      articlesRequest,
     }) => {
       // Arrange
       const expectedResponseStatus = 401;
@@ -71,8 +74,8 @@ test.describe('Verify articles UPDATE operations @crud @update @articles', () =>
         data: modifiedArticleData,
       });
       const responseBody = await response.json();
-      const nonModifiedArticleResponse = await request.get(
-        createdArticleEndpoint,
+      const nonModifiedArticleResponse = await articlesRequest.get(
+        createdArticle.id,
       );
       const nonModifiedArticle = await nonModifiedArticleResponse.json();
       // Assert
@@ -115,6 +118,7 @@ test.describe('Verify articles UPDATE operations @crud @update @articles', () =>
 
     test('Should not partially modify an article with a non-logged user', async ({
       request,
+      articlesRequest,
     }) => {
       // Arrange
       const expectedResponseStatus = 401;
@@ -129,8 +133,8 @@ test.describe('Verify articles UPDATE operations @crud @update @articles', () =>
         data: modifiedArticleData,
       });
       const responseBody = await response.json();
-      const nonModifiedArticleResponse = await request.get(
-        createdArticleEndpoint,
+      const nonModifiedArticleResponse = await articlesRequest.get(
+        createdArticle.id,
       );
       const nonModifiedArticle = await nonModifiedArticleResponse.json();
       // Assert
@@ -145,6 +149,7 @@ test.describe('Verify articles UPDATE operations @crud @update @articles', () =>
 
     test('Should not partially modify an article with improper field and logged user', async ({
       request,
+      articlesRequest,
     }) => {
       // Arrange
       const expectedResponseStatus = 422;
@@ -161,8 +166,8 @@ test.describe('Verify articles UPDATE operations @crud @update @articles', () =>
         data: modifiedArticleData,
       });
       const responseBody = await response.json();
-      const nonModifiedArticleResponse = await request.get(
-        createdArticleEndpoint,
+      const nonModifiedArticleResponse = await articlesRequest.get(
+        createdArticle.id,
       );
       const nonModifiedArticle = await nonModifiedArticleResponse.json();
       // Assert

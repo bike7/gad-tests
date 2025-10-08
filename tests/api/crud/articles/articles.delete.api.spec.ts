@@ -2,7 +2,7 @@ import { createArticleViaApi } from '@_src/api/factories/article-create.api.fact
 import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
 import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
 import { Headers } from '@_src/api/models/headers.api.model';
-import { apiEndpoints } from '@_src/api/utils/api.util';
+import { apiEndpoints } from '@_src/api/requests/api.endpoints';
 import { expectGetResponseStatus } from '@_src/api/utils/assertions.api';
 import { expect, test } from '@_src/merge.fixture';
 
@@ -14,16 +14,18 @@ test.describe('Verify articles DELETE operations @GAD-R09-03 @crud @delete @arti
     authorizationHeader = await getAuthorizationHeader(request);
   });
 
-  test.beforeEach('Should create an article', async ({ request }) => {
-    const articleData = prepareArticlePayload();
-    const articleResponse = await createArticleViaApi(
-      request,
-      authorizationHeader,
-      articleData,
-    );
-    const articleJson = await articleResponse.json();
-    endpoint = `${apiEndpoints.articles}/${articleJson.id}`;
-  });
+  test.beforeEach(
+    'Should create an article',
+    async ({ articlesRequestLogged }) => {
+      const articleData = prepareArticlePayload();
+      const articleResponse = await createArticleViaApi(
+        articlesRequestLogged,
+        articleData,
+      );
+      const articleJson = await articleResponse.json();
+      endpoint = `${apiEndpoints.articles}/${articleJson.id}`;
+    },
+  );
 
   test('Should not delete an article with a non-logged user', async ({
     request,

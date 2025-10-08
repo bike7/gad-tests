@@ -4,7 +4,7 @@ import { getAuthorizationHeader } from '@_src/api/factories/authorization-header
 import { createCommentViaApi } from '@_src/api/factories/comment-create.api.factory';
 import { prepareCommentPayload } from '@_src/api/factories/comment-payload.api.factory';
 import { Headers } from '@_src/api/models/headers.api.model';
-import { apiEndpoints } from '@_src/api/utils/api.util';
+import { apiEndpoints } from '@_src/api/requests/api.endpoints';
 import { expect, test } from '@_src/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
@@ -13,17 +13,19 @@ test.describe('Verify comments UPDATE operations @GAD-R10-02 @crud @update @comm
   let authorizationHeader: Headers;
   let createdCommentResponse: APIResponse;
 
-  test.beforeAll('Should login and create an article', async ({ request }) => {
-    authorizationHeader = await getAuthorizationHeader(request);
-    const articleData = prepareArticlePayload();
-    const response = await createArticleViaApi(
-      request,
-      authorizationHeader,
-      articleData,
-    );
-    const createdArticle = await response.json();
-    articleId = createdArticle.id;
-  });
+  test.beforeAll(
+    'Should login and create an article',
+    async ({ request, articlesRequestLogged }) => {
+      authorizationHeader = await getAuthorizationHeader(request);
+      const articleData = prepareArticlePayload();
+      const response = await createArticleViaApi(
+        articlesRequestLogged,
+        articleData,
+      );
+      const createdArticle = await response.json();
+      articleId = createdArticle.id;
+    },
+  );
 
   test.beforeEach('Should create a comment', async ({ request }) => {
     const commentData = prepareCommentPayload(articleId);

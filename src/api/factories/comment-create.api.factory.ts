@@ -1,6 +1,6 @@
 import { CommentPayload } from '@_src/api/models/comment-payload.api.model';
 import { Headers } from '@_src/api/models/headers.api.model';
-import { apiEndpoints } from '@_src/api/utils/api.util';
+import { apiEndpoints } from '@_src/api/requests/api.endpoints';
 import { APIRequestContext, APIResponse, expect } from '@playwright/test';
 
 export async function createCommentViaApi(
