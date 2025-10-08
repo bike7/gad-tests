@@ -41,4 +41,10 @@ Run all tests with tag:
 npx playwright test --grep "@smoke"
 ```
 
+Run a single test 20 times:
+
+```
+npx playwright test -g 'Should delete a comment with a logged user @GAD-R09-04' --repeat-each 20
+```
+
 For more usage cases look in `package.json` scripts section.
