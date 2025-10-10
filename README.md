@@ -7,7 +7,9 @@ Follow instructions in app README
 
 ## Requirements
 
-Link to requirements: https://jaktestowac.pl/lesson/pw2sb01l02/
+Link to requirements:
+Part 1: https://jaktestowac.pl/lesson/pw2sb01l02/
+Part 2: https://jaktestowac.pl/lesson/pw3sb01l01/
 
 ## Prepare
 
@@ -37,6 +39,12 @@ Run all tests with tag:
 
 ```
 npx playwright test --grep "@smoke"
+```
+
+Run a single test 20 times:
+
+```
+npx playwright test -g 'Should delete a comment with a logged user @GAD-R09-04' --repeat-each 20
 ```
 
 For more usage cases look in `package.json` scripts section.

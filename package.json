@@ -12,6 +12,7 @@
     "lint": "npx eslint . --max-warnings=0",
     "format-check": "npx prettier . --check \"!**.ts\"",
     "format-write": "npx prettier --write .",
+    "check": "npm run format && npm run lint && npm run tsc:check",
     "tsc-check": "npx tsc --noEmit --pretty --strict"
   },
   "keywords": [],
