@@ -6,7 +6,12 @@ on:
 #  pull_request:
 #    branches: ["main"]
   workflow_dispatch:
-
+  
+permissions:
+  contents: read
+  checks: write
+  id-token: write
+  
 jobs:
   gad-tests:
     timeout-minutes: 5
