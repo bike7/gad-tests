@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  gad-tests:
     timeout-minutes: 5
     runs-on: ubuntu-latest
     services:
@@ -24,7 +24,7 @@ jobs:
           cache: "npm"
           registry-url: "https://npm.pkg.github.com"
           cache-dependency-path: "**/package-lock.json"
-      - name: Install dependencies
+      - name: Install npm dependencies
         run: |
           npm i
       - name: Install Playwright Browsers
@@ -32,12 +32,17 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Check GAD status
         run: |
-          curl http://localhost:3000/api/about
-          curl http://localhost:3000/api/health
-      - name: Run Playwright tests
+          curl ${{ vars.BASE_URL }}/api/about
+          curl ${{ vars.BASE_URL }}/api/health
+      - name: Run Playwright Tests
         env:
           BASE_URL: ${{ vars.BASE_URL }}
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
         run: |
           npm run test
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v5
+        if: always()
+        with:
+          report_paths: '**/playwright-report/results.xml'
