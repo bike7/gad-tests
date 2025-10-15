@@ -7,11 +7,6 @@ on:
 #    branches: ["main"]
   workflow_dispatch:
   
-permissions:
-  contents: read
-  checks: write
-  id-token: write
-  
 jobs:
   gad-tests:
     timeout-minutes: 5
@@ -62,15 +57,7 @@ jobs:
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
         run: |
-          npm run test
-      - name: Archive Test Results
-        if: success() || failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-reports
-          path: |
-            **/playwright-report/** 
-            **/test-results/**          
+          npm run test        
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v5
         if: always()
