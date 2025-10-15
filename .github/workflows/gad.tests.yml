@@ -25,16 +25,33 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: "npm"
           registry-url: "https://npm.pkg.github.com"
           cache-dependency-path: "**/package-lock.json"
+      - name: Cache Node Modules
+        uses: actions/cache@v4
+        id: node-modules-cache
+        with:
+          path: |
+            node_modules
+          key: node_modules-${{ hashFiles('package-lock.json') }}              
       - name: Install npm dependencies
-        run: |
-          npm i
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'  
+        run: npm ci       
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').packages['node_modules/@playwright/test'].version)")" >> $GITHUB_ENV    
+      - name: Cache Playwright binaries
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}       
       - name: Install Playwright Browsers
-        run: |
-          npx playwright install --with-deps chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'      
+        run: npx playwright install --with-deps   
       - name: Check GAD status
         run: |
           curl ${{ vars.BASE_URL }}/api/about
@@ -46,6 +63,14 @@ jobs:
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
         run: |
           npm run test
+      - name: Archive Test Results
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            **/playwright-report/** 
+            **/test-results/**          
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v5
         if: always()
