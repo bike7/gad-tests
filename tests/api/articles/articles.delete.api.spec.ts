@@ -43,17 +43,16 @@ test.describe('Verify articles DELETE operations @GAD-R09-03 @crud @delete @arti
   }) => {
     // Arrange
     const expectedResponseStatusDelete = 200;
-    const expectedResponseStatusCodeGet = 404;
+    const expectedResponseStatusGet = 404;
     // Act
     const response = await articlesRequestLogged.delete(createdArticleId);
     const actualResponseStatusDelete = response.status();
     // Assert DELETE status
     expect(actualResponseStatusDelete).toBe(expectedResponseStatusDelete);
     // Assert Article does not exist anymore
-    await expectGetResponseStatus(
-      articlesRequestLogged,
+    await expect(articlesRequestLogged).getToReturnStatus(
       createdArticleId,
-      expectedResponseStatusCodeGet,
+      expectedResponseStatusGet,
     );
   });
 });
