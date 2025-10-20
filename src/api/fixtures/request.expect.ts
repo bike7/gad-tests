@@ -8,7 +8,7 @@ export const requestExpect = baseExpect.extend({
     objectId: number,
     expectedResponseStatus: number,
   ): Promise<MatcherReturnType> {
-    let message = 'passed';
+    let message = '';
     const response = await requestObject.get(objectId);
     const actualResponseStatus = response.status();
     const isStatusCorrect = actualResponseStatus === expectedResponseStatus;
