@@ -12,6 +12,7 @@ export default defineConfig([
     '**/test-results/**',
     '**/eslint.config.*',
     '**/package-lock.json',
+    '**/workflows/**/*.yml',
   ]),
   {
     files: ['**/*.ts'],

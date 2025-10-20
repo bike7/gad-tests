@@ -66,8 +66,7 @@ test.describe('Verify comments DELETE operations @GAD-R09-04 @crud @delete @comm
     // Assert DELETE status
     expect(actualResponseStatusDelete).toBe(expectedResponseStatusDelete);
     // Assert Comment does not exist anymore
-    await expectGetResponseStatus(
-      commentsRequestLogged,
+    await expect(commentsRequestLogged).getToReturnStatus(
       createdCommentId,
       expectedResponseStatusGet,
     );
