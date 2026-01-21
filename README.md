@@ -11,6 +11,18 @@ Link to requirements:
 Part 1: https://jaktestowac.pl/lesson/pw2sb01l02/
 Part 2: https://jaktestowac.pl/lesson/pw3sb01l01/
 
+## Design Decisions
+
+Key architectural choices:
+
+- **Code Quality Tools**: ESLint, Prettier, and Husky for automated code standards and formatting
+- **Configuration Management**: dotenv for secure environment-specific configs (API keys, passwords)
+- **Test Patterns**: Page Object Model (POM) for UI tests, Arrange-Act-Assert (AAA) for test structure, Composition for modular components
+- **Test Data**: Faker library for realistic, randomized test data generation
+- **Page Object Methods**: Methods return page objects for improved test flow and readability
+
+See [DECISION_LOG.md](DECISION_LOG.md) for detailed rationale.
+
 ## Prepare
 
 ### Local recommended tools:
