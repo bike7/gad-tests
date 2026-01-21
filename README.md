@@ -23,7 +23,7 @@ Key architectural choices:
 - **Test Data**: Faker library for realistic, randomized test data generation
 - **Page Object Methods**: Methods return page objects for improved test flow and readability
 
-See [DECISION_LOG.md](DECISION_LOG.md) for detailed rationale.
+See [DECISION_LOG.md](DECISION_LOG.md) and [CODING_STANDARDS.md](CODING_STANDARDS.md) for detailed info.
 
 ## Testing Framework
 
