@@ -23,6 +23,70 @@ Key architectural choices:
 
 See [DECISION_LOG.md](DECISION_LOG.md) for detailed rationale.
 
+## Testing Framework
+
+This project uses **Playwright** as the primary testing framework, providing comprehensive test coverage for both UI and API interactions.
+
+### Test Types
+
+#### 1. UI Tests (`tests/ui/`)
+
+**Smoke Tests** - Quick validation of critical functionality:
+- Page title verification (Home, Articles, Comments pages)
+- Main menu navigation functionality
+- Basic accessibility of key pages
+
+**Integration Tests** - Feature-level testing:
+- **Authentication**: User login with correct/incorrect credentials, user registration with validation
+- **Articles Management**: Article creation with field validation (title length limits, required fields), article display and access
+- **Comments Management**: Comment creation and updates, comment body validation
+- **Search Functionality**: Article search component behavior
+
+**End-to-End Tests** - Complete user workflows:
+- Full article lifecycle (create → verify → delete)
+- Full comment lifecycle (create → verify → delete)
+- Multiple comments on a single article
+- Cross-feature integration scenarios
+
+#### 2. API Tests (`tests/api/`)
+
+**Smoke Tests** - API endpoint availability and basic responses:
+- Health check endpoint (`/api/health`)
+- Articles endpoint response validation
+- Comments endpoint response validation
+- Response structure and status code verification
+
+**CRUD Operations** - Comprehensive API testing:
+- **Articles API** (`@GAD-R08-01`, `@GAD-R09-01`, `@GAD-R09-03`, `@GAD-R10-01`, `@GAD-R10-03`):
+  - Create articles (with/without authentication)
+  - Read articles with proper field validation
+  - Update articles (full and partial modifications)
+  - Delete articles (authorized/unauthorized)
+  
+- **Comments API** (`@GAD-R08-02`, `@GAD-R09-02`, `@GAD-R09-04`, `@GAD-R10-02`):
+  - Create comments (with/without authentication)
+  - Read comments with proper field validation
+  - Update comments (full and partial modifications)
+  - Delete comments (authorized/unauthorized)
+
+### Test Coverage Features
+
+- **Authentication & Authorization**: Login, registration, access control for CRUD operations
+- **Articles**: Creation, validation (title/body limits), viewing, editing, deletion
+- **Comments**: Creation, validation, viewing, editing, deletion, multiple comments per article
+- **Navigation**: Menu functionality, page routing, breadcrumb navigation
+- **Search**: Article search and filtering
+- **Validation**: Input field validation, error handling, boundary testing
+- **Negative Testing**: Invalid credentials, missing required fields, unauthorized operations
+
+### Test Organization
+
+- Tests tagged with requirement IDs (e.g., `@GAD-R04-01`)
+- Category tags: `@smoke`, `@logged`, `@predefined_data`, `@negative`, `@crud`
+- Feature tags: `@articles`, `@comments`, `@create`, `@update`, `@delete`
+- Organized by test type: smoke, integration, end-to-end
+- Separate API and UI test suites
+  
 ## Prepare
 
 ### Local recommended tools:
