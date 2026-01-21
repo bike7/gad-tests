@@ -15,7 +15,7 @@ Part 2: https://jaktestowac.pl/lesson/pw3sb01l01/
 
 Key architectural choices:
 
-- **Code Quality Tools**: ESLint, Prettier, and Husky for automated code standards and formatting
+- **Code Quality Tools**: ESLint, Prettier and Husky for automated code standards and formatting
 - **Configuration Management**: dotenv for secure environment-specific configs (API keys, passwords)
 - **Test Patterns**: Page Object Model (POM) for UI tests, Arrange-Act-Assert (AAA) for test structure, Composition for modular components
 - **Test Data**: Faker library for realistic, randomized test data generation
@@ -60,3 +60,45 @@ npx playwright test -g 'Should delete a comment with a logged user @GAD-R09-04' 
 ```
 
 For more usage cases look in `package.json` scripts section.
+
+
+## Workflows
+
+This project includes GitHub Actions workflows for continuous testing:
+
+### 1. Playwright GAD tests - docker image
+
+**File**: `.github/workflows/gad-tests-docker.yml`
+
+Runs Playwright tests against the GAD application using a Docker container.
+
+- **Trigger**: Manual workflow dispatch
+- **Environment**: Ubuntu latest with GAD Docker service
+- **Docker Image**: `jaktestowac/gad:latest` (exposed on port 3000)
+- **Features**:
+  - Node.js v22 setup
+  - Caching for node_modules and Playwright binaries
+  - Health checks for GAD API endpoints
+  - Full test suite execution
+  - JUnit test report generation
+- **Secrets Required**: `USER_EMAIL`, `USER_PASSWORD`
+- **Variables Required**: `BASE_URL`
+
+### 2. Playwright GAD tests - clone GAD repo via git
+
+**File**: `.github/workflows/gad-tests-clone-app-repo.yml`
+
+Runs Playwright tests by cloning and starting the GAD application from its GitHub repository.
+
+- **Trigger**: Manual workflow dispatch
+- **Environment**: Ubuntu latest with locally started GAD application
+- **Features**:
+  - Clones GAD application repository
+  - Installs dependencies and starts the app on port 3000
+  - Health checks for GAD API endpoints
+  - Chromium-only test execution
+  - JUnit test report generation
+- **Secrets Required**: `USER_EMAIL`, `USER_PASSWORD`
+- **Variables Required**: `BASE_URL`
+
+Both workflows include health checks, dependency caching for faster runs, and automated test reporting.
