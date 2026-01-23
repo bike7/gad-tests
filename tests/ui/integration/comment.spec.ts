@@ -14,23 +14,24 @@ test('Should return created comment from API @GAD-R07-05 @GAD-R07-06 @logged', a
   const commentData = prepareRandomComment();
   const expectedAlertText = 'Comment was created';
   const expectedResponseUrl = '/api/comments';
-  const expectedResponseMethod = 'GET';
-  const expectedResponseStatusCode = 200;
+  const expectedResponseMethod = 'POST';
+  const expectedResponseStatusCode = 201;
   //Act
-  let articlePage = createRandomArticle;
+  const articlePage = createRandomArticle;
   const addCommentView = await articlePage.clickAddNewCommentButton();
-  const responsePromise = waitForResponse(
-    page,
-    expectedResponseUrl,
-    expectedResponseMethod,
-    expectedResponseStatusCode,
-  );
-  articlePage = await addCommentView.createComment(commentData.body);
+  const [response] = await Promise.all([
+    waitForResponse(
+      page,
+      expectedResponseUrl,
+      expectedResponseMethod,
+      expectedResponseStatusCode,
+    ),
+    addCommentView.createComment(commentData.body),
+  ]);
   //Assert
-  const response = await responsePromise;
   const responseBody = await response.json();
   await expect.soft(addCommentView.alertPopup).toContainText(expectedAlertText);
-  expect.soft(responseBody[0].body).toBe(commentData.body); //TODO: sometimes response is not fully available when we validate it
+  expect.soft(responseBody.body).toBe(commentData.body);
 });
 
 test('Should not update comment with empty body @logged', async ({
