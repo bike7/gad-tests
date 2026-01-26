@@ -3,8 +3,8 @@
 [![Git-based CI](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-clone-app-repo.yml/badge.svg)](
 https://github.com/bike7/gad-tests/actions/workflows/gad-tests-clone-app-repo.yml
 )
-[![Git-based CI](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-clone-app-repo.yml/badge.svg)](
-https://github.com/bike7/gad-tests/actions/workflows/gad-tests-clone-app-repo.yml
+[![Docker CI](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-docker.yml/badge.svg)](
+https://github.com/bike7/gad-tests/actions/workflows/gad-tests-docker.yml
 )
 
 ## GAD Application
