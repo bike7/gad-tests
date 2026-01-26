@@ -131,15 +131,19 @@ npx playwright test -g 'Should delete a comment with a logged user @GAD-R09-04' 
 
 For more usage cases look in `package.json` scripts section.
 
-## Workflows
+## CI workflows
 
-This project includes GitHub Actions workflows for continuous testing:
+This project includes two GitHub Actions workflows for continuous testing:
 
 ### 1. Playwright GAD tests - docker image
 
 **File**: `.github/workflows/gad-tests-docker.yml`
 
-Runs Playwright tests against the GAD application using a Docker container.
+[![Docker CI](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-docker.yml/badge.svg)](
+https://github.com/bike7/gad-tests/actions/workflows/gad-tests-docker.yml
+)
+
+Runs Playwright end-to-end tests against a GAD application started as a Docker service, providing a stable and isolated test environment.
 
 - **Trigger**: Manual workflow dispatch
 - **Environment**: Ubuntu latest with GAD Docker service
@@ -156,6 +160,10 @@ Runs Playwright tests against the GAD application using a Docker container.
 ### 2. Playwright GAD tests - clone GAD repo via git
 
 **File**: `.github/workflows/gad-tests-clone-app-repo.yml`
+
+[![Git-based CI](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-clone-app-repo.yml/badge.svg)](
+https://github.com/bike7/gad-tests/actions/workflows/gad-tests-clone-app-repo.yml
+)
 
 Runs Playwright tests by cloning and starting the GAD application from its GitHub repository.
 
