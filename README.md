@@ -7,6 +7,8 @@ https://github.com/bike7/gad-tests/actions/workflows/gad-tests-clone-app-repo.ym
 https://github.com/bike7/gad-tests/actions/workflows/gad-tests-docker.yml
 )
 
+Link to the report: [Playwright Report](https://bike7.github.io/gad-tests/)
+
 ## GAD Application
 
 Repository: https://github.com/jaktestowac/gad-gui-api-demo
