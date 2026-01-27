@@ -85,6 +85,7 @@ jobs:
         if: always()
         with:
           report_paths: '**/playwright-report/results.xml'
+          
       - name: Deploy report to github pages
         uses: peaceiris/actions-gh-pages@v4
         with:
