@@ -81,5 +81,5 @@ jobs:
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./playwright-report
+          publish_dir: '**/playwright-report/results.xml'
           force_orphan: true
