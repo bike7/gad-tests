@@ -1,0 +1,152 @@
+<testsuites id="" name="" tests="55" failures="0" skipped="0" errors="0" time="18.686324">
+<testsuite name="api/health/check.health.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="health-check" tests="1" failures="0" skipped="0" time="0.058" errors="0">
+<testcase name="Application health check" classname="api/health/check.health.ts" time="0.058">
+</testcase>
+</testsuite>
+<testsuite name="ui/setup/login.setup.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="setup" tests="1" failures="0" skipped="0" time="0.941" errors="0">
+<testcase name="Login and save session" classname="ui/setup/login.setup.ts" time="0.941">
+</testcase>
+</testsuite>
+<testsuite name="ui/end-to-end/articles-lifecycle.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="chromium-logged" tests="3" failures="0" skipped="0" time="3.469" errors="0">
+<testcase name="Create, verify and delete article › Create a new article @GAD-R04-01 @logged" classname="ui/end-to-end/articles-lifecycle.spec.ts" time="1.214">
+</testcase>
+<testcase name="Create, verify and delete article › User can access single article @GAD-R04-03 @logged" classname="ui/end-to-end/articles-lifecycle.spec.ts" time="0.998">
+</testcase>
+<testcase name="Create, verify and delete article › User can delete his own article @GAD-R04-04 @logged" classname="ui/end-to-end/articles-lifecycle.spec.ts" time="1.257">
+</testcase>
+</testsuite>
+<testsuite name="ui/end-to-end/comments-lifecycle.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="chromium-logged" tests="2" failures="0" skipped="0" time="3.38" errors="0">
+<testcase name="Create, verify and delete comment › Verify comments @GAD-R05-01 @GAD-R05-02 @logged" classname="ui/end-to-end/comments-lifecycle.spec.ts" time="1.969">
+</testcase>
+<testcase name="Create, verify and delete comment › User can add more than one comment to article @GAD-R05-03 @logged" classname="ui/end-to-end/comments-lifecycle.spec.ts" time="1.411">
+</testcase>
+</testsuite>
+<testsuite name="ui/integration/articles.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="chromium-logged" tests="5" failures="0" skipped="0" time="4.855" errors="0">
+<testcase name="Verify articles › Try to create an article with missing title @GAD-R04-01 @logged @negative" classname="ui/integration/articles.spec.ts" time="0.82">
+</testcase>
+<testcase name="Verify articles › Try to create an article with missing body @GAD-R04-01 @logged @negative" classname="ui/integration/articles.spec.ts" time="0.831">
+</testcase>
+<testcase name="Verify articles › Try to create an article with title exceeding 128 chars @GAD-R04-02 @logged" classname="ui/integration/articles.spec.ts" time="0.842">
+</testcase>
+<testcase name="Verify articles › Create an article with title having exactly 128 chars @GAD-R04-02 @GAD-R07-03 @logged" classname="ui/integration/articles.spec.ts" time="1.238">
+</testcase>
+<testcase name="Verify articles › Should return created article from API @GAD-R07-03 @GAD-R07-04 @logged" classname="ui/integration/articles.spec.ts" time="1.124">
+</testcase>
+</testsuite>
+<testsuite name="ui/integration/comment.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="chromium-logged" tests="2" failures="0" skipped="0" time="2.187" errors="0">
+<testcase name="Should return created comment from API @GAD-R07-05 @GAD-R07-06 @logged" classname="ui/integration/comment.spec.ts" time="1.258">
+</testcase>
+<testcase name="Should not update comment with empty body @logged" classname="ui/integration/comment.spec.ts" time="0.929">
+</testcase>
+</testsuite>
+<testsuite name="ui/integration/article.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="chromium-non-logged" tests="1" failures="0" skipped="0" time="0.762" errors="0">
+<testcase name="Verify article › Non logged user can access created article @GAD-R06-01 @predefined_data" classname="ui/integration/article.spec.ts" time="0.762">
+</testcase>
+</testsuite>
+<testsuite name="ui/integration/login.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="chromium-non-logged" tests="2" failures="0" skipped="0" time="1.168" errors="0">
+<testcase name="Verify login › User login with correct credentials @GAD-R02-01" classname="ui/integration/login.spec.ts" time="0.629">
+</testcase>
+<testcase name="Verify login › User login with incorrect credentials @GAD-R02-01 @negative" classname="ui/integration/login.spec.ts" time="0.539">
+</testcase>
+</testsuite>
+<testsuite name="ui/integration/register.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="chromium-non-logged" tests="3" failures="0" skipped="0" time="5.014" errors="0">
+<testcase name="Verify registration › Register new user using required fields and login @GAD-R03-01 @GAD-R03-02 @GAD-R03-03" classname="ui/integration/register.spec.ts" time="4.207">
+</testcase>
+<testcase name="Verify registration › Try to register a new user using incorrect data - non valid email @GAD-R03-04 @negative" classname="ui/integration/register.spec.ts" time="0.42">
+</testcase>
+<testcase name="Verify registration › Try to register a new user using incorrect data - email not provided @GAD-R03-04 @negative" classname="ui/integration/register.spec.ts" time="0.387">
+</testcase>
+</testsuite>
+<testsuite name="ui/integration/search.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="chromium-non-logged" tests="1" failures="0" skipped="0" time="0.411" errors="0">
+<testcase name="Verify search component for articles › Go button should fetch articles @GAD-R07-01" classname="ui/integration/search.spec.ts" time="0.411">
+</testcase>
+</testsuite>
+<testsuite name="ui/smoke/menu.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="chromium-non-logged" tests="4" failures="0" skipped="0" time="2.012" errors="0">
+<testcase name="Verify main menu buttons › Comments button navigates to Comments page @smoke @GAD-R01-03" classname="ui/smoke/menu.spec.ts" time="0.443">
+</testcase>
+<testcase name="Verify main menu buttons › Articles button navigates to Articles page @smoke @GAD-R01-03" classname="ui/smoke/menu.spec.ts" time="0.447">
+</testcase>
+<testcase name="Verify main menu buttons › Home page link navigates to Home page (from articles) @smoke @GAD-R01-03" classname="ui/smoke/menu.spec.ts" time="0.513">
+</testcase>
+<testcase name="Verify main menu buttons › Home page link navigates to Home page (from comments) @smoke @GAD-R01-03" classname="ui/smoke/menu.spec.ts" time="0.609">
+</testcase>
+</testsuite>
+<testsuite name="ui/smoke/webpages.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="chromium-non-logged" tests="3" failures="0" skipped="0" time="1.248" errors="0">
+<testcase name="Verify main pages › Home page title @smoke @GAD-R01-01" classname="ui/smoke/webpages.spec.ts" time="0.431">
+</testcase>
+<testcase name="Verify main pages › Articles page title @smoke @GAD-R01-02" classname="ui/smoke/webpages.spec.ts" time="0.512">
+</testcase>
+<testcase name="Verify main pages › Comments page title @smoke @GAD-R01-02" classname="ui/smoke/webpages.spec.ts" time="0.305">
+</testcase>
+</testsuite>
+<testsuite name="api/articles/articles.create.api.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="api" tests="3" failures="0" skipped="0" time="0.228" errors="0">
+<testcase name="Verify articles CREATE operations @GAD-R09-01 @crud @create @articles › Should not create an article with a non-logged user" classname="api/articles/articles.create.api.spec.ts" time="0.055">
+</testcase>
+<testcase name="Verify articles CREATE operations @GAD-R09-01 @crud @create @articles › Should create an article with a logged user" classname="api/articles/articles.create.api.spec.ts" time="0.111">
+</testcase>
+<testcase name="Verify articles CREATE operations @GAD-R09-01 @crud @create @articles › Should create a new article when modified article id does not exist with a logged user" classname="api/articles/articles.create.api.spec.ts" time="0.062">
+</testcase>
+</testsuite>
+<testsuite name="api/articles/articles.delete.api.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="api" tests="2" failures="0" skipped="0" time="0.174" errors="0">
+<testcase name="Verify articles DELETE operations @GAD-R09-03 @crud @delete @articles › Should not delete an article with a non-logged user" classname="api/articles/articles.delete.api.spec.ts" time="0.068">
+</testcase>
+<testcase name="Verify articles DELETE operations @GAD-R09-03 @crud @delete @articles › Should delete an article with a logged user" classname="api/articles/articles.delete.api.spec.ts" time="0.106">
+</testcase>
+</testsuite>
+<testsuite name="api/articles/articles.modify.api.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="api" tests="5" failures="0" skipped="0" time="0.359" errors="0">
+<testcase name="Verify articles UPDATE operations @crud @update @articles › Fully modify articles @GAD-R10-01 › Should fully modify an article with a logged user" classname="api/articles/articles.modify.api.spec.ts" time="0.085">
+</testcase>
+<testcase name="Verify articles UPDATE operations @crud @update @articles › Fully modify articles @GAD-R10-01 › Should not fully modify an article with a non-logged user" classname="api/articles/articles.modify.api.spec.ts" time="0.066">
+</testcase>
+<testcase name="Verify articles UPDATE operations @crud @update @articles › Partially modify articles @GAD-R10-03 › Should partially modify an article with a logged user" classname="api/articles/articles.modify.api.spec.ts" time="0.069">
+</testcase>
+<testcase name="Verify articles UPDATE operations @crud @update @articles › Partially modify articles @GAD-R10-03 › Should not partially modify an article with a non-logged user" classname="api/articles/articles.modify.api.spec.ts" time="0.069">
+</testcase>
+<testcase name="Verify articles UPDATE operations @crud @update @articles › Partially modify articles @GAD-R10-03 › Should not partially modify an article with improper field and logged user" classname="api/articles/articles.modify.api.spec.ts" time="0.07">
+</testcase>
+</testsuite>
+<testsuite name="api/articles/articles.smoke.api.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="api" tests="4" failures="0" skipped="0" time="0.088" errors="0">
+<testcase name="Verify articles API endpoint @GAD-R08-01 @smoke @articles › Verify each condition in separate test › GET articles should return status code 200" classname="api/articles/articles.smoke.api.spec.ts" time="0.02">
+</testcase>
+<testcase name="Verify articles API endpoint @GAD-R08-01 @smoke @articles › Verify each condition in separate test › GET articles should return at least one article @predefined_data" classname="api/articles/articles.smoke.api.spec.ts" time="0.02">
+</testcase>
+<testcase name="Verify articles API endpoint @GAD-R08-01 @smoke @articles › Verify each condition in separate test › GET articles should return article object @predefined_data" classname="api/articles/articles.smoke.api.spec.ts" time="0.019">
+</testcase>
+<testcase name="Verify articles API endpoint @GAD-R08-01 @smoke @articles › Verify each condition in separate test step › GET articles should return an object with required fields @predefined_data" classname="api/articles/articles.smoke.api.spec.ts" time="0.029">
+</testcase>
+</testsuite>
+<testsuite name="api/comments/comments.create.api.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="api" tests="3" failures="0" skipped="0" time="0.131" errors="0">
+<testcase name="Verify comments CREATE operations @GAD-R09-02 @crud @create @comments › Should not create a comment with a non-logged user" classname="api/comments/comments.create.api.spec.ts" time="0.015">
+</testcase>
+<testcase name="Verify comments CREATE operations @GAD-R09-02 @crud @create @comments › Should create a comment with a logged user" classname="api/comments/comments.create.api.spec.ts" time="0.075">
+</testcase>
+<testcase name="Verify comments CREATE operations @GAD-R09-02 @crud @create @comments › Should create a new comment when modified comment id does not exist with a logged user" classname="api/comments/comments.create.api.spec.ts" time="0.041">
+</testcase>
+</testsuite>
+<testsuite name="api/comments/comments.delete.api.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="api" tests="2" failures="0" skipped="0" time="0.245" errors="0">
+<testcase name="Verify comments DELETE operations @GAD-R09-04 @crud @delete @comments › Should not delete a comment with a non-logged user" classname="api/comments/comments.delete.api.spec.ts" time="0.119">
+</testcase>
+<testcase name="Verify comments DELETE operations @GAD-R09-04 @crud @delete @comments › Should delete a comment with a logged user" classname="api/comments/comments.delete.api.spec.ts" time="0.126">
+</testcase>
+</testsuite>
+<testsuite name="api/comments/comments.modify.api.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="api" tests="5" failures="0" skipped="0" time="0.522" errors="0">
+<testcase name="Verify comments UPDATE operations @GAD-R10-02 @crud @update @comments › Fully modify comments @GAD-R10-02 › Should fully modify a comment with a logged user" classname="api/comments/comments.modify.api.spec.ts" time="0.105">
+</testcase>
+<testcase name="Verify comments UPDATE operations @GAD-R10-02 @crud @update @comments › Fully modify comments @GAD-R10-02 › Should not fully modify a comment with a non-logged user" classname="api/comments/comments.modify.api.spec.ts" time="0.108">
+</testcase>
+<testcase name="Verify comments UPDATE operations @GAD-R10-02 @crud @update @comments › Partially modify comments @GAD-R10-02 › Should partially modify a comment with a logged user" classname="api/comments/comments.modify.api.spec.ts" time="0.081">
+</testcase>
+<testcase name="Verify comments UPDATE operations @GAD-R10-02 @crud @update @comments › Partially modify comments @GAD-R10-02 › Should not partially modify a comment with a non-logged user" classname="api/comments/comments.modify.api.spec.ts" time="0.111">
+</testcase>
+<testcase name="Verify comments UPDATE operations @GAD-R10-02 @crud @update @comments › Partially modify comments @GAD-R10-02 › Should not partially modify a comment with improper field and logged user" classname="api/comments/comments.modify.api.spec.ts" time="0.117">
+</testcase>
+</testsuite>
+<testsuite name="api/comments/comments.smoke.api.spec.ts" timestamp="2026-01-27T14:10:30.130Z" hostname="api" tests="3" failures="0" skipped="0" time="0.145" errors="0">
+<testcase name="Verify comments API endpoint @GAD-R08-02 @smoke @comments › GET comments should return status code 200" classname="api/comments/comments.smoke.api.spec.ts" time="0.049">
+</testcase>
+<testcase name="Verify comments API endpoint @GAD-R08-02 @smoke @comments › GET comments should return at least one comment @predefined_data" classname="api/comments/comments.smoke.api.spec.ts" time="0.049">
+</testcase>
+<testcase name="Verify comments API endpoint @GAD-R08-02 @smoke @comments › GET comments should return comment object @predefined_data" classname="api/comments/comments.smoke.api.spec.ts" time="0.047">
+</testcase>
+</testsuite>
+</testsuites>
