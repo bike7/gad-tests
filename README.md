@@ -1,13 +1,12 @@
 # Tests for GAD application
 
-[![Git-based CI](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-clone-app-repo.yml/badge.svg)](
-https://github.com/bike7/gad-tests/actions/workflows/gad-tests-clone-app-repo.yml
-)
-[![Docker CI](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-docker.yml/badge.svg)](
-https://github.com/bike7/gad-tests/actions/workflows/gad-tests-docker.yml
-)
+Modern Test automation framework for UI and API testing of the GAD application using Playwright and TypeScript. The framework follows Page Object Model and Arrange–Act–Assert patterns, uses fixtures and method chaining for readability. It generates realistic test data with Faker, enforces high code quality through ESLint, Prettier, Husky and Dotenv and includes a GitHub Actions CI/CD pipelines.
 
-Link to the report: [Playwright Report](https://bike7.github.io/gad-tests/)
+[![Docker CI](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-docker.yml/badge.svg)](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-docker.yml)
+[![Git-based CI](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-clone-app-repo.yml/badge.svg)](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-clone-app-repo.yml)
+
+Link to the report: 🎭[Playwright Report](https://bike7.github.io/gad-tests/)
+
 
 ## GAD Application
 
