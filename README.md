@@ -1,6 +1,6 @@
 # Tests for GAD application
 
-Modern Test automation framework for UI and API testing of the GAD application using Playwright and TypeScript. The framework follows Page Object Model and Arrange–Act–Assert patterns, uses fixtures and method chaining for readability. It generates realistic test data with Faker, enforces high code quality through ESLint, Prettier, Husky and Dotenv and includes a GitHub Actions CI/CD pipelines.
+Modern Test automation framework for UI and API testing of the GAD application using Playwright and TypeScript. The framework follows Page Object Model and Arrange–Act–Assert patterns, uses fixtures and method chaining for readability. It generates realistic test data with Faker, enforces high code quality through ESLint, Prettier, Husky and Dotenv and includes two GitHub Actions CI/CD pipelines. One pipeline provisions the application under test using a prebuilt Docker image including all required services while the second pipeline clones the application source repository, builds it and starts the application as part of the CI workflow.
 
 [![Docker CI](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-docker.yml/badge.svg)](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-docker.yml)
 [![Git-based CI](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-clone-app-repo.yml/badge.svg)](https://github.com/bike7/gad-tests/actions/workflows/gad-tests-clone-app-repo.yml)
